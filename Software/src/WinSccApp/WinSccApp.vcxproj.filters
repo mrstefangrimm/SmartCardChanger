@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TrajectoryAo">
+      <UniqueIdentifier>{389d3a9d-5116-4a3b-8410-95bc89c7ae8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="BleTerminal">
+      <UniqueIdentifier>{8c8998b7-ef54-414c-acd4-e67daa79bba8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UsbTerminal">
+      <UniqueIdentifier>{49762ccf-1a37-4fe5-af58-effd7cc2400d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SystemMonitor">
+      <UniqueIdentifier>{3a23c8ee-db06-4b71-a8cd-c6fbeffe35b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OverloadMonitor">
+      <UniqueIdentifier>{96b37fae-c934-4f5f-ad52-32320e314a57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PulsWidthTransmitter">
+      <UniqueIdentifier>{a36e37a6-a19a-42b2-8d62-b5f50e301475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Service">
+      <UniqueIdentifier>{fcb71fdf-d587-4e9c-bafa-56f88e5c5f67}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\SccApp\Shared\BitCounter.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\BleTerminal\BleTerminalAo.h">
+      <Filter>BleTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Trajectory\TrajectoryAo.h">
+      <Filter>TrajectoryAo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\UsbTerminal\UsbTerminalAo.h">
+      <Filter>UsbTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\Singleton.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\Messages.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\BleTerminal\BluefruitConfig.h">
+      <Filter>BleTerminal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\ValueQueue.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\SystemMonitor\SystemMonitorAo.h">
+      <Filter>SystemMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\prfServo\prfServo2.h">
+      <Filter>PulsWidthTransmitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\OverloadMonitor\OverloadMonitorAo.h">
+      <Filter>OverloadMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\PulsWidthTransmitter\prfServoImpl.h">
+      <Filter>PulsWidthTransmitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\PulsWidthTransmitter\PulsWidthTransmitterAo.h">
+      <Filter>PulsWidthTransmitter</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Service\ServiceAo.h">
+      <Filter>Service</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\prsserial.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\ResourceStrings.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\SccApp\Shared\ConfigurationData.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="WinSccApp.cpp" />
+  </ItemGroup>
+</Project>
