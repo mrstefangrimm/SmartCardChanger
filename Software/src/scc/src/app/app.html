@@ -1,0 +1,88 @@
+<div style="overflow:auto">
+
+  <main class="content">
+
+    <div class="menu">
+      <span class="menu-circle"></span>
+      <div class="menu-button"
+           (click)="context.visiblitiesOpen = !context.visiblitiesOpen">
+        <span class="menu-icon"
+              *ngIf="!context.visiblitiesOpen">
+          <span class="menu-line"></span>
+          <span class="menu-line menu-line-2"></span>
+          <span class="menu-line menu-line-3"></span>
+        </span>
+        <span class="menu-icon"
+              *ngIf="context.visiblitiesOpen">
+          <span class="menu-line menu-open-1"></span>
+          <span class="menu-line menu-line-2 menu-open-2"></span>
+          <span class="menu-line menu-line-3 menu-open-3"></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="menu-items"
+         *ngIf="context.visiblitiesOpen">
+      <div>
+        <input type="checkbox"
+               [checked]="context.showAsTransparent"             
+               (change)="onTransparentChecked()">
+        Transparent
+      </div>
+      <div>
+        <input type="checkbox"
+               [checked]="context.showReaderAndCards"  
+               (change)="onReaderAndCardsChecked()">
+        Cards and Reader
+      </div>
+      <hr>
+      <div>
+        <a href="https://www.instructables.com/Smart-Card-Changer/" class="menu-link">
+          Meet on instructable
+        </a>
+      </div>
+      <div>
+        <a href="https://github.com/mrstefangrimm/SmartCardChanger" class="menu-link">
+          Meet on github
+        </a>
+      </div>
+    </div>
+
+    <canvas #rendererCanvas
+            id="renderCanvas">
+    </canvas>
+  </main>
+
+  <div class="navigation">
+    <div>
+      <p>Longitudinal motion:</p>
+      <input type="range"             
+             min="20" 
+             max="180" 
+             value="180" 
+             class="slider"
+             id="Longitudinal"
+             #lng
+             (input)="onLngChanged(lng)">
+    </div>
+    <div>
+      <p>Rotational motion:</p>
+      <input type="range"
+             min="10"
+             max="170" 
+             value="90" 
+             class="slider"         
+             id="Rotational"
+             #rtn
+             (input)="onRtnChanged(rtn)">   
+    </div>
+  </div>
+</div>
+
+<footer class="license">
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a>
+  <br />
+  This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Stefan Grimm</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+</footer>
+
+<router-outlet />

@@ -3,8 +3,10 @@
 ################################################################################
 
 .vs
+.vscode
 **/x64/Debug
 **/x64/Release
 *.drawio.bkp
 *.vcxproj.user
 *.skb
+/MechanicalDesign/SketchUp/export
