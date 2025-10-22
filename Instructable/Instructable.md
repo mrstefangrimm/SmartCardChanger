@@ -20,20 +20,49 @@ Tooling
 
 The material costs are approximately $120.
 
+
+
 ## Supplies
 
-- HID  Omnikey USB smart cards reader/writer, version 3021
-- basswood sheets, 4 mm
+**Mechanical Structure**
+
+- 1 HID  Omnikey USB smart cards reader/writer, version 3021
+- 1 Adafruit Feather 32u4 Bluefruit LE
+- 2 PDI-9180MG micro servo motor
+- 2 basswood sheets, 4 mm thick, DIN A3
+- 1 prototyping board, approximately 10 cm x 20 cm
+- 1 cardboard, DIN A4
+- 4 felt mats with 20 mm diameter
+- anti-static foam, approximately 7 cm x 7 cm
+- 5 hex screws M6 x 18 mm
+- 5 wing nuts M6
+- 24 screws M2 x 10 mm
+- 12 screws M2 x 16 mm
+
+**Control Module**
+
+- 3 LEDs in different colors
+ - 3 resistors 100 ohm
+ - male headers with 32 pins
+ - female headers for 8 pins
+ - 1 power connector for 5V DC
+
+**Overload Protection Module**
+
+ - 1 step-up converter. This is required because the transistor requires 5 VDC and the Adafruit feather provides 3.3 VDC
+ - 1 transistor IRF520 (or similar)
+ - 2 ACS712 current measurement modules
+ - 1 female header for 8 pins the overload protection module
 
 
 
-## Step 1: Platform
+## Step 1: Basic Structure
 
 ![SCC-Assemble1-Base](.\SCC-Assemble1-Base.jpg)
 
 ![SCC-Assembled1-Base](.\SCC-Assembled1-Base.jpg)
 
-The platform is the structural base of the carriage and the rotator, which are assembled in separate steps.
+The basic structure is the structural base of the carriage and the rotator, which are assembled in separate steps.
 
 On the left side in the image are the rails for the carriage. The the right side are two cylinders on which the rotation platform is mounted.
 
@@ -57,7 +86,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled2-Carriage](.\SCC-Assembled2-Carriage.jpg)
 
-The carriage is the part that slides in the rails of the mechanical structure. In the center of the image is the servo arm extension and the right the servo arm. The servo arm is mounted onto the servo.
+The carriage is the part that slides in the rails of the basic structure. In the center of the image is the servo arm extension and on the right the servo arm. The servo arm is mounted onto the servo.
 
 
 
@@ -102,7 +131,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled4-RotatationPlatform](.\SCC-Assembled4-RotationPlatform.jpg)
 
-The rotator platform is mounted onto the mechanical structure. It has a ramp on both sides to mechanically adjust the rotator.
+The rotator platform is mounted onto the basic structure. It has a ramp on both sides to mechanically adjust the rotator.
 
 
 
@@ -171,14 +200,102 @@ The smart card changer is already operational with the control module. In the ne
 Parts
 
  - 3 LEDs in different colors
- - 3 resitors 100 ohm
+ - 3 resistors 100 ohm
  - 2 male headers with 3 pins to connect the servo motors
  - 1 male header with 12 pins
  - 1 male header with 17 pins
  - 1 female header for 8 pins the overload protection module
- - 1 connector for 5V DC
+ - 1 power connector for 5V DC
 
 ## Step 8: Test and Calibrate
+
+To operate the smart card changer without the overload protection module, add a shortcut wire as shown in the image above.
+
+Download and unzip the calibration software. Open it in the Arduino IDE upload it to the control module.
+
+Plug in the servo motors and the servo motors move to the initial position.
+
+In the Arduino IDE, open the Serial Monitor.
+
+1. The prompt shows "Erase memory? [y/n]". The calibration is stored on the EEPROM - existing data is overwritten. Choose "y" to continue
+2. "Position: ". Type in "r" for *rotation servo*  
+3. "Position: ". Type in "1500". The rotator moves to a new position
+4. "Position: ". Type in "l" for *longitudinal servo*  
+5. "Position: ". Type in 1000. The carriage moves to a new position
+
+
+
+**Longitudinal Calibration**
+
+Choose "l" for *longitudinal servo* and position the carriage to fully retracted, then 1 cm, 2 cm, 3 cm, ... , 7 cm towards the rotator. Write down the position values for each step.
+
+
+| mm   | servo |
+| ---- | ----- |
+| 0    | 950   |
+| 10    | 1090   |
+| 20    | 1180   |
+| 40    | 1330   |
+| 60    | 1505   |
+| 70    | 1630   |
+> Calibration longitudinal axis, 16. Aug. 2025
+
+
+The calculated polynomial coefficients  (polynomial of 3 degree)
+
+| polynomial degree | servo |
+| ---- | ----- |
+| 0    | 9.5199345532256200e+002   |
+| 1    | 1.5448059970614935e+001   |
+| 2    | -2.3899425671160265e-001   |
+| 3    | -2.3899425671160265e-001   |
+
+**Rotational Calibration**
+
+For the rotational axis we cannot overlook the mechanical play (backlash).
+
+Choose "r" for *rotation servo*. Calibrate the card slots in clockwise and counter clockwise direction. Write down the position values for each step. The backlash is the ccw position minus the cw position.
+
+
+| degrees   | coefficient |
+| ---- | ----- |
+| 30    | 1105   |
+| 60    | 1270   |
+| 90    | 1435   |
+| 120    | 1602   |
+| 150    | 1765   |
+> Calibration rotational axis clockwise, 16. Aug. 2025
+
+| degrees   | servo | backlash |
+| ---- | ----- | --- |
+| 30    | 1085   | -20 |
+| 60    | 1245   | -25 |
+| 90    | 1410   | - 25 |
+| 120    | 1585  | -17|
+| 150    | 1745  | - 20|
+> Calibration rotational axis counter clockwise, 16. Aug. 2025
+
+The calculated polynomial coefficients for the clockwise rotation  (polynomial of 3 degree)
+| polynomial degree | coefficient |
+| ---- | ----- |
+| 0    | 9.4440000000000009e+002   |
+| 1    | 5.2730158730158729e+000   |
+| 2    | 3.1746031746031746e-003   |
+| 3    | -1.2345679012345678e-005 |
+
+The calculated polynomial coefficients for the counter clockwise backlash (polynomial of 2 degree)
+| polynomial degree | coefficient |
+| ---- | ----- |
+| 0    | -3.3799999999999997e+001   |
+| 1    | 4.0761904761904760e-001,   |
+| 2    | -6.3492063492063492e-004   |
+
+
+
+Back in the Serial Monitor, the polynomial coefficients are stored in the EEPROM
+
+- "Position: ". Type in "w" for *write to EEPROM*. Follow the instructions on save the calibration data to the EEPROM.
+
 
 
 ## Step 9: Overload Protection Module
@@ -195,14 +312,29 @@ The overload protection module is optional - smart card changer can be operated 
 Parts:
 
  - 1 step-up converter. This is required because the transistor requires 5 VDC and the Adafruit feather provides 3.3 VDC
- - 1 transitor IRF520 (or similar)
- - 2 ACS712 current measurment modules
+ - 1 transistor IRF520 (or similar)
+ - 2 ACS712 current measurement modules
  - 1 female header for 8 pins the overload protection module
 
 
-## Step 10: Operate
+## Step 10: Test and Operate
 
-That is the Smart Card Changer. In this last step we install the software and connect to it from a smart phone.
+Download and unzip the calibration software. Open it in the Arduino IDE upload it to the control module.
+
+
+
+To connect to the device from a smart phone, install a Bluetooth Terminal App. Two apps the works:
+
+- Bluefruit Connect from Adafruit
+- Serial Bluetooth Terminal
+
+When connected, send an "a" to connect the *smart card in the first slot*. To disconnect, send "r" for *retract* the carriage to the initial position. The slots are "a", "b", "c", "d", "e". If you send a "p" for *panic*, the carriage goes instantly to the initial position.
+
+
+
+That is the Smart Card Changer.
+
+
 
 
 
