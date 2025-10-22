@@ -9,7 +9,7 @@ The smart card changer has three components:
 - The Control Module
 - The Overload Protection Module
 
-The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for linear and the rotational motion.
+The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion.
 The control module uses an Adafruit BLE feather board, which controls the two servo motors and is used for the Bluetooth connection with a smartphone.
 The overload protection module monitors the electrical current drawn by the servo motors and automatically interrupts the circuit in the event of an overload.
 
@@ -27,13 +27,13 @@ The material costs are approximately $120.
 
 
 
-## Step 1: Mechanical Platform
+## Step 1: Platform
 
 ![SCC-Assemble1-Base](.\SCC-Assemble1-Base.jpg)
 
 ![SCC-Assembled1-Base](.\SCC-Assembled1-Base.jpg)
 
-The mechanical platform is the carrier of the carriage and the rotator, which are assembled in separate steps.
+The platform is the structural base of the carriage and the rotator, which are assembled in separate steps.
 
 On the left side in the image are the rails for the carriage. The the right side are two cylinders on which the rotation platform is mounted.
 
@@ -57,7 +57,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled2-Carriage](.\SCC-Assembled2-Carriage.jpg)
 
-The carriage is the part that slide in the rails of the mechanical platform. In the center of the image is the servo arm extension and the right the servo arm. The servo arm is mounted onto the servo.
+The carriage is the part that slides in the rails of the mechanical structure. In the center of the image is the servo arm extension and the right the servo arm. The servo arm is mounted onto the servo.
 
 
 
@@ -102,7 +102,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled4-RotatationPlatform](.\SCC-Assembled4-RotationPlatform.jpg)
 
-The rotator platform is mounted onto the mechanical platform. It has a ramp on both sides to mechanically adjust the rotator.
+The rotator platform is mounted onto the mechanical structure. It has a ramp on both sides to mechanically adjust the rotator.
 
 
 
@@ -166,8 +166,22 @@ Dimensions and Positions:
 ![SCC-Assembled7-ControlModuleWithFeather](.\SCC-Assembled7-ControlModuleWithFeather.jpg)
 
 
+The smart card changer is already operational with the control module. In the next step, the control module is tested and the smart card changer is calibrated
 
-## Step 8: Overload Protection Module
+Parts
+
+ - 3 LEDs in different colors
+ - 3 resitors 100 ohm
+ - 2 male headers with 3 pins to connect the servo motors
+ - 1 male header with 12 pins
+ - 1 male header with 17 pins
+ - 1 female header for 8 pins the overload protection module
+ - 1 connector for 5V DC
+
+## Step 8: Test and Calibrate
+
+
+## Step 9: Overload Protection Module
 
 ![SCC-Assemble8-OverloadProtectionModule-Parts](.\SCC-Assemble8-OverloadProtectionModule-Parts.jpg)
 
@@ -176,10 +190,19 @@ Dimensions and Positions:
 ![SCC-Assembled8-OverloadProtectionModule](.\SCC-Assembled8-OverloadProtectionModule.jpg)
 
 
+The overload protection module is optional - smart card changer can be operated without it. Without the protection module, the smart cards could be damaged though.
+
+Parts:
+
+ - 1 step-up converter. This is required because the transistor requires 5 VDC and the Adafruit feather provides 3.3 VDC
+ - 1 transitor IRF520 (or similar)
+ - 2 ACS712 current measurment modules
+ - 1 female header for 8 pins the overload protection module
 
 
+## Step 10: Operate
 
-
+That is the Smart Card Changer. In this last step we install the software and connect to it from a smart phone.
 
 
 
