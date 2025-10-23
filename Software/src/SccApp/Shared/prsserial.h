@@ -9,15 +9,8 @@
 #ifndef PRSSERIAL_H
 #define PRSSERIAL_H
 
-#ifdef __GNUC__
-#define NOINLINE __attribute__((optimize("O2")))
- //__attribute__((noinline)) __attribute__((optimize("O2")))
-#else
-#define NOINLINE 
-#endif
 
-
- /* Defines a resource string (RS) that is stored in the program memory and used in a message to the user.
+/* Defines a resource string (RS) that is stored in the program memory and used in a message to the user.
   *  Usage: PRSDEFM(RSPRESSANYKEY, "Press any key to continue");
   *
   * To disable message output, use this definition in your code: #define PRSDEFM(N, V) const char* N = 0 */
@@ -27,7 +20,7 @@
 #define PRSDEFM(N, V) const char N[] = V
 #endif
 
-  /* Defines a resource string (RS) that is stored in the program memory and used as log information.
+/* Defines a resource string (RS) that is stored in the program memory and used as log information.
     *  Usage: PRSDEFL(RSSERICEREADY, "Service ready");
     *
     * To disable information output, use this definition in your code: #define PRSDEFL(N, V) const char* N = 0
@@ -38,16 +31,6 @@
 #define PRSDEFI(N, V) const char N[] = V
 #endif
 
-    /* The maximal length for the whole serial output.
-       * IF exceeded, the application will crash!
-       */
-#define SPOUTMAXSERIALOUTPUTLENTH 60
-
-char buf[SPOUTMAXSERIALOUTPUTLENTH];
-
-// Trick the compiler so it does not inline the function. This saves program memory.
-const char* rs_cat(const char* rs1, const char* rs2, const char* rs3, const char* rs4);
-//const char* (*rs_cat_ptr)(const char* rs1, const char* rs2, const char* rs3, const char* rs4) = rs_cat;
 
 /* Writes the given resource string to the serial output buffer.
  *  Usage:
@@ -59,19 +42,17 @@ const char* rs_cat(const char* rs1, const char* rs2, const char* rs3, const char
 */
 void rs_print(const char* rs1, const char* rs2 = nullptr, const char* rs3 = nullptr, const char* rs4 = nullptr) {
 #ifdef Arduino_h
-  //if (rs1) strcpy_P(buf, rs1);
-  //else return;
-  //if (rs2) strcat_P(buf, rs2);
-  //if (rs3) strcat_P(buf, rs3);
-  //if (rs4) strcat_P(buf, rs4);
-  Serial.print(rs_cat(rs1, rs2, rs3, rs4));
+  if (rs1) Serial.print(reinterpret_cast<const __FlashStringHelper*>(rs1));
+  else return;
+  if (rs2) Serial.print(reinterpret_cast<const __FlashStringHelper*>(rs2));
+  if (rs3) Serial.print(reinterpret_cast<const __FlashStringHelper*>(rs3));
+  if (rs4) Serial.print(reinterpret_cast<const __FlashStringHelper*>(rs4));
 #else
-  //if (rs1) strcpy_s(buf, rs1);
-  //else return;
-  //if (rs2) strcat_s(buf, rs2);
-  //if (rs3) strcat_s(buf, rs3);
-  //if (rs4) strcat_s(buf, rs4);
-  printf(rs_cat(rs1, rs2, rs3, rs4));
+  if (rs1) printf(rs1);
+  else return;
+  if (rs2) printf(rs2);
+  if (rs3) printf(rs3);
+  if (rs4) printf(rs4);
 #endif
 }
 
@@ -85,38 +66,11 @@ void rs_print(const char* rs1, const char* rs2 = nullptr, const char* rs3 = null
 ....
 */
 void rs_println(const char* rs1, const char* rs2 = nullptr, const char* rs3 = nullptr, const char* rs4 = nullptr) {
+  rs_print(rs1, rs2, rs3, rs4);
 #ifdef Arduino_h
-  //if (rs1) strcpy_P(buf, rs1);
-  //else return;
-  //if (rs2) strcat_P(buf, rs2);
-  //if (rs3) strcat_P(buf, rs3);
-  //if (rs4) strcat_P(buf, rs4);
-  Serial.println(rs_cat(rs1, rs2, rs3, rs4));
+  Serial.println();
 #else
-  //if (rs1) strcpy_s(buf, rs1);
-  //else return;
-  //if (rs2) strcat_s(buf, rs2);
-  //if (rs3) strcat_s(buf, rs3);
-  //if (rs4) strcat_s(buf, rs4);
-  printf("%s\n", rs_cat(rs1, rs2, rs3, rs4));
-#endif
-}
-
-NOINLINE const char* rs_cat(const char* rs1, const char* rs2 = nullptr, const char* rs3 = nullptr, const char* rs4 = nullptr) {
-#ifdef Arduino_h
-  if (rs1) strcpy_P(buf, rs1);
-  else return buf;
-  if (rs2) strcat_P(buf, rs2);
-  if (rs3) strcat_P(buf, rs3);
-  if (rs4) strcat_P(buf, rs4);
-  return buf;
-#else
-  if (rs1) strcpy_s(buf, sizeof(buf), rs1);
-  else return buf;
-  if (rs2) strcat_s(buf, sizeof(buf), rs2);
-  if (rs3) strcat_s(buf, sizeof(buf), rs3);
-  if (rs4) strcat_s(buf, sizeof(buf), rs4);
-  return buf;
+  printf("\n");
 #endif
 }
 
