@@ -223,132 +223,132 @@ CalibrationData_V1 writeState;
 CalibrationData_V1 calibrationData;
 void stateWrite() {
 
-  if (calibrationData.lngParams[0] == 0 && writeState.lngParams[0] == 0) {
-    writeState.lngParams[0] = 1;
+  if (calibrationData.lngCoefficients[0] == 0 && writeState.lngCoefficients[0] == 0) {
+    writeState.lngCoefficients[0] = 1;
     Serial.print(F("Lng param ord 0: "));
-  } else if (calibrationData.lngParams[0] != 0 && writeState.lngParams[1] == 0) {
-    writeState.lngParams[1] = 1;
+  } else if (calibrationData.lngCoefficients[0] != 0 && writeState.lngCoefficients[1] == 0) {
+    writeState.lngCoefficients[1] = 1;
     Serial.print(F("Lng param ord 1: "));
-  } else if (calibrationData.lngParams[1] != 0 && writeState.lngParams[2] == 0) {
-    writeState.lngParams[2] = 1;
+  } else if (calibrationData.lngCoefficients[1] != 0 && writeState.lngCoefficients[2] == 0) {
+    writeState.lngCoefficients[2] = 1;
     Serial.print(F("Lng param ord 2: "));
-  } else if (calibrationData.lngParams[2] != 0 && writeState.lngParams[3] == 0) {
-    writeState.lngParams[3] = 1;
+  } else if (calibrationData.lngCoefficients[2] != 0 && writeState.lngCoefficients[3] == 0) {
+    writeState.lngCoefficients[3] = 1;
     Serial.print(F("Lng param ord 3: "));
-  } else if (calibrationData.lngParams[3] != 0 && writeState.rtnParams[0] == 0) {
-    writeState.rtnParams[0] = 1;
+  } else if (calibrationData.lngCoefficients[3] != 0 && writeState.rtnCoefficients[0] == 0) {
+    writeState.rtnCoefficients[0] = 1;
     Serial.print(F("Rtn param ord 0: "));
-  } else if (calibrationData.rtnParams[0] != 0 && writeState.rtnParams[1] == 0) {
-    writeState.rtnParams[1] = 1;
+  } else if (calibrationData.rtnCoefficients[0] != 0 && writeState.rtnCoefficients[1] == 0) {
+    writeState.rtnCoefficients[1] = 1;
     Serial.print(F("Rtn param ord 1: "));
-  } else if (calibrationData.rtnParams[1] != 0 && writeState.rtnParams[2] == 0) {
-    writeState.rtnParams[2] = 1;
+  } else if (calibrationData.rtnCoefficients[1] != 0 && writeState.rtnCoefficients[2] == 0) {
+    writeState.rtnCoefficients[2] = 1;
     Serial.print(F("Rtn param ord 2: "));
-  } else if (calibrationData.rtnParams[2] != 0 && writeState.rtnParams[3] == 0) {
-    writeState.rtnParams[3] = 1;
+  } else if (calibrationData.rtnCoefficients[2] != 0 && writeState.rtnCoefficients[3] == 0) {
+    writeState.rtnCoefficients[3] = 1;
     Serial.print(F("Rtn param ord 3: "));
-  } else if (calibrationData.rtnParams[3] != 0 && writeState.rtnBacklashes[0] == 0) {
-    writeState.rtnBacklashes[0] = 1;
+  } else if (calibrationData.rtnCoefficients[3] != 0 && writeState.rtnBacklashCoefficients[0] == 0) {
+    writeState.rtnBacklashCoefficients[0] = 1;
     Serial.print(F("Rtn backl ord 0: "));
-  } else if (calibrationData.rtnBacklashes[0] != 0 && writeState.rtnBacklashes[1] == 0) {
-    writeState.rtnBacklashes[1] = 1;
+  } else if (calibrationData.rtnBacklashCoefficients[0] != 0 && writeState.rtnBacklashCoefficients[1] == 0) {
+    writeState.rtnBacklashCoefficients[1] = 1;
     Serial.print(F("Rtn backl ord 1: "));
-  } else if (calibrationData.rtnBacklashes[1] != 0 && writeState.rtnBacklashes[2] == 0) {
-    writeState.rtnBacklashes[2] = 1;
+  } else if (calibrationData.rtnBacklashCoefficients[1] != 0 && writeState.rtnBacklashCoefficients[2] == 0) {
+    writeState.rtnBacklashCoefficients[2] = 1;
     Serial.print(F("Rtn backl ord 2: "));
-  } else if (calibrationData.rtnBacklashes[2] != 0.0 && versionState == false) {
+  } else if (calibrationData.rtnBacklashCoefficients[2] != 0.0 && versionState == false) {
     versionState = true;
     Serial.println(F("-------------------"));
     Serial.println(F("1"));
-    Serial.println(calibrationData.lngParams[0], 6);
-    Serial.println(calibrationData.lngParams[1], 6);
-    Serial.println(calibrationData.lngParams[2], 6);
-    Serial.println(calibrationData.lngParams[3], 6);
-    Serial.println(calibrationData.lngBacklashes[0], 6);
-    Serial.println(calibrationData.lngBacklashes[1], 6);
-    Serial.println(calibrationData.lngBacklashes[2], 6);
-    Serial.println(calibrationData.lngBacklashes[3], 6);
+    Serial.println(calibrationData.lngCoefficients[0], 6);
+    Serial.println(calibrationData.lngCoefficients[1], 6);
+    Serial.println(calibrationData.lngCoefficients[2], 6);
+    Serial.println(calibrationData.lngCoefficients[3], 6);
+    Serial.println(calibrationData.lngBacklashCoefficients[0], 6);
+    Serial.println(calibrationData.lngBacklashCoefficients[1], 6);
+    Serial.println(calibrationData.lngBacklashCoefficients[2], 6);
+    Serial.println(calibrationData.lngBacklashCoefficients[3], 6);
 
-    Serial.println(calibrationData.rtnParams[0], 6);
-    Serial.println(calibrationData.rtnParams[1], 6);
-    Serial.println(calibrationData.rtnParams[2], 6);
-    Serial.println(calibrationData.rtnParams[3], 6);
-    Serial.println(calibrationData.rtnBacklashes[0], 6);
-    Serial.println(calibrationData.rtnBacklashes[1], 6);
-    Serial.println(calibrationData.rtnBacklashes[2], 6);
-    Serial.println(calibrationData.rtnBacklashes[3], 6);
+    Serial.println(calibrationData.rtnCoefficients[0], 6);
+    Serial.println(calibrationData.rtnCoefficients[1], 6);
+    Serial.println(calibrationData.rtnCoefficients[2], 6);
+    Serial.println(calibrationData.rtnCoefficients[3], 6);
+    Serial.println(calibrationData.rtnBacklashCoefficients[0], 6);
+    Serial.println(calibrationData.rtnBacklashCoefficients[1], 6);
+    Serial.println(calibrationData.rtnBacklashCoefficients[2], 6);
+    Serial.println(calibrationData.rtnBacklashCoefficients[3], 6);
     Serial.println(F("-------------------"));
     Serial.println();
     Serial.print(F("Save? [y/n]"));
   }
 
   if (Serial.available()) {
-    if (calibrationData.lngParams[0] == 0) {
+    if (calibrationData.lngCoefficients[0] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.lngParams[0] = inputFloat;
-    } else if (calibrationData.lngParams[1] == 0) {
+      calibrationData.lngCoefficients[0] = inputFloat;
+    } else if (calibrationData.lngCoefficients[1] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.lngParams[1] = inputFloat;
-    } else if (calibrationData.lngParams[2] == 0) {
+      calibrationData.lngCoefficients[1] = inputFloat;
+    } else if (calibrationData.lngCoefficients[2] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.lngParams[2] = inputFloat;
-    } else if (calibrationData.lngParams[3] == 0) {
+      calibrationData.lngCoefficients[2] = inputFloat;
+    } else if (calibrationData.lngCoefficients[3] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.lngParams[3] = inputFloat;
-    } else if (calibrationData.rtnParams[0] == 0) {
+      calibrationData.lngCoefficients[3] = inputFloat;
+    } else if (calibrationData.rtnCoefficients[0] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnParams[0] = inputFloat;
-    } else if (calibrationData.rtnParams[1] == 0) {
+      calibrationData.rtnCoefficients[0] = inputFloat;
+    } else if (calibrationData.rtnCoefficients[1] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnParams[1] = inputFloat;
-    } else if (calibrationData.rtnParams[2] == 0) {
+      calibrationData.rtnCoefficients[1] = inputFloat;
+    } else if (calibrationData.rtnCoefficients[2] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnParams[2] = inputFloat;
-    } else if (calibrationData.rtnParams[3] == 0) {
+      calibrationData.rtnCoefficients[2] = inputFloat;
+    } else if (calibrationData.rtnCoefficients[3] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnParams[3] = inputFloat;
-    } else if (calibrationData.rtnBacklashes[0] == 0) {
+      calibrationData.rtnCoefficients[3] = inputFloat;
+    } else if (calibrationData.rtnBacklashCoefficients[0] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnBacklashes[0] = inputFloat;
-    } else if (calibrationData.rtnBacklashes[1] == 0) {
+      calibrationData.rtnBacklashCoefficients[0] = inputFloat;
+    } else if (calibrationData.rtnBacklashCoefficients[1] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnBacklashes[1] = inputFloat;
-    } else if (calibrationData.rtnBacklashes[2] == 0) {
+      calibrationData.rtnBacklashCoefficients[1] = inputFloat;
+    } else if (calibrationData.rtnBacklashCoefficients[2] == 0) {
       auto inputStr = Serial.readString();
       auto inputFloat = inputStr.toFloat();
       if (inputFloat == 0.0) inputFloat = FLT_MIN;
       Serial.println(inputFloat, 6);
-      calibrationData.rtnBacklashes[2] = inputFloat;
+      calibrationData.rtnBacklashCoefficients[2] = inputFloat;
     } else if (versionState) {
       auto yesNo = Serial.read();
       if (yesNo == 'y') {
@@ -594,25 +594,25 @@ void stateTest() {
   CalibrationData_V1 calibrationData;
   EEPROM.get(5, calibrationData);
   Serial.println(F("Lng params"));
-  Serial.println(calibrationData.lngParams[0]);
-  Serial.println(calibrationData.lngParams[1]);
-  Serial.println(calibrationData.lngParams[2]);
-  Serial.println(calibrationData.lngParams[3]);
+  Serial.println(calibrationData.lngCoefficients[0]);
+  Serial.println(calibrationData.lngCoefficients[1]);
+  Serial.println(calibrationData.lngCoefficients[2]);
+  Serial.println(calibrationData.lngCoefficients[3]);
   Serial.println(F("Lng backlashes"));
-  Serial.println(calibrationData.lngBacklashes[0]);
-  Serial.println(calibrationData.lngBacklashes[1]);
-  Serial.println(calibrationData.lngBacklashes[2]);
-  Serial.println(calibrationData.lngBacklashes[3]);
+  Serial.println(calibrationData.lngBacklashCoefficients[0]);
+  Serial.println(calibrationData.lngBacklashCoefficients[1]);
+  Serial.println(calibrationData.lngBacklashCoefficients[2]);
+  Serial.println(calibrationData.lngBacklashCoefficients[3]);
   Serial.println(F("Rtn params"));
-  Serial.println(calibrationData.rtnParams[0]);
-  Serial.println(calibrationData.rtnParams[1]);
-  Serial.println(calibrationData.rtnParams[2]);
-  Serial.println(calibrationData.rtnParams[3]);
+  Serial.println(calibrationData.rtnCoefficients[0]);
+  Serial.println(calibrationData.rtnCoefficients[1]);
+  Serial.println(calibrationData.rtnCoefficients[2]);
+  Serial.println(calibrationData.rtnCoefficients[3]);
   Serial.println(F("Lng backlashes"));
-  Serial.println(calibrationData.rtnBacklashes[0]);
-  Serial.println(calibrationData.rtnBacklashes[1]);
-  Serial.println(calibrationData.rtnBacklashes[2]);
-  Serial.println(calibrationData.rtnBacklashes[3]);
+  Serial.println(calibrationData.rtnBacklashCoefficients[0]);
+  Serial.println(calibrationData.rtnBacklashCoefficients[1]);
+  Serial.println(calibrationData.rtnBacklashCoefficients[2]);
+  Serial.println(calibrationData.rtnBacklashCoefficients[3]);
 
   state = State::Init;
 }

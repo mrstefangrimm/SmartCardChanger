@@ -9,7 +9,7 @@ The smart card changer has three components:
 - The Control Module
 - The Overload Protection Module
 
-The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion.
+The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion. Try out the online, [interactive 3D model](smartcc.netlify.app).
 The control module uses an Adafruit BLE feather board, which controls the two servo motors and is used for the Bluetooth connection with a smartphone.
 The overload protection module monitors the electrical current drawn by the servo motors and automatically interrupts the circuit in the event of an overload.
 
@@ -24,11 +24,12 @@ The material costs are approximately $120.
 
 ## Supplies
 
-**Mechanical Structure**
-
 - 1 HID  Omnikey USB smart cards reader/writer, version 3021
 - 1 Adafruit Feather 32u4 Bluefruit LE
 - 2 PDI-9180MG micro servo motor
+
+**Mechanical Structure**
+
 - 2 basswood sheets, 4 mm thick, DIN A3
 - 1 prototyping board, approximately 10 cm x 20 cm
 - 1 cardboard, DIN A4
@@ -145,11 +146,15 @@ Dimensions and Positions:
 
 ## Step 5: Rotator
 
-![SCC-Assemble5-Rotatator](.\SCC-Assemble5-Rotatator.jpg)
+![SCC-Assemble5-Rotator](.\SCC-Assemble5-Rotator.jpg)
 
-![SCC-Assembled5-Rotatator](.\SCC-Assembled5-Rotatator.jpg)
+![SCC-Assembled5-Rotator](.\SCC-Assembled5-Rotator.jpg)
 
-![SCC-Assembled5-Rotatator-MechanicalAdjustment](.\SCC-Assembled5-Rotatator-MechanicalAdjustment.jpg)
+![SCC-Assembled5-Rotator-MechanicalAdjustment](.\SCC-Assembled5-Rotator-MechanicalAdjustment.jpg)
+
+![SCC-Rotator-Picture](.\SCC-Rotator-Picture.jpg)
+
+
 
 The rotator is mounted onto the rotator platform. The angle between the card slots is 30 degrees. The card slots are cut out of cardboard which is glued onto the rotator. The cards are fixated with hexagon screws.
 
@@ -166,13 +171,17 @@ Dimensions and Positions:
 
 ## Step 6: Rotator Lids
 
-![SCC-Assemble6-RotatatorLid](.\SCC-Assemble6-RotatatorLid.jpg)
+![SCC-Assemble6-RotatorLid](.\SCC-Assemble6-RotatorLid.jpg)
 
-![SCC-Assemble6-RotatatorLid-Bottom](.\SCC-Assemble6-RotatatorLid-Bottom.jpg)
+![SCC-Assemble6-RotatorLid-Bottom](.\SCC-Assemble6-RotatorLid-Bottom.jpg)
 
-![SCC-Assembled6-RotatatorLid](.\SCC-Assembled6-RotatatorLid.jpg)
+![SCC-Assembled6-RotatorLid](.\SCC-Assembled6-RotatorLid.jpg)
 
-With the rotator lid, the cards are fixated to the rotator. Cardboard pieces are glued to the lids for a good grip.
+![SCC-RotatorLids-Picture](.\SCC-RotatorLids-Picture.jpg)
+
+
+
+With the rotator lid, the cards are fixated to the rotator. Cardboard pieces are glued to the lids. The cardboard pieces prevent the card from being pulled out by the reader.
 
 
 
@@ -209,9 +218,13 @@ Parts
 
 ## Step 8: Test and Calibrate
 
+![SCC-Calibration](.\SCC-Calibration.jpg)
+
+![SCC-CalibrationApp-SerialMonitor](.\SCC-CalibrationApp-SerialMonitor.jpg)
+
 To operate the smart card changer without the overload protection module, add a shortcut wire as shown in the image above.
 
-Download and unzip the calibration software. Open it in the Arduino IDE upload it to the control module.
+Download and unzip the *CalibrationApp.zip*. Open the sketch *CalibrationApp.ino* in the Arduino IDE upload it to the control module.
 
 Plug in the servo motors and the servo motors move to the initial position.
 
@@ -308,8 +321,13 @@ Back in the Serial Monitor, the polynomial coefficients are stored in the EEPROM
 
 ![SCC-Assembled8-OverloadProtectionModule](.\SCC-Assembled8-OverloadProtectionModule.jpg)
 
+![SCC-OverloadProtectionModule-Connected](SCC-OverloadProtectionModule-Connected.jpg)
 
 The overload protection module is optional - smart card changer can be operated without it. Without the protection module, the smart cards could be damaged though.
+
+Then connect the overload module to the control module.
+
+
 
 Parts:
 
@@ -318,25 +336,44 @@ Parts:
  - 2 ACS712 current measurement modules
  - 1 female header for 8 pins the overload protection module
 
-
 ## Step 10: Test and Operate
 
-Download and unzip the calibration software. Open it in the Arduino IDE upload it to the control module.
+![SCC-AssembledAndConnected](.\SCC-AssembledAndConnected.jpg)
+
+![SCC-SccApp-SerialMonitor](.\SCC-SccApp-SerialMonitor.jpg)
+
+![SCC-SerialBluetoothTerminalApp](.\SCC-SerialBluetoothTerminalApp.jpg)
 
 
 
-To connect to the device from a smart phone, install a Bluetooth Terminal App. Two apps the works:
+Download and unzip the *SccApp.zip* and the *library.zip*. Copy the content of the library.zip into *Documents\Arduino\libraries*. Open the sketch *SccApp.ino* in the Arduino IDE upload it to the control module.
 
-- Bluefruit Connect from Adafruit
+
+
+**Test with USB**
+
+In the Arduino IDE, open the Serial Monitor.
+
+1. Erase the content of the serial monitor and type in "?" for help. The available commands are shown
+
+2. Type in "a" to insert the card in the first card slot. The rotator rotates to the first card slot and the carriage moves forward.
+
+3. Type in "r" to retract the carriage. The carriage moves to the initial position.
+
+   
+
+**Test with Bluetooth**
+
+Install a Bluetooth Terminal App to connect to the device from a smart phone. These two apps work:
+
 - Serial Bluetooth Terminal
+- Bluefruit Connect from Adafruit
 
-When connected, send an "a" to connect the *smart card in the first slot*. To disconnect, send "r" for *retract* the carriage to the initial position. The slots are "a", "b", "c", "d", "e". If you send a "p" for *panic*, the carriage goes instantly to the initial position.
+
+
+When connected, send an "a" to insert the smart card in the first slot. Send "r" to retract the carriage to the initial position. The slots are "a", "b", "c", "d", "e". If you send a "p" for *panic*, the carriage goes instantly to the initial position.
 
 
 
 That is the Smart Card Changer.
-
-
-
-
 
