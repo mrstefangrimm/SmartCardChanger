@@ -238,7 +238,7 @@ Choose "l" for *longitudinal servo* and position the carriage to fully retracted
 | 40    | 1330   |
 | 60    | 1505   |
 | 70    | 1630   |
-> Calibration longitudinal axis, 16. Aug. 2025
+> Example calibration longitudinal axis, 16. Aug. 2025
 
 
 The calculated polynomial coefficients  (polynomial of 3 degree)
@@ -249,6 +249,7 @@ The calculated polynomial coefficients  (polynomial of 3 degree)
 | 1    | 1.5448059970614935e+001   |
 | 2    | -2.3899425671160265e-001   |
 | 3    | -2.3899425671160265e-001   |
+> Example coefficients longitudinal axis, 16. Aug. 2025
 
 **Rotational Calibration**
 
@@ -264,7 +265,7 @@ Choose "r" for *rotation servo*. Calibrate the card slots in clockwise and count
 | 90    | 1435   |
 | 120    | 1602   |
 | 150    | 1765   |
-> Calibration rotational axis clockwise, 16. Aug. 2025
+> Example calibration rotational axis clockwise, 16. Aug. 2025
 
 | degrees   | servo | backlash |
 | ---- | ----- | --- |
@@ -273,7 +274,7 @@ Choose "r" for *rotation servo*. Calibrate the card slots in clockwise and count
 | 90    | 1410   | - 25 |
 | 120    | 1585  | -17|
 | 150    | 1745  | - 20|
-> Calibration rotational axis counter clockwise, 16. Aug. 2025
+> Example calibration rotational axis counter clockwise, 16. Aug. 2025
 
 The calculated polynomial coefficients for the clockwise rotation  (polynomial of 3 degree)
 | polynomial degree | coefficient |
@@ -282,6 +283,7 @@ The calculated polynomial coefficients for the clockwise rotation  (polynomial o
 | 1    | 5.2730158730158729e+000   |
 | 2    | 3.1746031746031746e-003   |
 | 3    | -1.2345679012345678e-005 |
+> Example coefficients rotational axis, 16. Aug. 2025
 
 The calculated polynomial coefficients for the counter clockwise backlash (polynomial of 2 degree)
 | polynomial degree | coefficient |
@@ -289,7 +291,7 @@ The calculated polynomial coefficients for the counter clockwise backlash (polyn
 | 0    | -3.3799999999999997e+001   |
 | 1    | 4.0761904761904760e-001,   |
 | 2    | -6.3492063492063492e-004   |
-
+> Example coefficients backlash, 16. Aug. 2025
 
 
 Back in the Serial Monitor, the polynomial coefficients are stored in the EEPROM
