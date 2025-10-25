@@ -9,8 +9,10 @@ The smart card changer has three components:
 - The Control Module
 - The Overload Protection Module
 
-The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion. Try out the online, [interactive 3D model](smartcc.netlify.app).
+The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion. Try it out the online, [interactive 3D model](smartcc.netlify.app).
+
 The control module uses an Adafruit BLE feather board, which controls the two servo motors and is used for the Bluetooth connection with a smartphone.
+
 The overload protection module monitors the electrical current drawn by the servo motors and automatically interrupts the circuit in the event of an overload.
 
 Tooling
@@ -63,9 +65,9 @@ The material costs are approximately $120.
 
 ![SCC-Assembled1-Base](.\SCC-Assembled1-Base.jpg)
 
-The basic structure is the structural base of the carriage and the rotator, which are assembled in separate steps.
+The basic structure is the structural base for both the carriage and the rotator.
 
-On the left side in the image are the rails for the carriage. The the right side are two cylinders on which the rotation platform is mounted.
+On the left side in the image are the rails for the carriage. The two cylinders on the right side are for the rotator platform. The two cylinders in the center are used to adjust the height of the rotator.
 
 
 
@@ -87,7 +89,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled2-Carriage](.\SCC-Assembled2-Carriage.jpg)
 
-The carriage is the part that slides in the rails of the basic structure. In the center of the image is the servo arm extension and on the right the servo arm. The servo arm is mounted onto the servo.
+The carriage is the part that slides in the rails of the basic structure. In the center of the image is the servo arm extension and on the right the servo arm. The servo arm is mounted onto the servo motor.
 
 
 
@@ -113,7 +115,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled3-ReaderPlatformWithReader](.\SCC-Assembled3-ReaderPlatformWithReader.jpg)
 
-The reader platform is mounted onto the carriage. It holds the Omnikey Smart Card Reader. The black, soft material to fixate the reader is anti-static foam (the one that is used when you buy integrated circuits).
+The card reader platform is used for the Omnikey Smart Card Reader and is mounted onto the carriage assembly. The black segments in the image are anti-static foam and used to fixate the card reader. Anti-static foam is commonly used for packaging integrated circuits.
 
 
 
@@ -132,7 +134,7 @@ Dimensions and Positions:
 
 ![SCC-Assembled4-RotatationPlatform](.\SCC-Assembled4-RotationPlatform.jpg)
 
-The rotator platform is mounted onto the basic structure. It has a ramp on both sides to mechanically adjust the rotator.
+The rotator platform is mounted onto the basic structure. It has a ramp on both sides to mechanically adjust the height of the rotator.
 
 
 
@@ -218,11 +220,11 @@ Parts
 
 ## Step 8: Test and Calibrate
 
-![SCC-Calibration](.\SCC-Calibration.jpg)
+![SCC-Calibration-Picture](.\SCC-Calibration-Picture.jpg)
 
 ![SCC-CalibrationApp-SerialMonitor](.\SCC-CalibrationApp-SerialMonitor.jpg)
 
-To operate the smart card changer without the overload protection module, add a shortcut wire as shown in the image above.
+To operate the smart card changer without the overload protection module, add a shortcut wire as shown in the image above. Power is supplied to the smart card changer via a USB connection to the host PC..
 
 Download and unzip the *CalibrationApp.zip*. Open the sketch *CalibrationApp.ino* in the Arduino IDE upload it to the control module.
 
@@ -340,9 +342,21 @@ Parts:
 
 ![SCC-AssembledAndConnected](.\SCC-AssembledAndConnected.jpg)
 
+![SCC-Operate-Picture](.\SCC-Operate-Picture.jpg)
+
 ![SCC-SccApp-SerialMonitor](.\SCC-SccApp-SerialMonitor.jpg)
 
 ![SCC-SerialBluetoothTerminalApp](.\SCC-SerialBluetoothTerminalApp.jpg)
+
+
+
+The smart card changer can be powered via three options:
+
+- USB connection to the PC.
+- USB cable linked to an AC/DC power adapter
+- Through dedicated power plugs. 
+
+To use it with Bluetooth, the smart card changer functions independently and does not require a physical connection to the PC.
 
 
 
@@ -364,7 +378,7 @@ In the Arduino IDE, open the Serial Monitor.
 
 **Test with Bluetooth**
 
-Install a Bluetooth Terminal App to connect to the device from a smart phone. These two apps work:
+Install a Bluetooth (BLE) compatible terminal app on your smart phone to use the smart card changer with Bluetooth. These two apps have been verified to work reliably:
 
 - Serial Bluetooth Terminal
 - Bluefruit Connect from Adafruit
