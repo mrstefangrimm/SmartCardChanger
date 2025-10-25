@@ -6,7 +6,7 @@
 
 namespace nssvc {
 
-#define DBG(x) x
+#define DBG(x) 
 
 PRSDEFI(RSEEPROMBEFORE, "EEPROM Before: ");
 PRSDEFI(RSEEPROMAFTER, "EEPROM After:  ");

@@ -7,7 +7,7 @@
 
 namespace nsusb {
 
-#define DBG(x) x
+#define DBG(x) 
 
 //PRSDEFM(RSADJRTN, "Adjust Rtn");
 //PRSDEFM(RSADJLNG, "Adjust Lng");

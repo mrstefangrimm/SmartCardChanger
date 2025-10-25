@@ -8,7 +8,7 @@
 namespace nstj {
 using namespace tsmlib;
 
-#define DBG(x) x
+#define DBG(x) 
 
 PRSDEFI(RSAO, "Trajectory");
 PRSDEFI(RSCONNECTING, "Connecting");
