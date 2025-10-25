@@ -226,7 +226,7 @@ Parts
 
 To operate the smart card changer without the overload protection module, add a shortcut wire as shown in the image above. Power is supplied to the smart card changer via a USB connection to the host PC..
 
-Download and unzip the *CalibrationApp.zip*. Open the sketch *CalibrationApp.ino* in the Arduino IDE upload it to the control module.
+Download and unzip the latest release from [github](https://github.com/mrstefangrimm/SmartCardChanger/releases). Open the sketch *CalibrationApp.ino* in the Arduino IDE upload it to the control module.
 
 Plug in the servo motors and the servo motors move to the initial position.
 
@@ -360,7 +360,7 @@ To use it with Bluetooth, the smart card changer functions independently and doe
 
 
 
-Download and unzip the *SccApp.zip* and the *library.zip*. Copy the content of the library.zip into *Documents\Arduino\libraries*. Open the sketch *SccApp.ino* in the Arduino IDE upload it to the control module.
+Download and unzip the latest release from [github](https://github.com/mrstefangrimm/SmartCardChanger/releases). Copy the content of the libraries folder into *Documents\Arduino\libraries*. Open the sketch *SccApp.ino* in the Arduino IDE upload it to the control module.
 
 
 
