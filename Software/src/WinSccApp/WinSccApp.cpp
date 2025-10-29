@@ -203,7 +203,7 @@ nspls::PulsWidthTransmitterAo<LogType, FakeServo, DummyEEProm> transmitter(messa
 nstj::TrajectoryAo<LogType> trajectory(messages);
 nsusb::UsbTerminalAo<LogType, DummySerial> usbTerminal(messages, serial);
 nsble::BleTerminalAo<LogType, DummyBle> bleTerminal(messages, ble);
-nsom::OverloadMonitorAo<LogType> overloadMonitor(messages);
+nsom::OverloadMonitorAo<LogType, DummyEEProm> overloadMonitor(messages, eeprom);
 nssvc::ServiceAo<LogType, FakeServo, DummyEEProm> service(messages, eeprom);
 
 void setup() {
@@ -234,10 +234,12 @@ void loop_thread() {
   }
 }
 
-void main() {
+int main() {
   setup();
   thread st(&loop_thread);
   st.join();
+
+  return 0;
 }
 
 /*

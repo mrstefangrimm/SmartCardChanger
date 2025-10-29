@@ -1,7 +1,10 @@
 # Smart Card Changer
 
 ## Introduction
-The Smart Card Changer enables remote access to up to five smart cards, such as access or bank cards, using a single smart card reader. Through a Bluetooth connection, you can conveniently insert or eject cards via your smartphone. The smart card changer is especially useful when the smart card reader is connected to a PC located in a different room.
+
+[Youtube](https://youtu.be/RYG996cEZuI)
+
+The Smart Card Changer enables remote access to up to five smart cards, such as access or bank cards, using a single smart card reader. Via a Bluetooth connection, you can conveniently insert or eject cards with your smartphone. The smart card changer is especially useful when the reader is connected to a PC that is out of reach.
 
 The smart card changer has three components:
 
@@ -9,7 +12,7 @@ The smart card changer has three components:
 - The Control Module
 - The Overload Protection Module
 
-The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion. Try it out the online, [interactive 3D model](smartcc.netlify.app).
+The mechanical structure is constructed using basswood sheets and wooden cylinders. It uses two micro servo motors for a linear and a rotational motion. Check out the [interactive 3D model](smartcc.netlify.app).
 
 The control module uses an Adafruit BLE feather board, which controls the two servo motors and is used for the Bluetooth connection with a smartphone.
 
@@ -83,7 +86,7 @@ Dimensions and Positions:
 
 
 
-## Step 2: Carriage and Servo arm
+## Step 2: Carriage and Servo Arm
 
 ![SCC-Assemble2-Carriage](.\SCC-Assemble2-Carriage.jpg)
 

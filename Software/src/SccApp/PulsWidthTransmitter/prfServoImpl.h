@@ -82,6 +82,12 @@ public:
       _log->println(calibrationData.rtnBacklashCoefficients[1], 6);
       _log->println(calibrationData.rtnBacklashCoefficients[2], 6);
       _log->println(calibrationData.rtnBacklashCoefficients[3], 6);
+      _log->println(F("Rtn lower/upper thresholds"));
+      _log->println(calibrationData.rtnOverflowLowerThreshold);
+      _log->println(calibrationData.rtnOverflowUpperThreshold);
+      _log->println(F("Lng lower/upper thresholds"));
+      _log->println(calibrationData.lngOverflowLowerThreshold);
+      _log->println(calibrationData.lngOverflowUpperThreshold);
       _log->println(F("-------------------"));
     } else {
 
@@ -89,25 +95,25 @@ public:
 
       // https://arachnoid.com/polysolve/
 
-      // RTN, 19.Aug.2025
-      // 30 1105
-      // 60 1270
-      // 90 1435
-      // 120 1602
-      // 150 1765
-      coefficients[0][0] = 9.4440000000000009e+002f;
-      coefficients[0][1] = 5.2730158730158729e+000f;
-      coefficients[0][2] = 3.1746031746031746e-003f;
-      coefficients[0][3] = -1.2345679012345678e-005f;
+      // RTN, 27. Oct. 2025
+      // 30 1110
+      // 60 1275
+      // 90 1450
+      // 120 1612
+      // 150 1770
+      coefficients[0][0] = 9.5240000000000009e+002f;
+      coefficients[0][1] = 4.9912698412698422e+000f;
+      coefficients[0][2] = 9.5238095238095229e-003f;
+      coefficients[0][3] = -4.3209876543209875e-005f;
 
-      // 30 1085 -25
-      // 60 1245 -25
-      // 90 1410 -25
-      // 120 1585 -17
-      // 150 1745 -20
-      backlashCoefficients[0][0] = -2.6799999999999997e+001f;
-      backlashCoefficients[0][1] = 3.1428571428571431e-002f;
-      backlashCoefficients[0][2] = 1.5873015873015873e-004f;
+      // 30 1080 -30
+      // 60 1235 -40
+      // 90 1400 -50
+      // 120 1570 -42
+      // 150 1730 -40
+      backlashCoefficients[0][0] = -1.2799999999999997e+001f;
+      backlashCoefficients[0][1] = -6.7333333333333345e-001f;
+      backlashCoefficients[0][2] = 3.3333333333333335e-003f;
 
       // LNG, 16.Aug.2025
       // 0 950

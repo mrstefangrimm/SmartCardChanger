@@ -203,12 +203,12 @@ private:
     //PRSDEFM(RSOVERLUPPTH, "Overload Upper Threshold");
 
     _serial.println();
-    _serial.println(F("arso: Adjust RtnServo Offset"));
-_serial.println(F("also: Adjust LngServo Offsetg"));
-_serial.println(F("arol: Adjust RtnOverload Lower Threshold"));
-_serial.println(F("arou: Adjust RtnOverload Lower Threshold"));
-_serial.println(F("alol: Adjust LngOverload Lower Threshold"));
-_serial.println(F("alou: Adjust LngOverload Lower Threshold"));
+    _serial.println(F("arso: Adjust Rtn Servo Offset"));
+    _serial.println(F("also: Adjust Lng Servo Offset"));
+    _serial.println(F("arol: Adjust Rtn Overload Lower threshold"));
+    _serial.println(F("arou: Adjust Rtn Overload Upper threshold"));
+    _serial.println(F("alol: Adjust Lng Overload Lower threshold"));
+    _serial.println(F("alou: Adjust Lng Overload Upper threshold"));
 
     //_serial.print(F("arso: ")); rs_println(RSADJRTN, RSSVOOFFSET);
     //_serial.print(F("also: ")); rs_println(RSADJLNG, RSSVOOFFSET);

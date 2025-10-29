@@ -6,8 +6,8 @@
  *            Released into the public domain
  */
 
-#ifndef PRSSERIAL_H
-#define PRSSERIAL_H
+#ifndef prsserial_h
+#define prsserial_h
 
 
 /* Defines a resource string (RS) that is stored in the program memory and used in a message to the user.
@@ -63,7 +63,6 @@ void rs_print(const char* rs1, const char* rs2 = nullptr, const char* rs3 = null
     rs_println(RSHELLO, RSWORLD);
     Output:
     HelloWorld
-....
 */
 void rs_println(const char* rs1, const char* rs2 = nullptr, const char* rs3 = nullptr, const char* rs4 = nullptr) {
   rs_print(rs1, rs2, rs3, rs4);

@@ -23,7 +23,7 @@ template<class TLog> struct Startup;
 template<class TLog> struct Monitoring;
 template<class TLog> struct Overload;
 template<class TLog> struct IsStartupDone;
-template<class TLog> struct IsOverload;
+template<class TLog, class TEeprom> struct IsOverload;
 
 namespace event {
 struct Timeout {
@@ -32,14 +32,36 @@ struct Timeout {
 };
 }
 
-template<class TLog>
+template<class TLog, class TEeprom>
 class OverloadMonitorAo {
 public:
-  explicit OverloadMonitorAo(Messages& messages)
+  explicit OverloadMonitorAo(Messages& messages, TEeprom& eeprom)
     : _messages(messages) {
     pinMode(OVERLOAD_PIN, OUTPUT);
     _statemachine.begin();
+
+    char version = eeprom.read(4);
+    _log->print(F("Calibration Data Version "));
+    _log->println(version == 1);
+    if (version == 1) {
+      CalibrationData_V1 calibrationData;
+
+      eeprom.get(5, calibrationData);
+
+      lowerThresholdRtn = calibrationData.rtnOverflowLowerThreshold;
+      upperThresholdRtn = calibrationData.rtnOverflowUpperThreshold;
+      lowerThresholdLng = calibrationData.lngOverflowLowerThreshold;
+      upperThresholdLng = calibrationData.lngOverflowUpperThreshold;
+
+    } else {
+      rs_println(RSAO, RSSTARTUP, RSUSEHARDCODEDVALUES);
+    }
   }
+
+  static uint16_t lowerThresholdRtn;
+  static uint16_t upperThresholdRtn;
+  static uint16_t lowerThresholdLng;
+  static uint16_t upperThresholdLng;
 
   void load() {
     _inputMsg = _messages.toOverloadMonitorQueue.pop();
@@ -56,17 +78,26 @@ private:
   MessageData_t _inputMsg = 0;
 
   using ToMonitoringFromStartup = Transition<event::Timeout, Monitoring<TLog>, Startup<TLog>, IsStartupDone<TLog>, NoAction>;
-  using ToOverloadFromMonitoring = Transition<event::Timeout, Overload<TLog>, Monitoring<TLog>, IsOverload<TLog>, NoAction>;
+  using ToOverloadFromMonitoring = Transition<event::Timeout, Overload<TLog>, Monitoring<TLog>, IsOverload<TLog, TEeprom>, NoAction>;
 
   using Transitions =
     Typelist<ToMonitoringFromStartup,
-             Typelist<ToOverloadFromMonitoring,
-                      NullType>>;
+    Typelist<ToOverloadFromMonitoring,
+    NullType>>;
 
   using InitTransition = InitialTransition<Startup<TLog>, NoAction>;
   using Sm = Statemachine<Transitions, InitTransition>;
   Sm _statemachine;
 };
+
+template<class TLog, class TEeprom>
+uint16_t OverloadMonitorAo<TLog, TEeprom>::lowerThresholdRtn = 700;
+template<class TLog, class TEeprom>
+uint16_t OverloadMonitorAo<TLog, TEeprom>::upperThresholdRtn = 1000;
+template<class TLog, class TEeprom>
+uint16_t OverloadMonitorAo<TLog, TEeprom>::lowerThresholdLng = 700;
+template<class TLog, class TEeprom>
+uint16_t OverloadMonitorAo<TLog, TEeprom>::upperThresholdLng = 1000;
 
 template<class TLog>
 struct Startup : public BasicState<Startup<TLog>, StatePolicy, true>, public SingletonCreator<Startup<TLog>> {
@@ -93,13 +124,8 @@ struct Monitoring : public BasicState<Monitoring<TLog>, StatePolicy, true>, publ
     DBG(rs_println(RSAO, RSMONITORING, RSENTRY));
   }
 
-  uint16_t lowerThresholdRtn = 680;
-  uint16_t upperThresholdRtn = 810;
-  uint16_t lowerThresholdLng = 760;
-  uint16_t upperThresholdLng = 840;
-
-  uint16_t currentRtn;
-  uint16_t currentLng;
+  uint16_t currentRtn = 0;
+  uint16_t currentLng = 0;
 };
 
 template<class TLog>
@@ -123,7 +149,7 @@ struct IsStartupDone {
   }
 };
 
-template<class TLog>
+template<class TLog, class TEeprom>
 struct IsOverload {
   bool eval(Monitoring<TLog>& monitoringState, const event::Timeout& ev) {
 
@@ -135,18 +161,18 @@ struct IsOverload {
     auto lngSensor = analogRead(A0);
     auto rtnSensor = analogRead(A1);
 
-    DBG({
-        if (abs(lngSensor - (int)monitoringState.currentLng) > 10 || abs(rtnSensor - (int)monitoringState.currentRtn) > 10) {
-          log->print(F("Lng:"));
-          log->print(lngSensor);
-          log->print(F(" Rtn:"));
-          log->println(rtnSensor);
-      } });
+    DBG(
+    if (_counter.increment()) {
+      log->print(F("Lng:"));
+      log->print(lngSensor);
+      log->print(F(" Rtn:"));
+      log->println(rtnSensor);
+    });
 
     monitoringState.currentLng = lngSensor;
     monitoringState.currentRtn = rtnSensor;
 
-    if (!(monitoringState.lowerThresholdLng < lngSensor && lngSensor < monitoringState.upperThresholdLng)) {
+    if (!(OverloadMonitorAo<TLog, TEeprom>::lowerThresholdLng < lngSensor && lngSensor < OverloadMonitorAo<TLog, TEeprom>::upperThresholdLng)) {
       //log->print(rs_cat(RSISOVERLOAD, RSMONITORING, RSOVERLOAD));
       rs_print(RSISOVERLOAD, RSMONITORING, RSOVERLOAD);
       log->print(F(" Lng:"));
@@ -157,7 +183,7 @@ struct IsOverload {
       return true;
     }
 
-    if (!(monitoringState.lowerThresholdRtn < rtnSensor && rtnSensor < monitoringState.upperThresholdRtn)) {
+    if (!(OverloadMonitorAo<TLog, TEeprom>::lowerThresholdRtn < rtnSensor && rtnSensor < OverloadMonitorAo<TLog, TEeprom>::upperThresholdRtn)) {
       //log->print(rs_cat(RSISOVERLOAD, RSMONITORING, RSOVERLOAD));
       rs_print(RSISOVERLOAD, RSMONITORING, RSOVERLOAD);
       log->print(F(" Lng:"));
@@ -170,7 +196,12 @@ struct IsOverload {
 
     return false;
   }
+
+  static BitCounter<6> _counter;
 };
+
+template<class TLog, class TEeprom>
+BitCounter<6> IsOverload<TLog, TEeprom>::_counter;
 
 }
 #endif

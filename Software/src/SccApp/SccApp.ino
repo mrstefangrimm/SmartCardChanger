@@ -53,7 +53,7 @@ nspls::PulsWidthTransmitterAo<LogType, Servo, EEPROMClass> transmitter(messages,
 nstj::TrajectoryAo<LogType> trajectory(messages);
 nsusb::UsbTerminalAo<LogType, Serial_> usbTerminal(messages, Serial);
 nsble::BleTerminalAo<LogType, Adafruit_BluefruitLE_SPI> bleTerminal(messages, ble);
-nsom::OverloadMonitorAo<LogType> overloadMonitor(messages);
+nsom::OverloadMonitorAo<LogType, EEPROMClass> overloadMonitor(messages, EEPROM);
 nssvc::ServiceAo<LogType, Servo, EEPROMClass> service(messages, EEPROM);
 
 void setup() {

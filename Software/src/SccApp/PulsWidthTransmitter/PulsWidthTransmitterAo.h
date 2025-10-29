@@ -77,7 +77,7 @@ private:
       _log->print(F("target Servo "));
       _log->print((int)target.servoNo);
       _log->print(F(" target Pos "));
-      _log->println((int)target.position / 100.0f);
+      _log->println((int)(target.position / 100.0f));
 
       if (target.servoNo == 0) {
         _targetRtn = target.position / 100.0f;

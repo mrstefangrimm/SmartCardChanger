@@ -7,10 +7,10 @@ struct CalibrationData_V1 {
   float lngCoefficients[4] = { 0 };
   float lngBacklashCoefficients[4] = { 0 };
 
-  uint16_t rtnOverflowLowerThreshold = 0;
-  uint16_t rtnOverflowUpperThreshold = 0;
-  uint16_t lngOverflowLowerThreshold = 0;
-  uint16_t lngOverflowUpperThreshold = 0;
+  uint16_t rtnOverflowLowerThreshold = 700;
+  uint16_t rtnOverflowUpperThreshold = 1000;
+  uint16_t lngOverflowLowerThreshold = 700;
+  uint16_t lngOverflowUpperThreshold = 1000;
 };
 
 #endif
