@@ -2,9 +2,11 @@
 
 ## Introduction
 
+[Vimeo](https://vimeo.com/1132590118?fl=pl&fe=sh)
+
 [Youtube](https://youtu.be/RYG996cEZuI)
 
-The Smart Card Changer enables remote access to up to five smart cards, such as access or bank cards, using a single smart card reader. Via a Bluetooth connection, you can conveniently insert or eject cards with your smartphone. The smart card changer is especially useful when the reader is connected to a PC that is out of reach.
+The Smart Card Changer gives remote access to up to five smart cards, such as access or bank cards, using a single smart card reader. Via a Bluetooth connection, you can conveniently insert or eject cards with your smartphone. The smart card changer is especially useful when the reader is connected to a PC that is out of reach.
 
 The smart card changer has three components:
 
@@ -261,7 +263,7 @@ Choose "l" for *longitudinal servo* and position the carriage to fully retracted
 
 The calculated polynomial coefficients  (polynomial of 3 degree)
 
-| polynomial degree | servo |
+| polynomial degree | coefficient |
 | ---- | ----- |
 | 0    | 9.5199345532256200e+002   |
 | 1    | 1.5448059970614935e+001   |
@@ -276,7 +278,7 @@ For the rotational axis we cannot overlook the mechanical play (backlash).
 Choose "r" for *rotation servo*. Calibrate the card slots in clockwise and counter clockwise direction. Write down the position values for each step. The backlash is the ccw position minus the cw position.
 
 
-| degrees   | coefficient |
+| degrees   | servo |
 | ---- | ----- |
 | 30    | 1105   |
 | 60    | 1270   |
