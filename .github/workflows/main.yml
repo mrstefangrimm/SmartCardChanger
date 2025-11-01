@@ -18,10 +18,10 @@ jobs:
         with:
           platforms: |
             # Install the latest release of Arduino SAMD Boards and its toolchain via Boards Manager
-            - name: "adafruit:avr:adafruit32u4"
+            - name: "adafruit:avr:bluefruitmicro"
             # Install the platform from the root of the repository, replacing the BM installed platform
             - source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
-          fqbn: adafruit:avr:adafruit32u4
+          fqbn: adafruit:avr:bluefruitmicro
           sketch-paths: |
             - Software/src/CalibrationApp
             - Software/Src/SccApp
