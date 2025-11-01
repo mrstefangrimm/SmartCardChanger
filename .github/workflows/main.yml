@@ -1,0 +1,26 @@
+name: Compile Sketches
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  compile-sketches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # See: https://github.com/arduino/compile-sketches#readme
+      - name: Compile sketches
+        uses: arduino/compile-sketches@v1
+        with:
+          fqbn: adafruit:avr:ATmega32u4
+          sketch-paths: |
+            - Software/src/CalibrationApp
+            - Software/Src/SccApp
+          libraries: |
+            - source-url: https://github.com/mrstefangrimm/prfServo.git
+            - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
+            - source-path: Software/Src/ParcLib
