@@ -19,10 +19,9 @@ jobs:
           fqbn: adafruit:avr:ATmega32u4
           platforms: |
             # Install the latest release of Arduino SAMD Boards and its toolchain via Boards Manager
-            - name: "avr:Adafruit Feather 32u4"
+            - name: "adafruit:avr:adafruit32u4"
             # Install the platform from the root of the repository, replacing the BM installed platform
             - source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
-              name: "avr:Adafruit Feather 32u4"
           sketch-paths: |
             - Software/src/CalibrationApp
             - Software/Src/SccApp
