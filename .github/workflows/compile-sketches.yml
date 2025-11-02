@@ -17,10 +17,9 @@ jobs:
         uses: arduino/compile-sketches@v1
         with:
           platforms: |
-            # Install the latest release of Arduino SAMD Boards and its toolchain via Boards Manager
-            - name: "adafruit:avr:bluefruitmicro"
             # Install the platform from the root of the repository, replacing the BM installed platform
-            - source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
+            - source-path: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
+              name: adafruit:avr
           fqbn: adafruit:avr:bluefruitmicro
           sketch-paths: |
             - Software/src/CalibrationApp
