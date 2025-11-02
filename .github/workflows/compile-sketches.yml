@@ -18,11 +18,11 @@ jobs:
       - name: Compile sketches
         uses: arduino/compile-sketches@v1
         with:
-          fqbn: adafruit:avr:bluefruitmicro
           platforms: |
             # Install the platform from the root of the repository, replacing the BM installed platform
             - name: adafruit:avr:bluefruitmicro
               source-url: "https://github.com/adafruit/Adafruit_Arduino_Boards.git"
+          fqbn: adafruit:avr:bluefruitmicro
           sketch-paths: |
             - Software/src/CalibrationApp
             - Software/src/SccApp
