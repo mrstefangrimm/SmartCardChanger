@@ -13,15 +13,16 @@ jobs:
         uses: actions/checkout@v2
 
       # See: https://github.com/arduino/compile-sketches#readme
-      #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
       #      https://github.com/arduino/arduino-cli/issues/954
+      #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json 
+      #      https://github.com/adafruit/Adafruit_Arduino_Boards/tree/master
       - name: Compile sketches
         uses: arduino/compile-sketches@v1
         with:
           platforms: |
             # Install the platform from the root of the repository, replacing the BM installed platform
             - name: adafruit:avr
-              source-url: "https://github.com/adafruit/Adafruit_Arduino_Boards.git"
+              source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
           fqbn: adafruit:avr:feather32u4
           sketch-paths: |
             - Software/src/CalibrationApp
