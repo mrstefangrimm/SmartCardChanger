@@ -16,14 +16,19 @@ jobs:
       #      https://github.com/arduino/arduino-cli/issues/954
       #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json 
       #      https://github.com/adafruit/Adafruit_Arduino_Boards/tree/master
+      #      https://forum.arduino.cc/t/arduino-cli-cant-find-installed-board-platform/1312333/2
       - name: Compile sketches
         uses: arduino/compile-sketches@v1
         with:
-          platforms: |
-            # Install the platform from the root of the repository, replacing the BM installed platform
-            - name: adafruit:avr
-              source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
           fqbn: adafruit:avr:feather32u4
+          platforms: |
+            - platform: adafruit:avr
+              platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+          #platforms: |
+            # Install the platform from the root of the repository, replacing the BM installed platform
+           # - name: adafruit:avr
+          #  source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
+          
           sketch-paths: |
             - Software/src/CalibrationApp
             - Software/src/SccApp
