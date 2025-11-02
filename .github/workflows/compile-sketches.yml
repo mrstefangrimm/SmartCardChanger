@@ -19,7 +19,7 @@ jobs:
           platforms: |
             # Install the platform from the root of the repository, replacing the BM installed platform
             - name: adafruit:avr
-              source-path: "https://github.com/adafruit/Adafruit_Arduino_Boards.git"
+              source-url: "https://github.com/adafruit/Adafruit_Arduino_Boards.git"
           fqbn: adafruit:avr:bluefruitmicro
           sketch-paths: |
             - Software/src/CalibrationApp
