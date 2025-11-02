@@ -25,7 +25,7 @@ jobs:
           fqbn: adafruit:avr:bluefruitmicro
           sketch-paths: |
             - Software/src/CalibrationApp
-            - Software/Src/SccApp
+            - Software/src/SccApp
           libraries: |
             - source-url: https://github.com/mrstefangrimm/prfServo.git
             - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
