@@ -31,6 +31,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        submodules: recursive
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
@@ -45,8 +47,8 @@ jobs:
       uses: Malcolmnixon/Setup-VSTest@v4 # Same darenm/Setup-VSTest@v1
 
     - name: Run VSTest
-      working-directory: vsprojs\x64\Release\
-      run: vstest.console.exe /Platform:x64 .\UnitTestShared.dll
+      working-directory: Software\src\WinSccApp\x64\Release\
+      run: vstest.console.exe /Platform:x64 .\UnitTest*.dll
    
   #  Same depricated message
   #  - name: Add VSTest to PATH
