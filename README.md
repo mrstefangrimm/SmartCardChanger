@@ -1,3 +1,5 @@
+[![MSBuild and MSTest](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml)
+
 # Smart Card Changer
 
 The Smart Card Changer gives remote access to up to five smart cards, such as access or bank cards, using a single smart card reader. This repository contains the software, the hardware and the mechanical design files.
