@@ -3,6 +3,7 @@ name: Compile Sketches
 on:
   - push
   - pull_request
+  - workflow_dispatch
 
 jobs:
   compile-sketches:
@@ -19,19 +20,20 @@ jobs:
       #      https://forum.arduino.cc/t/arduino-cli-cant-find-installed-board-platform/1312333/2
       - name: Compile sketches
         uses: arduino/compile-sketches@v1
-        with:
-          fqbn: adafruit:avr:feather32u4
-          platforms: |
-            - platform: adafruit:avr
-              platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+        # with:
+        #   fqbn: adafruit:avr:feather32u4
+        #   platforms: |
+        #     - platform: adafruit:avr
+        #       platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           #platforms: |
             # Install the platform from the root of the repository, replacing the BM installed platform
            # - name: adafruit:avr
           #  source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
-          
+       with:
+          fqbn: arduino:avr:uno   
           sketch-paths: |
             - Software/src/CalibrationApp
-            - Software/src/SccApp
+       #     - Software/src/SccApp
           libraries: |
             - source-url: https://github.com/mrstefangrimm/prfServo.git
             - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
