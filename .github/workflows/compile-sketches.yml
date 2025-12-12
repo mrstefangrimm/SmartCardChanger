@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # See: https://github.com/arduino/compile-sketches#readme
       #      https://github.com/arduino/arduino-cli/issues/954
@@ -22,9 +22,14 @@ jobs:
         uses: arduino/compile-sketches@v1
         with:
           fqbn: adafruit:avr:feather32u4
+          additional-urls: |
+            https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           platforms: |
-            - name: adafruit:avr
-              platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+            adafruit:avr
+
+          #platforms: |
+          #  - name: adafruit:avr
+          #    platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           #platforms: |
             # Install the platform from the root of the repository, replacing the BM installed platform
            # - name: adafruit:avr
