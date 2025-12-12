@@ -30,7 +30,6 @@ jobs:
           # Optional: show installed cores
           arduino-cli core list
 
-
       - name: Install needed libraries (optional)
         run: |
           # Add any libraries your sketch needs
@@ -50,6 +49,12 @@ jobs:
             --warnings all \
             --export-binaries \
             Software/src/CalibrationApp
+
+          arduino-cli compile \
+            --fqbn adafruit:avr:feather32u4 \
+            --warnings all \
+            --export-binaries \
+            Software/src/SccApp
 
       # See: https://github.com/arduino/compile-sketches#readme
       #      https://github.com/arduino/arduino-cli/issues/954
