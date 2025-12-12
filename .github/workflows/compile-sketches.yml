@@ -25,7 +25,7 @@ jobs:
           additional-urls: |
             https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           platforms: |
-            adafruit:avr
+            - name: adafruit:avr
 
           #platforms: |
           #  - name: adafruit:avr
