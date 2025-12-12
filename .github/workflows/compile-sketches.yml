@@ -19,6 +19,7 @@ jobs:
       - name: Configure board manager (add Adafruit index)
         run: |
           arduino-cli config init
+          arduino-cli config set library.enable_unsafe_install true
           arduino-cli config set board_manager.additional_urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
           arduino-cli core update-index
 
@@ -28,6 +29,14 @@ jobs:
           arduino-cli core install adafruit:avr
           # Optional: show installed cores
           arduino-cli core list
+
+
+      - name: Install needed libraries (optional)
+        run: |
+          # Add any libraries your sketch needs
+          arduino-cli lib install --git-url https://github.com/mrstefangrimm/prfServo.git
+          arduino-cli lib install --git-url https://github.com/mrstefangrimm/TemplateStateMachine.git
+          arduino-cli lib install --git-url https://github.com/arduino-libraries/Servo.git
 
       - name: Compile
         run: |
@@ -55,6 +64,7 @@ jobs:
       #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
       #    platforms: |
       #      - name: adafruit:avr
+      #      - name: arduino:avr
 
           #platforms: |
           #  - name: adafruit:avr
