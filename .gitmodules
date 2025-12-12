@@ -1,0 +1,6 @@
+[submodule "Software/TemplateStateMachine"]
+	path = Software/TemplateStateMachine
+	url = https://github.com/mrstefangrimm/TemplateStateMachine
+[submodule "Software/prfServo"]
+	path = Software/prfServo
+	url = https://github.com/mrstefangrimm/prfServo

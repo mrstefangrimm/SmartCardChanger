@@ -1,4 +1,5 @@
 [![MSBuild and MSTest](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml)
+[![Compile Sketches](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/compile-sketches.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/compile-sketches.yml)
 
 # Smart Card Changer
 

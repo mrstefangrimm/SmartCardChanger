@@ -1,0 +1,76 @@
+name: Compile Sketches
+
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
+
+jobs:
+  compile-sketches:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+   
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+
+      - name: Configure board manager (add Adafruit index)
+        run: |
+          arduino-cli config init
+          arduino-cli config set library.enable_unsafe_install true
+          arduino-cli config set board_manager.additional_urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+          arduino-cli core update-index
+
+      - name: Install Adafruit AVR core
+        run: |
+          arduino-cli core install arduino:avr
+          arduino-cli core install adafruit:avr
+          # Optional: show installed cores
+          arduino-cli core list
+
+      - name: Install needed libraries (optional)
+        run: |
+          # Add any libraries your sketch needs
+          arduino-cli lib install --git-url https://github.com/mrstefangrimm/prfServo.git
+          arduino-cli lib install --git-url https://github.com/mrstefangrimm/TemplateStateMachine.git
+          arduino-cli lib install --git-url https://github.com/arduino-libraries/Servo.git
+          arduino-cli lib install --git-url https://github.com/adafruit/Adafruit_BluefruitLE_nRF51.git
+          
+      - name: Compile
+        run: |
+          # Print environment for troubleshooting
+          arduino-cli version
+          arduino-cli board listall | grep -i feather || true
+
+          # Compile the sketch folder
+          arduino-cli compile \
+            --fqbn adafruit:avr:feather32u4 \
+            --warnings all \
+            --export-binaries \
+            Software/src/CalibrationApp
+
+          arduino-cli compile \
+            --fqbn adafruit:avr:feather32u4 \
+            --warnings all \
+            --export-binaries \
+            Software/src/SccApp
+
+      # 2025-12-12 - Could not make it work with arduino/compile-sketches@v1. The platform adafruit:avr is not found
+      #- name: Compile sketches
+      #  uses: arduino/compile-sketches@v1
+      #  with:
+      #    fqbn: adafruit:avr:feather32u4
+      #    additional-urls: |
+      #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+      #    platforms: |
+      #      - name: adafruit:avr
+      #      - name: arduino:avr
+      #    sketch-paths: |
+      #      - Software/src/CalibrationApp
+      #      - Software/src/SccApp
+      #    libraries: |
+      #      - source-url: https://github.com/mrstefangrimm/prfServo.git
+      #      - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
+      #      - source-url: https://github.com/arduino-libraries/Servo.git
