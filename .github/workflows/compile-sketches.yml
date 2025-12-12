@@ -12,20 +12,40 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+   
+      - name: Set up Arduino CLI
+        uses: arduino/setup-arduino-cli@v1
+
+      - name: Configure board manager (add Adafruit index)
+        run: |
+          arduino-cli config init
+          arduino-cli config set board_manager.additional_urls https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+          arduino-cli core update-index
+
+      - name: Install Adafruit AVR core
+        run: |
+          arduino-cli core install adafruit:avr
+          # Optional: show installed cores
+          arduino-cli core list
+
+      - name: Compile
+        run: |
+          - Software/src/CalibrationApp
+     
 
       # See: https://github.com/arduino/compile-sketches#readme
       #      https://github.com/arduino/arduino-cli/issues/954
       #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json 
       #      https://github.com/adafruit/Adafruit_Arduino_Boards/tree/master
       #      https://forum.arduino.cc/t/arduino-cli-cant-find-installed-board-platform/1312333/2
-      - name: Compile sketches
-        uses: arduino/compile-sketches@v1
-        with:
-          fqbn: adafruit:avr:feather32u4
-          additional-urls: |
-            https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
-          platforms: |
-            - name: adafruit:avr
+      #- name: Compile sketches
+      #  uses: arduino/compile-sketches@v1
+      #  with:
+      #    fqbn: adafruit:avr:feather32u4
+      #    additional-urls: |
+      #      https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+      #    platforms: |
+      #      - name: adafruit:avr
 
           #platforms: |
           #  - name: adafruit:avr
@@ -36,10 +56,10 @@ jobs:
           #  source-url: "https://adafruit.github.io/arduino-board-index/package_adafruit_index.json"
         # with:
         #  fqbn: arduino:avr:uno   
-          sketch-paths: |
-            - Software/src/CalibrationApp
+       #   sketch-paths: |
+       #     - Software/src/CalibrationApp
        #     - Software/src/SccApp
-          libraries: |
-            - source-url: https://github.com/mrstefangrimm/prfServo.git
-            - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
-            - source-url: https://github.com/arduino-libraries/Servo.git
+       #   libraries: |
+       #     - source-url: https://github.com/mrstefangrimm/prfServo.git
+       #     - source-url: https://github.com/mrstefangrimm/TemplateStateMachine.git
+       #     - source-url: https://github.com/arduino-libraries/Servo.git
