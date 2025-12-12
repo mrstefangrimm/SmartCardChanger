@@ -24,6 +24,7 @@ jobs:
 
       - name: Install Adafruit AVR core
         run: |
+          arduino-cli core install arduino:avr
           arduino-cli core install adafruit:avr
           # Optional: show installed cores
           arduino-cli core list
