@@ -36,7 +36,8 @@ jobs:
           arduino-cli lib install --git-url https://github.com/mrstefangrimm/prfServo.git
           arduino-cli lib install --git-url https://github.com/mrstefangrimm/TemplateStateMachine.git
           arduino-cli lib install --git-url https://github.com/arduino-libraries/Servo.git
-
+          arduino-cli lib install --git-url https://github.com/adafruit/Adafruit_BluefruitLE_nRF51.git
+          
       - name: Compile
         run: |
           # Print environment for troubleshooting
