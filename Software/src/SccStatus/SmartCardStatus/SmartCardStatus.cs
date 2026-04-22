@@ -1,30 +1,17 @@
 ﻿using PCSC;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace SmartCardStatusApp
+namespace SmartCardStatus;
+
+public static class SmartCardStatus
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+    public static bool IsCardInserted()
+    {
+        try
         {
+            Console.WriteLine("Eis");
             var contextFactory = ContextFactory.Instance;
+            Console.WriteLine("Zwei");
             using (var ctx = contextFactory.Establish(SCardScope.System))
             {
                 Console.WriteLine("Currently connected readers: ");
@@ -36,18 +23,24 @@ namespace SmartCardStatusApp
                         var status = ctx.GetReaderStatus(readerName);
                         Console.WriteLine("\t" + readerName + status.CurrentState);
 
-                        if ((status.EventState & SCRState.Empty) == SCRState.Empty) return;
-                        if ((status.EventState & SCRState.Mute) == SCRState.Mute) return;
+                        if ((status.EventState & SCRState.Empty) == SCRState.Empty) return false;
+                        if ((status.EventState & SCRState.Mute) == SCRState.Mute) return false;
 
                         using (var reader = ctx.ConnectReader(readerName, SCardShareMode.Shared, SCardProtocol.Any))
                         {
                             var cardAtr = reader.GetAttrib(SCardAttribute.AtrString);
-                            Console.WriteLine("ATR: {0}", BitConverter.ToString(cardAtr));
-                            Console.ReadKey();
+                            return true;
                         }
                     }
                 }
             }
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine("ExMsg" + ex.Message);
+            return false;
+        }
+        return false;
     }
+
 }

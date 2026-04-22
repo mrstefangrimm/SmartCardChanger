@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Button Content="Check" HorizontalAlignment="Left" Margin="168,134,0,0" VerticalAlignment="Top" Height="58" Width="144" Click="Button_Click"/>
+        <Label Name="OutputLabel" Content="Output" HorizontalAlignment="Left" Margin="194,326,0,0" VerticalAlignment="Top" Width="519"/>
 
     </Grid>
 </Window>

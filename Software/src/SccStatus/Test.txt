@@ -1,0 +1,6 @@
+
+docker build . -t hall:o
+docker run -u root --privileged -d --name hall -p 8080:8080 hall:o
+
+bash
+curl -X GET http://localhost:8080/status

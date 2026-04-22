@@ -8,8 +8,13 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!--<ItemGroup>
     <PackageReference Include="PCSC" Version="7.0.1" />
+    <PackageReference Include="PCSC.Iso7816" Version="7.0.1" />
+  </ItemGroup>-->
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartCardStatus\SmartCardStatus.csproj" />
   </ItemGroup>
 
 </Project>
