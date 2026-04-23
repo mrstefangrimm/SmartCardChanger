@@ -1,0 +1,8 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="UnitTestShared/UnitTestShared.vcxproj" />
+  <Project Path="WinSccApp.vcxproj" Id="0a864522-0cea-4dab-8ff1-86543f748aa1" />
+</Solution>
