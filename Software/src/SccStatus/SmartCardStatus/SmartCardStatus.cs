@@ -1,4 +1,5 @@
 ﻿using PCSC;
+using System.Net.NetworkInformation;
 
 namespace SmartCardStatus;
 
@@ -18,6 +19,7 @@ public static class SmartCardStatus
                 var readerNames = ctx.GetReaders();
                 foreach (var readerName in readerNames)
                 {
+                    Console.WriteLine("\t" + readerName);
                     if (readerName == "HID Global OMNIKEY 3x21 Smart Card Reader 0")
                     {
                         var status = ctx.GetReaderStatus(readerName);

@@ -37,4 +37,9 @@ RUN dotnet publish ./SmartCardStatusApi2/SmartCardStatusApi2.csproj -c $BUILD_CO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "SmartCardStatusApi2.dll"]
+#ENTRYPOINT ["dotnet", "SmartCardStatusApi2.dll"]
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
