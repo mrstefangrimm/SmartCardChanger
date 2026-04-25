@@ -40,6 +40,8 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         vs-version: 'latest'
+        workload: 'desktop'
+        components: 'Microsoft.VisualStudio.Component.VC.v145'
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
