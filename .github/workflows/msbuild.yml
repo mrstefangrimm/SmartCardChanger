@@ -5,8 +5,6 @@
 
 name: MSBuild and MSTest
 
-runs-on: windows-2022
-
 on:
   - push
   - pull_request
@@ -38,8 +36,17 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Install MSVC v145
+      run: |
+        choco install visualstudio2022enterprise --package-parameters "--add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Component.VC.v145"
+
+    - name: List available toolsets
+      run: |
+          Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
+      shell: pwsh
+
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+      uses: microsoft/setup-msbuild@v1
       with:
         vs-version: 'latest'
         workload: 'desktop'
