@@ -1,0 +1,10 @@
+@WebCalculatorApi_HostAddress = http://localhost:5222
+
+PATCH {{WebCalculatorApi_HostAddress}}/api/serial/ports/COM3
+Accept: application/json
+Content-Type: application/json
+{
+  "command": "r"
+}
+###
+GET {{WebCalculatorApi_HostAddress}}/api/serial/ports
