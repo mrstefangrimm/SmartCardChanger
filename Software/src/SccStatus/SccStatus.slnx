@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="SmartCardStatus/SmartCardStatus.csproj" Id="04e805a7-7970-43c6-b2c9-dba20903c2e3" />
-  <Project Path="SmartCardStatusApi/SmartCardStatusApi.csproj" Id="d652cfa2-0c94-4333-ae6b-6a14c9a4c1b4" />
-  <Project Path="SmartCardStatusApi2/SmartCardStatusApi2.csproj" Id="eadfad2b-3449-485a-8e27-990d2787017d" />
+  <Project Path="SmartCardChangerApi/SmartCardChangerApi.csproj" />
+  <Project Path="SmartCardStatus/SmartCardStatus.csproj" />
+  <Project Path="SmartCardStatusApi/SmartCardStatusApi.csproj" />
   <Project Path="SmartCardStatusApp/SmartCardStatusApp.csproj" />
 </Solution>

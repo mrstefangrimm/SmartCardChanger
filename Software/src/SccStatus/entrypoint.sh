@@ -6,4 +6,4 @@ pcscd --foreground --auto-exit --disable-polkit &
 sleep 1
 
 # Start your .NET app
-dotnet SmartCardStatusApi2.dll
+dotnet SmartCardStatusApi.dll

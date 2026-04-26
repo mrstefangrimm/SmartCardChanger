@@ -1,6 +1,0 @@
-@SmartCardStatusApi2_HostAddress = http://localhost:5192
-
-GET {{SmartCardStatusApi2_HostAddress}}/status/
-Accept: application/json
-
-###

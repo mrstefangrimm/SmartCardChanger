@@ -17,10 +17,10 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY . .
 # COPY ./SmartCardStatusApi/SmartCardStatusApi.csproj ./SmartCardStatusApi/
-RUN dotnet restore ./SmartCardStatusApi2/SmartCardStatusApi2.csproj
+RUN dotnet restore ./SmartCardStatusApi/SmartCardStatusApi.csproj
 #COPY ./SmartCardStatusApi ./SmartCardStatusApi
 #COPY ./SmartCardStatus ./SmartCardStatus
-RUN dotnet build ./SmartCardStatusApi2/SmartCardStatusApi2.csproj -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build ./SmartCardStatusApi/SmartCardStatusApi.csproj -c $BUILD_CONFIGURATION -o /app/build
 
 #RUN apt-get update && apt-get install -y --no-install-recommends \
 #    libpcsclite1 pcscd pcsc-tools && rm -rf /var/lib/apt/lists/*
@@ -29,7 +29,7 @@ RUN dotnet build ./SmartCardStatusApi2/SmartCardStatusApi2.csproj -c $BUILD_CONF
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish ./SmartCardStatusApi2/SmartCardStatusApi2.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish ./SmartCardStatusApi/SmartCardStatus.csproj -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 #RUN apt-get update && apt-get install -y libpcsclite1 pcscd pcsc-tools
 
@@ -37,7 +37,7 @@ RUN dotnet publish ./SmartCardStatusApi2/SmartCardStatusApi2.csproj -c $BUILD_CO
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-#ENTRYPOINT ["dotnet", "SmartCardStatusApi2.dll"]
+#ENTRYPOINT ["dotnet", "SmartCardStatusApi.dll"]
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
