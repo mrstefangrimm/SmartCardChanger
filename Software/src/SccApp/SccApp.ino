@@ -38,7 +38,9 @@ struct FakeLogger {
   void println(T ch) {}
   template<typename T>
   void println(T ch, uint8_t mode) {}
-  operator bool() { return true; }
+  operator bool() {
+    return true;
+  }
 };
 typedef Serial_ Logger_t;  // FakeLogger, HardwareSerial, Serial_
 Logger_t logger;

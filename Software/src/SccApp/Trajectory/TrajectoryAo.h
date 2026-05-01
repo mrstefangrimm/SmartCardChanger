@@ -8,7 +8,7 @@
 namespace nstj {
 using namespace tsmlib;
 
-#define DBG(x) 
+#define DBG(x)
 
 PRSDEFI(RSAO, "Trajectory");
 PRSDEFI(RSCONNECTING, "Connecting");
@@ -24,6 +24,7 @@ template<class TLog> struct Retracting;
 template<class TLog> struct Connected;
 template<class TLog> struct IsConnected;
 template<class TLog> struct IsRetracted;
+template<class TLog> struct PrintAction;
 
 namespace event {
 struct Connect {
@@ -42,6 +43,7 @@ struct Overload {
 struct Timeout {
   Messages& messages;
 };
+struct Print {};
 }
 
 const uint8_t RTN = 0;
@@ -53,7 +55,7 @@ static const float connectedPos = 72;
 template<class TLog>
 class TrajectoryAo {
 public:
-  TrajectoryAo(Messages& messages)
+  explicit TrajectoryAo(Messages& messages)
     : _messages(messages) {
     _statemachine.begin();
   }
@@ -77,6 +79,8 @@ public:
         _statemachine.dispatch(event::Connect{ _messages, cardEPos });
       } else if (msg.retract) {
         _statemachine.dispatch(event::Retract{ _messages });
+      } else if (msg.state) {
+        _statemachine.dispatch(event::Print{});
       } else if (msg.panic) {
         _statemachine.dispatch(event::Panic{ _messages });
       } else if (msg.overload) {
@@ -104,29 +108,37 @@ private:
 
   // From Retracted
   using ToConnectingFromRetracted = Transition<event::Connect, Connecting<TLog>, Retracted<TLog>, NoGuard, NoAction>;
+  using ToRetractedFromRetracted = SelfTransition<event::Print, Retracted<TLog>, NoGuard, NoAction, false>;
 
   // From Connecting
   using ToConnectedFromConnecting = ChoiceTransition<event::Timeout, Connected<TLog>, Connecting<TLog>, Connecting<TLog>, IsConnected<TLog>, NoAction>;
   using ToRetractedFromConnecting = Transition<event::Panic, Retracted<TLog>, Connecting<TLog>, NoGuard, NoAction>;
+  using ToConnectingFromConnecting = SelfTransition<event::Print, Connecting<TLog>, NoGuard, NoAction, false>;
 
   // From Connected
   using ToRetractingFromConnected = Transition<event::Retract, Retracting<TLog>, Connected<TLog>, NoGuard, NoAction>;
   using ToRetractedFromConnected = Transition<event::Panic, Retracted<TLog>, Connected<TLog>, NoGuard, NoAction>;
+  using ToConnectedFromConnected = SelfTransition<event::Print, Connected<TLog>, NoGuard, NoAction, false>;
 
   // From Retracting
   using ToRetractedFromRetracting = ChoiceTransition<event::Timeout, Retracted<TLog>, Retracting<TLog>, Retracting<TLog>, IsRetracted<TLog>, NoAction>;
   using ToRetractedFromRetractingPanic = Transition<event::Panic, Retracted<TLog>, Connecting<TLog>, NoGuard, NoAction>;
+  using ToRetractingFromRetracting = SelfTransition<event::Print, Retracting<TLog>, NoGuard, NoAction, false>;
 
   using Transitions =
     Typelist< ToRetractedFromStartup,
               Typelist< ToConnectingFromRetracted,
-                        Typelist< ToConnectedFromConnecting,
-                                  Typelist< ToRetractedFromConnecting,
-                                            Typelist< ToRetractingFromConnected,
-                                                      Typelist< ToRetractedFromConnected,
-                                                                Typelist< ToRetractedFromRetracting,
-                                                                          Typelist< ToRetractedFromRetractingPanic,
-                                                                                    NullType>>>>>>>>;
+                        Typelist< ToRetractedFromRetracted,
+                                  Typelist< ToConnectedFromConnecting,
+                                            Typelist< ToRetractedFromConnecting,
+                                                      Typelist< ToConnectingFromConnecting,
+                                                                Typelist< ToRetractingFromConnected,
+                                                                          Typelist< ToRetractedFromConnected,
+                                                                                    Typelist< ToConnectedFromConnected,
+                                                                                              Typelist< ToRetractedFromRetracting,
+                                                                                                        Typelist< ToRetractedFromRetractingPanic,
+                                                                                                                  Typelist< ToRetractingFromRetracting,
+                                                                                                                            NullType>>>>>>>>>>>>;
 
   using InitTransition = InitialTransition<Startup<TLog>, NoAction>;
   using Sm = Statemachine<Transitions, InitTransition>;
@@ -142,7 +154,7 @@ struct Startup : public BasicState<Startup<TLog>, StatePolicy, true>, public Sin
 };
 
 template<class TLog>
-struct Retracted : public BasicState<Retracted<TLog>, StatePolicy, true>, public SingletonCreator<Retracted<TLog>> {
+struct Retracted : public BasicState<Retracted<TLog>, StatePolicy, true, false, true>, public SingletonCreator<Retracted<TLog>> {
   template<class Event>
   void entry(const Event&) {
     rtassert(false);
@@ -158,6 +170,14 @@ struct Retracted : public BasicState<Retracted<TLog>, StatePolicy, true>, public
     DBG(rs_println(RSAO, RSRETRACTED, RSENTRY));
     ev.messages.toSystemMonitorQueue.push(SystemStatusData(SystemStatusInfo::AtPosition).raw);
     ev.messages.toOverloadMonitorQueue.push(SystemStatusData(SystemStatusInfo::AtPosition).raw);
+  }
+  template<class Event>
+  void doit(const event::Print&) {
+    rs_println(RSAO, RSRETRACTED);
+  }
+  template<class Event>
+  void doit(const Event&) {
+    // intentionally left blank.
   }
 };
 
@@ -178,13 +198,6 @@ struct Connecting : public BasicState<Connecting<TLog>, StatePolicy, true, true,
     ev.messages.toOverloadMonitorQueue.push(SystemStatusData(SystemStatusInfo::Moving).raw);
   }
 
-  template<class Event>
-  void doit(const event::Panic& ev) {
-  }
-  template<class Event>
-  void doit(const event::Connect& ev) {
-    // intentionally left blank.
-  }
   template<class Event>
   void doit(const event::Timeout& ev) {
 
@@ -211,7 +224,17 @@ struct Connecting : public BasicState<Connecting<TLog>, StatePolicy, true, true,
   }
 
   template<class Event>
-  void exit(const Event& ev) {
+  void doit(const event::Print&) {
+    rs_println(RSAO, RSCONNECTING);
+  }
+
+  template<class Event>
+  void doit(const Event&) {
+    // intentionally left blank.
+  }
+
+  template<class Event>
+  void exit(const Event&) {
     DBG(rs_println(RSAO, RSRETRACTED, RSEXIT));
   }
   template<class Event>
@@ -239,7 +262,7 @@ private:
 };
 
 template<class TLog>
-struct Connected : public BasicState<Connected<TLog>, StatePolicy, true, true, false>, public SingletonCreator<Connected<TLog>> {
+struct Connected : public BasicState<Connected<TLog>, StatePolicy, true, true, true>, public SingletonCreator<Connected<TLog>> {
   template<class Event>
   void entry(const Event&) {
     rtassert(false);
@@ -251,9 +274,16 @@ struct Connected : public BasicState<Connected<TLog>, StatePolicy, true, true, f
     ev.messages.toSystemMonitorQueue.push(SystemStatusData(SystemStatusInfo::AtPosition).raw);
     ev.messages.toOverloadMonitorQueue.push(SystemStatusData(SystemStatusInfo::AtPosition).raw);
   }
-
   template<class Event>
-  void exit(const Event& ev) {
+  void doit(const event::Print&) {
+    rs_println(RSAO, RSCONNECTED);
+  }
+  template<class Event>
+  void doit(const Event&) {
+    // intentionally left blank.
+  }
+  template<class Event>
+  void exit(const Event&) {
     DBG(TLog::create()->println(F("Trajectory::Connected::exit")));
   }
   template<class Event>
@@ -287,13 +317,6 @@ struct Retracting : public BasicState<Retracting<TLog>, StatePolicy, true, true,
   }
 
   template<class Event>
-  void doit(const event::Panic& ev) {
-  }
-  template<class Event>
-  void doit(const event::Retract& ev) {
-    // intentionally left blank.
-  }
-  template<class Event>
   void doit(const event::Timeout& ev) {
 
     if (_state == StateRetracting::Init) {
@@ -316,7 +339,17 @@ struct Retracting : public BasicState<Retracting<TLog>, StatePolicy, true, true,
   }
 
   template<class Event>
-  void exit(const Event& ev) {
+  void doit(const event::Print&) {
+    rs_println(RSAO, RSRETRACTING);
+  }
+
+  template<class Event>
+  void doit(const Event&) {
+    // intentionally left blank.
+  }
+
+  template<class Event>
+  void exit(const Event&) {
     DBG(rs_println(RSAO, RSRETRACTING, RSEXIT));
   }
   template<class Event>

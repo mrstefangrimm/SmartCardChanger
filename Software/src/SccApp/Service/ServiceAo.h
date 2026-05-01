@@ -6,7 +6,7 @@
 
 namespace nssvc {
 
-#define DBG(x) 
+#define DBG(x)
 
 PRSDEFI(RSEEPROMBEFORE, "EEPROM Before: ");
 PRSDEFI(RSEEPROMAFTER, "EEPROM After:  ");
@@ -40,133 +40,133 @@ public:
 
       switch ((ServiceCmdInfo)msg.info) {
 
-      default: return;
+        default: return;
 
-      case ServiceCmdInfo::Enter:
-        //_servoRtn.attach(RTN_PIN);
-        //_servoLng.attach(LNG_PIN);
-        break;
+        case ServiceCmdInfo::Enter:
+          //_servoRtn.attach(RTN_PIN);
+          //_servoLng.attach(LNG_PIN);
+          break;
 
-      case ServiceCmdInfo::Quit:
-        //_servoRtn.detach();
-        //_servoLng.detach();
+        case ServiceCmdInfo::Quit:
+          //_servoRtn.detach();
+          //_servoLng.detach();
 
-        _messages.toPulsWidthTransmitterQueue.push(TargetPosData(true).raw);
-        break;
+          _messages.toPulsWidthTransmitterQueue.push(TargetPosData(true).raw);
+          break;
 
-      case ServiceCmdInfo::Print:
-        _eeprom.get(5, calibrationData);
-        _log->println(F("Rtn coefficents"));
-        _log->println(calibrationData.rtnCoefficients[0], 3);
-        _log->println(calibrationData.rtnCoefficients[1], 3);
-        _log->println(calibrationData.rtnCoefficients[2], 3);
-        _log->println(calibrationData.rtnCoefficients[3], 3);
-        _log->println(F("Rtn backlash coefficents"));
-        _log->println(calibrationData.rtnBacklashCoefficients[0], 3);
-        _log->println(calibrationData.rtnBacklashCoefficients[1], 3);
-        _log->println(calibrationData.rtnBacklashCoefficients[2], 3);
-        _log->println(calibrationData.rtnBacklashCoefficients[3], 3);
-        _log->println(F("Lng coefficents"));
-        _log->println(calibrationData.lngCoefficients[0], 3);
-        _log->println(calibrationData.lngCoefficients[1], 3);
-        _log->println(calibrationData.lngCoefficients[2], 3);
-        _log->println(calibrationData.lngCoefficients[3], 3);
-        _log->println(F("Lng backlash coefficents"));
-        _log->println(calibrationData.lngBacklashCoefficients[0], 3);
-        _log->println(calibrationData.lngBacklashCoefficients[1], 3);
-        _log->println(calibrationData.lngBacklashCoefficients[2], 3);
-        _log->println(calibrationData.lngBacklashCoefficients[3], 3);
-        _log->println(F("Rtn lower/upper thresholds"));
-        _log->println(calibrationData.rtnOverflowLowerThreshold);
-        _log->println(calibrationData.rtnOverflowUpperThreshold);
-        _log->println(F("Lng lower/upper thresholds"));
-        _log->println(calibrationData.lngOverflowLowerThreshold);
-        _log->println(calibrationData.lngOverflowUpperThreshold);
-        break;
-
-      case ServiceCmdInfo::AdjustRtnServoOffset:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
-          _log->println(calibrationData.rtnCoefficients[0]);
-          });
-        calibrationData.rtnCoefficients[0] += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.rtnCoefficients[0]);
-          });
-        _eeprom.put(5, calibrationData);
-
-      case ServiceCmdInfo::AdjustLngServoOffset:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
-          _log->println(calibrationData.lngCoefficients[0]);
-          });
-        calibrationData.lngCoefficients[0] += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.lngCoefficients[0]);
-          });
-        _eeprom.put(5, calibrationData);
-
-      case ServiceCmdInfo::AdjustRtnOverloadLower:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
+        case ServiceCmdInfo::Print:
+          _eeprom.get(5, calibrationData);
+          _log->println(F("Rtn coefficents"));
+          _log->println(calibrationData.rtnCoefficients[0], 3);
+          _log->println(calibrationData.rtnCoefficients[1], 3);
+          _log->println(calibrationData.rtnCoefficients[2], 3);
+          _log->println(calibrationData.rtnCoefficients[3], 3);
+          _log->println(F("Rtn backlash coefficents"));
+          _log->println(calibrationData.rtnBacklashCoefficients[0], 3);
+          _log->println(calibrationData.rtnBacklashCoefficients[1], 3);
+          _log->println(calibrationData.rtnBacklashCoefficients[2], 3);
+          _log->println(calibrationData.rtnBacklashCoefficients[3], 3);
+          _log->println(F("Lng coefficents"));
+          _log->println(calibrationData.lngCoefficients[0], 3);
+          _log->println(calibrationData.lngCoefficients[1], 3);
+          _log->println(calibrationData.lngCoefficients[2], 3);
+          _log->println(calibrationData.lngCoefficients[3], 3);
+          _log->println(F("Lng backlash coefficents"));
+          _log->println(calibrationData.lngBacklashCoefficients[0], 3);
+          _log->println(calibrationData.lngBacklashCoefficients[1], 3);
+          _log->println(calibrationData.lngBacklashCoefficients[2], 3);
+          _log->println(calibrationData.lngBacklashCoefficients[3], 3);
+          _log->println(F("Rtn lower/upper thresholds"));
           _log->println(calibrationData.rtnOverflowLowerThreshold);
-          });
-        calibrationData.rtnOverflowLowerThreshold += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.rtnOverflowLowerThreshold);
-          });
-        _eeprom.put(5, calibrationData);
-
-      case ServiceCmdInfo::AdjustRtnOverloadUpper:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
           _log->println(calibrationData.rtnOverflowUpperThreshold);
-          });
-        calibrationData.rtnOverflowUpperThreshold += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.rtnOverflowUpperThreshold);
-          });
-        _eeprom.put(5, calibrationData);
-
-      case ServiceCmdInfo::AdjustLngOverloadLower:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
+          _log->println(F("Lng lower/upper thresholds"));
           _log->println(calibrationData.lngOverflowLowerThreshold);
-          });
-        calibrationData.lngOverflowLowerThreshold += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.lngOverflowLowerThreshold);
-          });
-        _eeprom.put(5, calibrationData);
-
-      case ServiceCmdInfo::AdjustLngOverloadUpper:
-        _eeprom.get(5, calibrationData);
-
-        DBG({
-          rs_print(RSEEPROMBEFORE);
           _log->println(calibrationData.lngOverflowUpperThreshold);
+          break;
+
+        case ServiceCmdInfo::AdjustRtnServoOffset:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.rtnCoefficients[0]);
           });
-        calibrationData.lngOverflowUpperThreshold += (int16_t)msg.data;
-        DBG({
-          rs_print(RSEEPROMAFTER);
-          _log->println(calibrationData.lngOverflowUpperThreshold);
+          calibrationData.rtnCoefficients[0] += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.rtnCoefficients[0]);
           });
-        _eeprom.put(5, calibrationData);
+          _eeprom.put(5, calibrationData);
+
+        case ServiceCmdInfo::AdjustLngServoOffset:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.lngCoefficients[0]);
+          });
+          calibrationData.lngCoefficients[0] += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.lngCoefficients[0]);
+          });
+          _eeprom.put(5, calibrationData);
+
+        case ServiceCmdInfo::AdjustRtnOverloadLower:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.rtnOverflowLowerThreshold);
+          });
+          calibrationData.rtnOverflowLowerThreshold += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.rtnOverflowLowerThreshold);
+          });
+          _eeprom.put(5, calibrationData);
+
+        case ServiceCmdInfo::AdjustRtnOverloadUpper:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.rtnOverflowUpperThreshold);
+          });
+          calibrationData.rtnOverflowUpperThreshold += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.rtnOverflowUpperThreshold);
+          });
+          _eeprom.put(5, calibrationData);
+
+        case ServiceCmdInfo::AdjustLngOverloadLower:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.lngOverflowLowerThreshold);
+          });
+          calibrationData.lngOverflowLowerThreshold += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.lngOverflowLowerThreshold);
+          });
+          _eeprom.put(5, calibrationData);
+
+        case ServiceCmdInfo::AdjustLngOverloadUpper:
+          _eeprom.get(5, calibrationData);
+
+          DBG({
+            rs_print(RSEEPROMBEFORE);
+            _log->println(calibrationData.lngOverflowUpperThreshold);
+          });
+          calibrationData.lngOverflowUpperThreshold += (int16_t)msg.data;
+          DBG({
+            rs_print(RSEEPROMAFTER);
+            _log->println(calibrationData.lngOverflowUpperThreshold);
+          });
+          _eeprom.put(5, calibrationData);
       }
     }
 
