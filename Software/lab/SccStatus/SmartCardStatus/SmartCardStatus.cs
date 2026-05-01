@@ -1,5 +1,4 @@
 ﻿using PCSC;
-using System.Net.NetworkInformation;
 
 namespace SmartCardStatus;
 
@@ -10,9 +9,7 @@ public static class SmartCardStatus
     {
         try
         {
-            Console.WriteLine("Eis");
             var contextFactory = ContextFactory.Instance;
-            Console.WriteLine("Zwei");
             using (var ctx = contextFactory.Establish(SCardScope.System))
             {
                 Console.WriteLine("Currently connected readers: ");

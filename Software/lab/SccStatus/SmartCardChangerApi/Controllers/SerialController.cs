@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.IO.Ports;
-using SmartCardChangerApi.Services;
 
 namespace SmartCardChangerApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class SerialController(ISerialService serialService) : ControllerBase
+public class SerialController : ControllerBase
 {
 
   // GET: api/serial/ports
