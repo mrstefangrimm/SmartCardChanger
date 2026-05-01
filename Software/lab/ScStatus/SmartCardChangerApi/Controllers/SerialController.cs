@@ -67,9 +67,9 @@ public class SerialController : ControllerBase
             success = false,
           });
         }
-        //byte[] buffer = new byte[30];
-        //int bytesRead = serialPort.Read(buffer, 0, 30);
-        //string response = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
+        //byte[] buffer = new byte[100];
+        //int bytesRead = serialPort.Read(buffer, 0, 100);
+        //string serialoutput = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
 
         // Receive the response
         string serialoutput = serialPort.ReadExisting();
@@ -78,7 +78,7 @@ public class SerialController : ControllerBase
         return Ok(new
         {
           success = true,
-          response = serialoutput
+          output = serialoutput
         });
       }
       finally
