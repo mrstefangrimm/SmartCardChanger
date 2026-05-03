@@ -82,8 +82,8 @@ private:
 
   using Transitions =
     Typelist<ToMonitoringFromStartup,
-    Typelist<ToOverloadFromMonitoring,
-    NullType>>;
+             Typelist<ToOverloadFromMonitoring,
+                      NullType>>;
 
   using InitTransition = InitialTransition<Startup<TLog>, NoAction>;
   using Sm = Statemachine<Transitions, InitTransition>;
@@ -162,12 +162,12 @@ struct IsOverload {
     auto rtnSensor = analogRead(A1);
 
     DBG(
-    if (_counter.increment()) {
-      log->print(F("Lng:"));
-      log->print(lngSensor);
-      log->print(F(" Rtn:"));
-      log->println(rtnSensor);
-    });
+      if (_counter.increment()) {
+        log->print(F("Lng:"));
+        log->print(lngSensor);
+        log->print(F(" Rtn:"));
+        log->println(rtnSensor);
+      });
 
     monitoringState.currentLng = lngSensor;
     monitoringState.currentRtn = rtnSensor;

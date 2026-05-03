@@ -9,11 +9,7 @@ namespace nsusb {
 
 #define DBG(x) 
 
-//PRSDEFM(RSADJRTN, "Adjust Rtn");
-//PRSDEFM(RSADJLNG, "Adjust Lng");
-//PRSDEFM(RSSVOOFFSET, "Servo Offset");
-//PRSDEFM(RSOVERLLOWTH, "Overload Lower Threshold");
-//PRSDEFM(RSOVERLUPPTH, "Overload Upper Threshold");
+PRSDEFM(RSPRINTSTATE, " - print trajectory state");
 
 template<class TLog, class TSerial>
 class UsbTerminalAo {
@@ -69,6 +65,9 @@ private:
       } else if (cmd == 'r') {
         rs_println(RSSCC, RSSCCMOVETORETRACTED);
         _messages.toTrajectoryQueue.push(TrajectoryData(TrajectoryInfo::Retract).raw);
+      } else if (cmd == 't') {
+        rs_println(RSSCC, RSPRINTSTATE);
+        _messages.toTrajectoryQueue.push(TrajectoryData(TrajectoryInfo::TrajectoryState).raw);
       } else if (cmd == 'p') {
         rs_println(RSSCC, RSPANIC);
         _messages.toTrajectoryQueue.push(TrajectoryData(TrajectoryInfo::Panic).raw);
@@ -97,7 +96,8 @@ private:
     _serial.println(F("c: Connect Card C"));
     _serial.println(F("d: Connect Card D"));
     _serial.println(F("e: Connect Card E"));
-    _serial.println(F("d: Retract"));
+    _serial.println(F("r: Retract"));
+    _serial.println(F("t: Trajectory State"));
     _serial.println(F("p: Panic - Immediately retract"));
     _serial.println(F("P: Big Panic - Immediately power off servos"));
     _serial.println(F("?: Help"));

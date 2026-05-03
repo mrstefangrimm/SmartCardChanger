@@ -80,6 +80,7 @@ enum class TrajectoryInfo : uint8_t {
   ConnectD,
   ConnectE,
   Retract,
+  TrajectoryState,
   Panic,
   Overload
 };
@@ -94,6 +95,7 @@ struct TrajectoryData {
     connectD(info == TrajectoryInfo::ConnectD),
     connectE(info == TrajectoryInfo::ConnectE),
     retract(info == TrajectoryInfo::Retract),
+    state(info == TrajectoryInfo::TrajectoryState),
     panic(info == TrajectoryInfo::Panic),
     overload(info == TrajectoryInfo::Overload) {
   }
@@ -106,6 +108,7 @@ struct TrajectoryData {
       MessageData_t connectD : 1;
       MessageData_t connectE : 1;
       MessageData_t retract : 1;
+      MessageData_t state : 1;
       MessageData_t panic : 1;
       MessageData_t overload : 1;
     };

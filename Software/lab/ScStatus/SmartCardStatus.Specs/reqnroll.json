@@ -1,0 +1,15 @@
+{
+  "reqnroll": {
+    "coloredOutput": false,
+    "traceSuccessfulSteps": true,
+    "featureLanguage": "en"
+  },
+  "formatters": {
+    "html": { "outputFilePath": "report/reqnroll_report.html" }
+  },
+  "bindingAssemblies": [
+    {
+      "assembly": "Reqnroll.Amp-windows"
+    }
+  ]
+}

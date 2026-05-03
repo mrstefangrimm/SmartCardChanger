@@ -1,0 +1,83 @@
+
+docker build . -t hall:o
+docker run -u root --privileged -d --name hall -p 8080:8080 -v /var/run/pcscd/pcscd.comm:/var/run/pcscd/pcscd.comm --device /dev/bus/usb hall:o
+
+--device=/dev/ttyUSB0
+
+bash
+curl -X GET http://localhost:8080/status
+
+
+FROM mcr.microsoft.com/dotnet/runtime:8.0-windowsservercore-ltsc2022
+
+
+Step 1 — Install OpenSC on Windows
+
+Download OpenSC for Windows:
+
+https://github.com/OpenSC/OpenSC/releases (github.com in Bing)
+
+Install it — it includes:
+
+    pcsc-proxy.exe (server)
+
+    pcsc-spy tools
+
+    Smart card middleware
+
+🟦 Step 2 — Start the PC/SC proxy server on Windows
+
+Run:
+powershell
+
+pcsc-proxy.exe --server 0.0.0.0:35963
+
+This exposes Windows PC/SC over TCP port 35963.
+
+You can also run it as a background service.
+🟦 Step 3 — Install pcsc-lite + proxy driver in your Linux container
+
+In your Dockerfile:
+dockerfile
+
+RUN apt-get update && apt-get install -y pcscd libpcsclite1 opensc
+
+OpenSC on Linux includes the proxy driver.
+🟦 Step 4 — Configure pcscd to use the proxy driver
+
+Create:
+
+/etc/reader.conf.d/proxy.conf
+Code
+
+FRIENDLYNAME "PCSC Proxy"
+DEVICENAME   "pcsc-proxy"
+LIBPATH      "/usr/lib/x86_64-linux-gnu/opensc-pkcs11.so"
+CHANNELID    "tcp:host.docker.internal:35963"
+
+Important:
+
+    host.docker.internal works in Docker Desktop
+
+    Port must match the Windows proxy server
+
+🟦 Step 5 — Start pcscd inside the container
+
+Use your entrypoint script:
+bash
+
+pcscd --foreground --auto-exit --disable-polkit &
+sleep 1
+dotnet YourApp.dll
+
+🟦 Step 6 — Test inside the container
+
+Run:
+Code
+
+pcsc_scan
+
+You should see your Windows smart card reader appear inside the Linux container.
+🎉 Result
+
+Your Linux container now uses the Windows smart card reader, without USB passthrough, without /dev/bus/usb, and without hardware access issues.

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="SmartCardChangerApi/SmartCardChangerApi.csproj" />
+  <Project Path="SmartCardStatus/SmartCardStatus.csproj" />
+  <Project Path="SmartCardStatusApi/SmartCardStatusApi.csproj" />
+  <Project Path="SmartCardStatusApp/SmartCardStatusApp.csproj" />
+  <Project Path="SmartCardStatus.Specs/SmartCardStatus.Specs.csproj" />
+</Solution>

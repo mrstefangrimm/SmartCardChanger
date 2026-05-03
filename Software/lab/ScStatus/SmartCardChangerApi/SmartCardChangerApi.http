@@ -1,0 +1,24 @@
+@WebApi_HostAddress = http://localhost:5222
+
+PATCH {{WebApi_HostAddress}}/api/serial/ports/COM3
+Accept: application/json
+Content-Type: application/json
+{
+  "command": "c"
+}
+###
+PATCH {{WebApi_HostAddress}}/api/serial/ports/COM3
+Accept: application/json
+Content-Type: application/json
+{
+  "command": "p"
+}
+###
+PATCH {{WebApi_HostAddress}}/api/serial/ports/COM3
+Accept: application/json
+Content-Type: application/json
+{
+  "command": "t"
+}
+###
+GET {{WebApi_HostAddress}}/api/serial/ports

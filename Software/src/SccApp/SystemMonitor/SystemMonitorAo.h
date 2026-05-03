@@ -9,7 +9,7 @@
 namespace nssm {
 using namespace tsmlib;
 
-#define DBG(x) 
+#define DBG(x)
 
 PRSDEFI(RSAO, "SystemMonitor");
 PRSDEFI(RSGREEN, "Green");

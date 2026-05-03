@@ -1,0 +1,33 @@
+{
+  "flaui": {
+    "settings": {
+      "uia": "UIA2",
+      "capturing": {
+        "type": "Screenshot",
+        "outputpath": "report"
+      }
+    },
+    "profiles": {
+      "Smart card Status App": {
+        "app": "..\\..\\..\\..\\SmartCardStatusApp\\bin\\Debug\\net10.0-windows\\SmartCardStatusApp.exe",
+        "launch": "Exe",
+        "position": {
+          "x": 10,
+          "y": 180
+        },
+        "size": {
+          "width": 1000,
+          "height":  500
+        }
+
+      }
+    }
+  },
+  "webapi": {
+    "profiles": {
+      "Smart card changer Api": {
+        "url": "http://localhost:5222/api/serial/ports/"
+      }
+    }
+  }
+}

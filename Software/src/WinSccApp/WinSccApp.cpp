@@ -28,7 +28,6 @@ using namespace std;
 #include "Service/ServiceAo.h"
 #include "Shared/Messages.h"
 #include "Shared/Singleton.h"
-#include "Shared/prsserial.h"
 #include "Shared/ConfigurationData.h"
 
 

@@ -10,3 +10,5 @@
 *.vcxproj.user
 *.skb
 /MechanicalDesign/SketchUp/export
+bin
+obj
