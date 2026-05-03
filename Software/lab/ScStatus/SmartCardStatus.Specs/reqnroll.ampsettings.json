@@ -10,7 +10,16 @@
     "profiles": {
       "Smart card Status App": {
         "app": "..\\..\\..\\..\\SmartCardStatusApp\\bin\\Debug\\net10.0-windows\\SmartCardStatusApp.exe",
-        "launch": "Exe"
+        "launch": "Exe",
+        "position": {
+          "x": 10,
+          "y": 180
+        },
+        "size": {
+          "width": 1000,
+          "height":  500
+        }
+
       }
     }
   },
