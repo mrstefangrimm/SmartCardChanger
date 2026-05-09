@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="res/iris/bezdekIris.data" />
+    <File Path="res/iris/Index" />
+    <File Path="res/iris/iris.data" />
+    <File Path="res/iris/iris.names" />
+  </Folder>
+  <Project Path="ForwardBackpropagation/ForwardBackpropagation.csproj" />
+</Solution>
