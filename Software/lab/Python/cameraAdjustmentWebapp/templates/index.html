@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hough Line Intersections</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .video-container, .data-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        img {
+            width: 100%;
+            border-radius: 4px;
+        }
+        .intersections-list {
+            list-style: none;
+            padding: 0;
+        }
+        .intersection-item {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hough Line Intersections</h1>
+    
+    <div class="container">
+        <div class="video-container">
+            <h2>Live Video</h2>
+            <img src="/video_feed" alt="Video Stream">
+        </div>
+        
+        <div class="data-container">
+            <h2>Intersection Points</h2>
+            <ul class="intersections-list" id="intersectionsList">
+                <li>Waiting for data...</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Update intersection data every 500ms
+        setInterval(async () => {
+            const response = await fetch('/api/intersections');
+            const intersections = await response.json();
+            
+            const listEl = document.getElementById('intersectionsList');
+            
+            if (intersections.length === 0) {
+                listEl.innerHTML = '<li>No intersections detected</li>';
+                return;
+            }
+            
+            listEl.innerHTML = intersections.map((pt, i) => 
+                `<li class="intersection-item">
+                    Point ${i + 1}: x=${pt.x.toFixed(2)}, y=${pt.y.toFixed(2)}
+                </li>`
+            ).join('');
+        }, 500);
+    </script>
+</body>
+</html>
