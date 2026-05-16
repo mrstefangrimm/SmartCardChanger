@@ -1,4 +1,4 @@
-public class TwoLayerNetworkFixed
+public class ClassificationTwoLayerNetworkFixed
 {
     private double[] weights1;
     private double[] biases1;
@@ -8,7 +8,7 @@ public class TwoLayerNetworkFixed
     private double learningRate;
     private Random random;
 
-    public TwoLayerNetworkFixed(double learningRate = 0.5)
+    public ClassificationTwoLayerNetworkFixed(double learningRate = 0.5)
     {
         this.learningRate = learningRate;
         this.random = new Random(42);
@@ -150,7 +150,7 @@ public class TwoLayerNetworkFixed
 
     public static void AMain()
     {
-        var nn = new TwoLayerNetworkFixed(learningRate: 0.5);
+        var nn = new ClassificationTwoLayerNetworkFixed(learningRate: 0.5);
 
         double[][] inputs = new double[][]
         {

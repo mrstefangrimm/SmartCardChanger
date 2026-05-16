@@ -1,12 +1,12 @@
 ﻿
-public class NeuralNetwork
+public class ClassificationNeuralNetwork
 {
     private double[][] weights;
     private double[] biases;
     private double learningRate;
     private Random random;
 
-    public NeuralNetwork(int[] layerSizes, double learningRate = 0.1)
+    public ClassificationNeuralNetwork(int[] layerSizes, double learningRate = 0.1)
     {
         this.learningRate = learningRate;
         this.random = new Random();
@@ -148,7 +148,7 @@ public class NeuralNetwork
     {
         // Simple XOR example
         int[] layerSizes = { 2, 4, 1 }; // Input: 2, Hidden: 4, Output: 1
-        NeuralNetwork nn = new NeuralNetwork(layerSizes, 0.5);
+        ClassificationNeuralNetwork nn = new ClassificationNeuralNetwork(layerSizes, 0.5);
 
         double[][] trainingInputs = new double[][]
         {

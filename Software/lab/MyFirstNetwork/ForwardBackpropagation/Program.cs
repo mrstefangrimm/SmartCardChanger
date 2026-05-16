@@ -1,18 +1,20 @@
 
 
 // First Draft with Sigmoid function
-//NeuralNetwork.AMain();
+//ClassificationNeuralNetwork.AMain();
 
 // neural network with ReLU/Softmax
-//ModernNeuralNetwork.AMain();
+//ClassificationModernNeuralNetwork.AMain();
 
 // Simple network with only 2 nodes
-//SimpleNetwork.AMain();
+//ClassificationSimpleNetwork.AMain();
 
 // two-layer network with bug
-//TwoLayerNetwork.AMain();
-//TwoLayerNetworkFixed.AMain();
-//TwoLayerNetworkGeneric.AMain();
+//ClassificationTwoLayerNetwork.AMain();
+//ClassificationTwoLayerNetworkFixed.AMain();
+//ClassificationTwoLayerNetworkGeneric.AMain();
 
-TwoLayerNetworkIris.AMain();
-//TwoLayerNetworkXor.AMain();
+//ClassificationTwoLayerNetworkIris.AMain();
+//ClassificationTwoLayerNetworkXor.AMain();
+
+PredictionSimpleNetworkScc.AMain();

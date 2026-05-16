@@ -1,4 +1,4 @@
-public class TwoLayerNetworkXor
+public class ClassificationTwoLayerNetworkXor
 {
     private readonly double _learningRate;
 
@@ -12,7 +12,7 @@ public class TwoLayerNetworkXor
     private readonly double[] _biasesH;
     private readonly double[] _biasesO;
 
-    public TwoLayerNetworkXor(double learningRate = 0.01)
+    public ClassificationTwoLayerNetworkXor(double learningRate = 0.01)
     {
         _learningRate = learningRate;
 
@@ -234,7 +234,7 @@ public class TwoLayerNetworkXor
         var testTargets = trainTargets;
 
         // Train network
-        var nn = new TwoLayerNetworkXor(0.01);
+        var nn = new ClassificationTwoLayerNetworkXor(0.01);
         int epochs = 10000;
 
         Console.WriteLine("Training...");

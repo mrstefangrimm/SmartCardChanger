@@ -1,5 +1,5 @@
 
-public class TwoLayerNetwork
+public class ClassificationTwoLayerNetwork
 {
     // Layer 1: 2 inputs → 4 hidden nodes
     private double[] weights1;
@@ -12,7 +12,7 @@ public class TwoLayerNetwork
     private double learningRate;
     private Random random;
 
-    public TwoLayerNetwork(double learningRate = 0.1)
+    public ClassificationTwoLayerNetwork(double learningRate = 0.1)
     {
         this.learningRate = learningRate;
         this.random = new Random();
@@ -163,7 +163,7 @@ public class TwoLayerNetwork
 
     public static void AMain()
     {
-        TwoLayerNetwork nn = new TwoLayerNetwork(0.5);
+        ClassificationTwoLayerNetwork nn = new ClassificationTwoLayerNetwork(0.5);
 
         double[][] inputs = new double[][]
         {

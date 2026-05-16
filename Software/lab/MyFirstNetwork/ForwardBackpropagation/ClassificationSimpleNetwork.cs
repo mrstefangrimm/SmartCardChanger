@@ -1,11 +1,11 @@
-public class SimpleNetwork
+public class ClassificationSimpleNetwork
 {
     private double[] weights;
     private double[] biases;
     private double learningRate;
     private Random random;
 
-    public SimpleNetwork(double learningRate = 0.1)
+    public ClassificationSimpleNetwork(double learningRate = 0.1)
     {
         this.learningRate = learningRate;
         this.random = new Random();
@@ -69,7 +69,7 @@ public class SimpleNetwork
 
     public static void AMain()
     {
-        SimpleNetwork nn = new SimpleNetwork(0.5);
+        ClassificationSimpleNetwork nn = new ClassificationSimpleNetwork(0.5);
 
         double[][] inputs = new double[][]
         {

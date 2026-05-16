@@ -1,4 +1,4 @@
-public class TwoLayerNetworkGeneric
+public class ClassificationTwoLayerNetworkGeneric
 {
     private const int _inputSize = 2;
     private const int _hiddenSize = 4;
@@ -11,7 +11,7 @@ public class TwoLayerNetworkGeneric
 
     private readonly double _learningRate;
 
-    public TwoLayerNetworkGeneric(double learningRate = 0.5)
+    public ClassificationTwoLayerNetworkGeneric(double learningRate = 0.5)
     {
         _learningRate = learningRate;
         var random = new Random(42);
@@ -181,7 +181,7 @@ public class TwoLayerNetworkGeneric
 
     public static void AMain()
     {
-        var nn = new TwoLayerNetworkGeneric(learningRate: 0.5);
+        var nn = new ClassificationTwoLayerNetworkGeneric(learningRate: 0.5);
 
         double[][] inputs =
         [

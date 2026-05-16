@@ -1,4 +1,4 @@
-public class TwoLayerNetworkIris
+public class ClassificationTwoLayerNetworkIris
 {
     private readonly double _learningRate;
 
@@ -12,7 +12,7 @@ public class TwoLayerNetworkIris
     private readonly double[] _biasesH;
     private readonly double[] _biasesO;
 
-    public TwoLayerNetworkIris(double learningRate = 0.01)
+    public ClassificationTwoLayerNetworkIris(double learningRate = 0.01)
     {
         _learningRate = learningRate;
 
@@ -229,7 +229,7 @@ public class TwoLayerNetworkIris
         var testTargets = shuffledTargets.Skip(trainSize).ToArray();
 
         // Train network
-        var nn = new TwoLayerNetworkIris();
+        var nn = new ClassificationTwoLayerNetworkIris();
         int epochs = 2000;
 
         Console.WriteLine("Training...");

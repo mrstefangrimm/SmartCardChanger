@@ -1,13 +1,13 @@
 
 
-public class ModernNeuralNetwork
+public class ClassificationModernNeuralNetwork
 {
     private double[][] weights;
     private double[][] biases;
     private double learningRate;
     private Random random;
 
-    public ModernNeuralNetwork(int[] layerSizes, double learningRate = 0.01)
+    public ClassificationModernNeuralNetwork(int[] layerSizes, double learningRate = 0.01)
     {
         this.learningRate = learningRate;
         this.random = new Random();
@@ -238,7 +238,7 @@ public class ModernNeuralNetwork
 
         int[] layerSizes = { 2, 16, 8, 3 }; // Input: 2, Hidden: 16, Hidden: 8, Output: 3
 
-        ModernNeuralNetwork nn = new ModernNeuralNetwork(layerSizes, 0.1);
+        ClassificationModernNeuralNetwork nn = new ClassificationModernNeuralNetwork(layerSizes, 0.1);
 
         //Training data: simple 3-class problem
 
