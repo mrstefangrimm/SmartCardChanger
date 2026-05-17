@@ -19,28 +19,34 @@
     <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="clientApp\src\app.ts" />
-    <Content Include="clientApp\src\Intersection.ts" />
-    <Content Include="clientApp\src\IntersectionService.ts" />
-    <Content Include="clientApp\static\js\app.js" />
-    <Content Include="clientApp\static\js\Intersection.js" />
-    <Content Include="clientApp\static\js\IntersectionService.js" />
-    <Content Include="clientApp\templates\index.html" />
+    <Content Include="client_app\src\app.ts" />
+    <Content Include="client_app\src\CameraAdjustments.ts" />
+    <Content Include="client_app\src\CameraAdjustmentService.ts" />
+    <Content Include="client_app\src\Intersection.ts" />
+    <Content Include="client_app\src\IntersectionService.ts" />
+    <Content Include="client_app\static\js\app.js" />
+    <Content Include="client_app\static\js\Intersection.js" />
+    <Content Include="client_app\static\js\IntersectionService.js" />
+    <Content Include="client_app\templates\index.html" />
     <Content Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app.py" />
-    <Compile Include="camera.py" />
     <Compile Include="hough_lines.py" />
+    <Compile Include="image_capture\camera_capture.py" />
+    <Compile Include="image_capture\fake_capture.py" />
+    <Compile Include="image_capture\image_capture.py" />
+    <Compile Include="image_capture\__init__.py" />
     <Compile Include="processing.py" />
     <Compile Include="test_camera.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="clientApp\" />
-    <Folder Include="clientApp\src\" />
-    <Folder Include="clientApp\static\" />
-    <Folder Include="clientApp\static\js" />
-    <Folder Include="clientApp\templates" />
+    <Folder Include="client_app\" />
+    <Folder Include="client_app\src\" />
+    <Folder Include="client_app\static\" />
+    <Folder Include="client_app\static\js\" />
+    <Folder Include="client_app\templates\" />
+    <Folder Include="image_capture\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
 </Project>

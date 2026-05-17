@@ -13,3 +13,4 @@ export class IntersectionService {
         return await response.json() as Intersection[];
     }
 }
+

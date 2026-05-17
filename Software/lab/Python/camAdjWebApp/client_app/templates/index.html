@@ -63,14 +63,13 @@
     </div>
 
     <div class="data-container">
-      <h2>Camera Adjustments</h2>
-      <form action="/camera_adjustments" method="POST">
-        <input type="number" name="roi_x" placeholder="x" required>
-        <input type="number" name="roi_y" placeholder="y" required>
-        <input type="number" name="roi_width" placeholder="width." required>
-        <input type="number" name="roi_height" placeholder="height" required>
-        <button type="submit">Submit</button>
-      </form>
+      <h2>Live Video Adjustments</h2>
+
+      <input type="number" id="roi_x" placeholder="x" required>
+      <input type="number" id="roi_y" placeholder="y" required>
+      <input type="number" id="roi_width" placeholder="width" required>
+      <input type="number" id="roi_height" placeholder="height" required>
+      <button type="submit" id="apply_roi">Apply</button>
 
       {% if submitted_text %}
       <h2>You entered:</h2>

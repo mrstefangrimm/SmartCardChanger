@@ -21,13 +21,13 @@ class NormalizeDataProcessing(Processing):
         self.y = 0
         self.width = 1920
         self.height = 1080
-        self.angle = 10
+        self.rtn = 0
 
     def run(self, frame):
         if frame is None:
             return None
 
-        print(self.x, self.y, self.width, self.height)
+        # print(self.x, self.y, self.width, self.height)
         frame = self.rotate_with_cropping(frame)
 
         # Apply ROI
@@ -38,17 +38,17 @@ class NormalizeDataProcessing(Processing):
         h, w = frame.shape[:2]
         center = (w // 2, h // 2)
 
-        M = cv2.getRotationMatrix2D(center, self.angle, 1.0)
+        M = cv2.getRotationMatrix2D(center, self.rtn, 1.0)
 
         return cv2.warpAffine(frame, M, (w, h))
 
-    def rotate_without_cropping(self, frame, angle):
+    def rotate_without_cropping(self, frame, rtn):
         h, w = frame.shape[:2]
         center = (w // 2, h // 2)
 
         scale = 1.0
 
-        M = cv2.getRotationMatrix2D(center, angle, scale)
+        M = cv2.getRotationMatrix2D(center, rtn, scale)
 
         # Compute new bounding box
         cos = abs(M[0, 0])

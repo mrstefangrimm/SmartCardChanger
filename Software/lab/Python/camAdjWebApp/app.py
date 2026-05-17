@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
-from camera import CameraCapture
+from image_capture import CameraCapture, FakeCapture
+
 from processing import (
     ConvertToJpgProcessing,
     LineProfileProcessing,
@@ -11,15 +12,16 @@ import os
 
 app = Flask(
     __name__,
-    static_folder="clientApp/static",
+    static_folder="client_app/static",
     static_url_path="/static",
-    template_folder="clientApp/templates",
+    template_folder="client_app/templates",
 )
 
-camera = CameraCapture(camera_index=0, capture_interval=1.0)
+#camera = CameraCapture(camera_index=0, capture_interval=0.5)
+camera = FakeCapture()
 
 processing_store = [
-    NormalizeDataProcessing(id=1, name="Apply ROI and stuff"),
+    NormalizeDataProcessing(id=1, name="Size, Position, Rotate"),
     LineProfileProcessing(id=2, name="Convert to Line-Profile"),
     ConvertToJpgProcessing(id=3, name="Convert to JPEG"),
 ]
@@ -45,26 +47,59 @@ def camera_adjustments():
     global camera_roi_w
     global camera_roi_h
 
-    if request.method == "POST":
-        roi_x_str = request.form.get("roi_x")
-        camera_roi_x = int(roi_x_str) if roi_x_str is not None else None
-
-        roi_y_str = request.form.get("roi_y")
-        camera_roi_y = int(roi_y_str) if roi_y_str is not None else None
-
-        roi_w_str = request.form.get("roi_width")
-        camera_roi_w = int(roi_w_str) if roi_w_str is not None else None
-
-        roi_h_str = request.form.get("roi_height")
-        camera_roi_h = int(roi_h_str) if roi_h_str is not None else None
-
     normalizer = processing_store[0]
-    normalizer.x = camera_roi_x
-    normalizer.y = camera_roi_y
-    normalizer.width = camera_roi_w
-    normalizer.height = camera_roi_h
 
-    return render_template("index.html", submitted_text=camera_roi_x)
+    if request.method == "GET":
+        # Return current values
+        return jsonify(
+            {
+                "x": normalizer.x,
+                "y": normalizer.y,
+                "width": normalizer.width,
+                "height": normalizer.height,
+                "canny_upper_threshold": 50,
+                "canny_lower_threshold": 100,
+            }
+        )
+
+    if request.method == "POST":
+        data = request.json
+
+        # roi_x_str = data.get('x')
+        camera_roi_x = data.get(
+            "x"
+        )  # int(roi_x_str) if roi_x_str is not None else None
+
+        # roi_y_str = data.get('y')
+        camera_roi_y = data.get(
+            "y"
+        )  # int(roi_y_str) if roi_y_str is not None else None
+
+        # roi_w_str = data.get('width')
+        camera_roi_w = data.get(
+            "width"
+        )  # int(roi_w_str) if roi_w_str is not None else None
+
+        # roi_h_str = data.get('height')
+        camera_roi_h = data.get(
+            "height"
+        )  # int(roi_h_str) if roi_h_str is not None else None
+
+        normalizer.x = camera_roi_x
+        normalizer.y = camera_roi_y
+        normalizer.width = camera_roi_w
+        normalizer.height = camera_roi_h
+
+        return jsonify(
+            {
+                "x": normalizer.x,
+                "y": normalizer.y,
+                "width": normalizer.width,
+                "height": normalizer.height,
+                "canny_upper_threshold": 50,
+                "canny_lower_threshold": 100,
+            }
+        )
 
 
 @app.get("/api/processings")
@@ -84,8 +119,7 @@ def video_feed():
 
     def generate():
         while True:
-            frame = camera.get_raw_frame()
-            time.sleep(1)
+            frame = camera.get_frame()
 
             frame = processing_store[0].run(frame)
 
@@ -98,6 +132,7 @@ def video_feed():
                 yield (
                     b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
                 )
+                time.sleep(0.5)
             else:
                 time.sleep(1)
 
@@ -106,14 +141,23 @@ def video_feed():
     )
 
 
-@app.post("/video_settings")
+@app.route("/video_settings", methods=["GET", "POST"])
 def video_settings():
     global video_show_line_profile
 
-    data = request.get_json()
-    video_show_line_profile = data.get("enabled")
+    if request.method == "GET":
+        # Return current values
+        return jsonify(
+            {
+                "enabled": video_show_line_profile,
+            }
+        )
 
-    return jsonify({"status": "ok", "enabled": video_show_line_profile})
+    if request.method == "POST":
+        data = request.json
+        video_show_line_profile = data.get("enabled")
+
+        return jsonify({"status": "ok", "enabled": video_show_line_profile})
 
 
 if __name__ == "__main__":
