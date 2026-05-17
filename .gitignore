@@ -12,5 +12,5 @@
 /MechanicalDesign/SketchUp/export
 bin
 obj
-/Software/lab/Python/camAdjWebApp/__pycache__
-/Software/lab/Python/cameraAdjustmentWebapp/__pycache__
+__pycache__
+/Software/lab/Python/camAdjWebApp/clientApp/static/js
