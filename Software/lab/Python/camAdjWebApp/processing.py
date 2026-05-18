@@ -1,13 +1,15 @@
 import cv2
+from abc import ABC, abstractmethod
 
-
-class Processing:
+class Processing(ABC):
     def __init__(self, id: int, name: str):
         self.id = id
         self.name = name
+        self.enabled = True
 
+    @abstractmethod
     def run(self, frame):
-        raise NotImplementedError
+        pass
 
     def to_dict(self):
         return {"id": self.id, "name": self.name}
@@ -62,6 +64,20 @@ class NormalizeDataProcessing(Processing):
         M[1, 2] += (new_h / 2) - center[1]
 
         return cv2.warpAffine(frame, M, (new_w, new_h))
+
+class GaussianBlur(Processing):
+    def __init__(self, id: int, name: str, kernelSize: int=15):
+        self.id = id
+        self.name = name
+        self.kernelSize = kernelSize
+        self.enabled = False
+
+    def run(self, frame):
+        if frame is None:
+            return None
+        
+        frame = cv2.blur(frame, (self.kernelSize, self.kernelSize))
+        return frame
 
 
 class LineProfileProcessing(Processing):

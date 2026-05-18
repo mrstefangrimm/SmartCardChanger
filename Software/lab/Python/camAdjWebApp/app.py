@@ -1,11 +1,11 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from image_capture import CameraCapture, FakeCapture
-
+from stream import Stream
 from processing import (
     ConvertToJpgProcessing,
     LineProfileProcessing,
     NormalizeDataProcessing,
-    Processing,
+    GaussianBlur
 )
 import time
 import os
@@ -24,6 +24,13 @@ processing_store = [
     NormalizeDataProcessing(id=1, name="Size, Position, Rotate"),
     LineProfileProcessing(id=2, name="Convert to Line-Profile"),
     ConvertToJpgProcessing(id=3, name="Convert to JPEG"),
+    GaussianBlur(id=4, name="Blur Image"),
+]
+
+stream_store = [
+    Stream(id=1, name="Captured Image from Camera", status="New"),
+    Stream(id=2, name="Blured Image", status="New"),
+    Stream(id=3, name="Line Profile Image", status="New"),
 ]
 
 video_show_line_profile = False
@@ -123,6 +130,10 @@ def video_feed():
 
             frame = processing_store[0].run(frame)
 
+            blurProcessing = next((p for p in processing_store if p.name == "Blur Image" and p.enabled), None)
+
+            frame = blurProcessing.run(frame) if blurProcessing else frame
+
             if video_show_line_profile:
                 frame = processing_store[1].run(frame)
 
@@ -166,6 +177,7 @@ if __name__ == "__main__":
     time.sleep(2)
     print("Camera started, starting Flask app...")
     try:
-        app.run(debug=False, host="0.0.0.0", port=5000, threaded=True)
+        #app.run(debug=False, host="0.0.0.0", port=5000, threaded=True)
+        app.run(debug=True, port=5000, threaded=True)
     finally:
         camera.stop()
