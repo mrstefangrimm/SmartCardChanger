@@ -1,12 +1,8 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from image_capture import CameraCapture, FakeCapture
 from stream import Stream
-from processing import (
-    ConvertToJpgProcessing,
-    LineProfileProcessing,
-    NormalizeDataProcessing,
-    GaussianBlur
-)
+from processing import *
+
 import time
 import os
 
@@ -21,10 +17,10 @@ app = Flask(
 camera = FakeCapture()
 
 processing_store = [
-    NormalizeDataProcessing(id=1, name="Size, Position, Rotate"),
-    LineProfileProcessing(id=2, name="Convert to Line-Profile"),
-    ConvertToJpgProcessing(id=3, name="Convert to JPEG"),
-    GaussianBlur(id=4, name="Blur Image"),
+    SizePositionRotateSkewFilter(id="SPR", type="Filter", name="Size, Position, Rotate"),
+    EdgeFilter(id="EDG", type="Filter", name="Gaussian Blur and Canny Edge Detection"),
+    ConvertToJpgProcessing(id="JPG", type="Converter", name="Convert to JPEG"),
+    HoughLinesFeatureDetector(id="HGL", type="Analyzer", name="Hough transform line detection"),
 ]
 
 stream_store = [
@@ -128,16 +124,21 @@ def video_feed():
         while True:
             frame = camera.get_frame()
 
-            frame = processing_store[0].run(frame)
+            sizePosRtnFilter = next((p for p in processing_store if p.id == "SPR"), None)
+            frame = sizePosRtnFilter.run(frame) if sizePosRtnFilter else frame
 
-            blurProcessing = next((p for p in processing_store if p.name == "Blur Image" and p.enabled), None)
+            edgeFilter = next((p for p in processing_store if p.id == "EDG"), None)
 
-            frame = blurProcessing.run(frame) if blurProcessing else frame
+
+            # TODO: Create two streams, one for the live image and one for the feature detection;
+            #       but not here in video_feed
 
             if video_show_line_profile:
-                frame = processing_store[1].run(frame)
+                frame = edgeFilter.run(frame) if edgeFilter else frame
 
-            frame = processing_store[2].run(frame)
+
+            jpgConverter = next((p for p in processing_store if p.id == "JPG"), None)
+            frame = jpgConverter.run(frame) if jpgConverter else frame
 
             if frame:
                 yield (

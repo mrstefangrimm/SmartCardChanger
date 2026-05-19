@@ -1,24 +1,12 @@
 import cv2
-from abc import ABC, abstractmethod
+import numpy as np
+from processing.processing import Processing
 
-class Processing(ABC):
-    def __init__(self, id: int, name: str):
+class SizePositionRotateSkewFilter(Processing):
+    def __init__(self, id: str, type: str, name: str):
         self.id = id
         self.name = name
-        self.enabled = True
-
-    @abstractmethod
-    def run(self, frame):
-        pass
-
-    def to_dict(self):
-        return {"id": self.id, "name": self.name}
-
-
-class NormalizeDataProcessing(Processing):
-    def __init__(self, id: int, name: str):
-        self.id = id
-        self.name = name
+        self.type = type
         self.x = 0
         self.y = 0
         self.width = 1920
@@ -65,34 +53,27 @@ class NormalizeDataProcessing(Processing):
 
         return cv2.warpAffine(frame, M, (new_w, new_h))
 
-class GaussianBlur(Processing):
-    def __init__(self, id: int, name: str, kernelSize: int=15):
+
+class EdgeFilter(Processing):
+    def __init__(self, id: str, type: str, name: str,
+                 blurEnabled: bool=False, gaussianBlurKernelSize: int=15,
+                 cannyLowerThreshold: int=50, cannyUpperThreshold: int=150):
         self.id = id
+        self.type = type
         self.name = name
-        self.kernelSize = kernelSize
+        self.blurEnabled = blurEnabled
+        self.kernelSize = gaussianBlurKernelSize
+        self.lowerThreshold = cannyLowerThreshold
+        self.upperThreshold = cannyUpperThreshold
         self.enabled = False
+
 
     def run(self, frame):
         if frame is None:
             return None
         
-        frame = cv2.blur(frame, (self.kernelSize, self.kernelSize))
+        if (self.blurEnabled):
+            frame = cv2.blur(frame, (self.kernelSize, self.kernelSize))
+
+        frame = cv2.Canny(frame, self.lowerThreshold, self.upperThreshold)
         return frame
-
-
-class LineProfileProcessing(Processing):
-    def run(self, frame):
-        if frame is None:
-            return None
-
-        frame = cv2.Canny(frame, 50, 150)
-        return frame
-
-
-class ConvertToJpgProcessing(Processing):
-    def run(self, frame: bytes):
-        if frame is None:
-            return None
-
-        ret, buffer = cv2.imencode(".jpg", frame)
-        return buffer.tobytes() if ret else None
