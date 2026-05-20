@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-
+# TODO: This can become ProcessingTask
 class ImageCapture(ABC):
 
     @abstractmethod
@@ -9,10 +9,6 @@ class ImageCapture(ABC):
 
     @abstractmethod
     def stop(self):
-        pass
-
-    @abstractmethod
-    def get_frame(self):
         pass
 
     @abstractmethod

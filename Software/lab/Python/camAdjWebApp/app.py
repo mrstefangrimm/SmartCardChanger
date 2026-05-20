@@ -13,8 +13,18 @@ app = Flask(
     template_folder="client_app/templates",
 )
 
-#camera = CameraCapture(camera_index=0, capture_interval=0.5)
-camera = FakeCapture()
+class Camera:
+    def __init__(self):
+        self.id: int = 0
+        self.siumulated: bool = True
+        self.active: bool = True
+
+    def to_dict(self):
+        return {"id": self.id, "siumulated": self.siumulated, "active": self.active}    
+
+camera_store = [
+    Camera()
+]
 
 processing_store = [
     SizePositionRotateSkewFilter(id="SPR", type="Filter", name="Size, Position, Rotate"),
@@ -28,6 +38,9 @@ stream_store = [
     Stream(id=2, name="Blured Image", status="New"),
     Stream(id=3, name="Line Profile Image", status="New"),
 ]
+
+#camera = CameraCapture(camera_index=0, capture_interval=0.5)
+camera = FakeCapture(None, output_stream=stream_store[0])
 
 video_show_line_profile = False
 
@@ -104,6 +117,9 @@ def camera_adjustments():
             }
         )
 
+@app.get("/api/cameras")
+def get_cameras():
+    return jsonify([c.to_dict() for c in camera_store])
 
 @app.get("/api/processings")
 def get_processings():
@@ -122,27 +138,26 @@ def video_feed():
 
     def generate():
         while True:
-            frame = camera.get_frame()
+            frame = stream_store[0].get_first_frame() # camera.get_frame()
 
             sizePosRtnFilter = next((p for p in processing_store if p.id == "SPR"), None)
             frame = sizePosRtnFilter.run(frame) if sizePosRtnFilter else frame
 
             edgeFilter = next((p for p in processing_store if p.id == "EDG"), None)
 
+            stream_store[1].append(0, frame=frame)
+            stream_store[2].append(0, frame=frame)
 
-            # TODO: Create two streams, one for the live image and one for the feature detection;
-            #       but not here in video_feed
-
-            if video_show_line_profile:
-                frame = edgeFilter.run(frame) if edgeFilter else frame
-
-
+            video_feed_frame = video_feed_frame = stream_store[1].get_first_frame()
+            if video_show_line_profile:                
+                video_feed_frame = edgeFilter.run(frame) if edgeFilter else frame
+           
             jpgConverter = next((p for p in processing_store if p.id == "JPG"), None)
-            frame = jpgConverter.run(frame) if jpgConverter else frame
+            video_feed_frame = jpgConverter.run(video_feed_frame) if jpgConverter else video_feed_frame
 
-            if frame:
+            if video_feed_frame:
                 yield (
-                    b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
+                    b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + video_feed_frame + b"\r\n"
                 )
                 time.sleep(0.5)
             else:

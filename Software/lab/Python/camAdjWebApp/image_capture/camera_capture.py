@@ -3,15 +3,16 @@ import numpy as np
 from hough_lines import LineIntersection
 from threading import Thread
 import time
-from abc import ABC, abstractmethod
 from image_capture.image_capture import ImageCapture
+from stream import Stream
 
 class CameraCapture(ImageCapture):
-    def __init__(self, camera_index=0, capture_interval=1.0):
-        self.capture_interval = capture_interval
+    def __init__(self, input_stream: Stream=None, output_stream: Stream=None, camera_index=0, capture_interval=1.0):
+        self.input_stream = input_stream
+        self.output_stream = output_stream
         self.camera_index = camera_index
+        self.capture_interval = capture_interval
         self.cap = None
-        self.current_frame = None
         self.current_intersections = [{"x": float(3), "y": float(4)}]
         self.running = False
         self.line_processor = None
@@ -47,10 +48,10 @@ class CameraCapture(ImageCapture):
 
         while self.running:
             ret, frame = self.cap.read()
-
             if ret and frame is not None:
-                self.current_frame = frame
-                # self._process_frame(frame)
+                self.current_frame_seq_no += 1
+                self.output_stream.append(frame_seq_no=self.current_frame_seq_no, frame=frame)
+                # TODO: Remove old, unsused code. self._process_frame(frame)
             else:
                 print("Warning: Failed to read frame")
 

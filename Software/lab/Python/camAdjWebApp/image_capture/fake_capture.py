@@ -1,32 +1,37 @@
 import cv2
-import numpy as np
-from hough_lines import LineIntersection
 from threading import Thread
 import time
-from abc import ABC, abstractmethod
+from stream import Stream
 from image_capture.image_capture import ImageCapture
 
 
 class FakeCapture(ImageCapture):
-    def __init__(self):
-        self.current_frame = None
+    def __init__(self, input_stream: Stream=None, output_stream: Stream=None, capture_interval=1.0):
+        self.input_stream = input_stream
+        self.output_stream = output_stream
+        self.capture_interval = capture_interval
+        self.current_frame_seq_no: int = 0
         self.running = False
 
     def start(self):
         self.running = True
-        self.current_frame = cv2.imread("test_data/img1.jpg")
+        self.thread = Thread(target=self._capture_loop, daemon=True)
+        self.thread.start()
 
     def stop(self):
         self.running = False
 
-    def get_frame(self):
-        if self.current_frame is None:
-            return None
+    def _capture_loop(self):
 
-        if self.running is False:
-            return None
+        print("Fake initialized in thread")
 
-        return self.current_frame.copy()
+        while self.running:
+            frame = cv2.imread("test_data/img1.jpg")
+            if frame is not None:
+                  self.current_frame_seq_no += 1
+                  self.output_stream.append(frame_seq_no=self.current_frame_seq_no, frame=frame)
+
+            time.sleep(self.capture_interval)
 
     def get_intersections(self):
         return [{"x": float(1), "y": float(2)}]
