@@ -27,10 +27,10 @@ camera_store = [
 ]
 
 processing_store = [
-    SizePositionRotateSkewFilter(id="SPR", type="Filter", name="Size, Position, Rotate"),
-    EdgeFilter(id="EDG", type="Filter", name="Gaussian Blur and Canny Edge Detection"),
-    ConvertToJpgProcessing(id="JPG", type="Converter", name="Convert to JPEG"),
-    HoughLinesFeatureDetector(id="HGL", type="Analyzer", name="Hough transform line detection"),
+    SizePositionRotateSkewFilter(id=1, short_name="SPR", type="Filter", name="Size, Position, Rotate"),
+    EdgeFilter(id=2, short_name="EDG", type="Filter", name="Gaussian Blur and Canny Edge Detection"),
+    ConvertToJpgProcessing(id=3, short_name="JPG", type="Converter", name="Convert to JPEG"),
+    HoughLinesFeatureDetector(id=4, short_name="HGL", type="Analyzer", name="Hough transform line detection"),
 ]
 
 stream_store = [
@@ -43,12 +43,6 @@ stream_store = [
 camera = FakeCapture(None, output_stream=stream_store[0])
 
 video_show_line_profile = False
-
-camera_roi_x = 0
-camera_roi_y = 0
-camera_roi_w = 1920
-camera_roi_h = 1080
-
 
 @app.route("/")
 def index():
@@ -125,6 +119,26 @@ def get_cameras():
 def get_processings():
     return jsonify([p.to_dict() for p in processing_store])
 
+@app.patch("/api/processings/<int:processing_id>")
+def update_processing(processing_id):
+    processing = next((p for p in processing_store if p.id == processing_id), None)
+   
+    if processing is None:
+        return jsonify({"error": "Processing not found"}), 404
+
+    data = request.get_json()
+
+    if isinstance(processing, SizePositionRotateSkewFilter):
+        sprs: SizePositionRotateSkewFilter = processing
+        sprs.x = data["x"]
+        sprs.y = data["y"]
+        sprs.width = data["width"]
+        sprs.height = data["height"]
+        sprs.rtn = data["rtn"]
+
+    return processing.to_dict(), 200
+
+
 
 @app.route("/api/intersections")
 def get_intersections():
@@ -140,10 +154,10 @@ def video_feed():
         while True:
             frame = stream_store[0].get_first_frame() # camera.get_frame()
 
-            sizePosRtnFilter = next((p for p in processing_store if p.id == "SPR"), None)
+            sizePosRtnFilter = next((p for p in processing_store if p.short_name == "SPR"), None)
             frame = sizePosRtnFilter.run(frame) if sizePosRtnFilter else frame
 
-            edgeFilter = next((p for p in processing_store if p.id == "EDG"), None)
+            edgeFilter = next((p for p in processing_store if p.short_name == "EDG"), None)
 
             stream_store[1].append(0, frame=frame)
             stream_store[2].append(0, frame=frame)
@@ -152,7 +166,7 @@ def video_feed():
             if video_show_line_profile:                
                 video_feed_frame = edgeFilter.run(frame) if edgeFilter else frame
            
-            jpgConverter = next((p for p in processing_store if p.id == "JPG"), None)
+            jpgConverter = next((p for p in processing_store if p.short_name == "JPG"), None)
             video_feed_frame = jpgConverter.run(video_feed_frame) if jpgConverter else video_feed_frame
 
             if video_feed_frame:

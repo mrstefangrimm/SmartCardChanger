@@ -23,3 +23,11 @@ my_project/
 └── static/
     └── js/
         └── app.js (generated)
+
+
+
+
+----
+curl -X PATCH http://localhost:5000/api/processings/1 -H "Content-Type: application/json" -d '{ "x": 300, "y": 50, "width": 1800, "height": 1000, "rtn": 5 }'
+
+curl -X PATCH http://localhost:5000/api/processings/2 -H "Content-Type: application/json" -d '{ "enabled": true, "blurEnabled": true, "lowerThreshold": 60, "upperThreshold": 100 }'

@@ -3,8 +3,9 @@ import numpy as np
 from processing.processing import Processing
 
 class SizePositionRotateSkewFilter(Processing):
-    def __init__(self, id: str, type: str, name: str):
+    def __init__(self, id: int, short_name: str, type: str, name: str):
         self.id = id
+        self.short_name = short_name
         self.name = name
         self.type = type
         self.x = 0
@@ -55,10 +56,11 @@ class SizePositionRotateSkewFilter(Processing):
 
 
 class EdgeFilter(Processing):
-    def __init__(self, id: str, type: str, name: str,
+    def __init__(self, id: int, short_name: str, type: str, name: str,
                  blurEnabled: bool=False, gaussianBlurKernelSize: int=15,
                  cannyLowerThreshold: int=50, cannyUpperThreshold: int=150):
         self.id = id
+        self.short_name = short_name
         self.type = type
         self.name = name
         self.blurEnabled = blurEnabled

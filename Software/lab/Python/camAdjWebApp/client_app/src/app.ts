@@ -56,14 +56,15 @@ function fetchLiveVideoAdjustments() {
     const roi_y = document.getElementById("roi_y") as HTMLInputElement;
     const roi_width = document.getElementById("roi_width") as HTMLInputElement;
     const roi_height = document.getElementById("roi_height") as HTMLInputElement;
+    const rtn = document.getElementById("rtn") as HTMLInputElement;
 
     if (!roi_x) {
       alert('Please enter a value');
       return;
     }
 
-    fetch('/camera_adjustments', {
-      method: 'POST',
+    fetch('/api/processings/1', {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -72,6 +73,7 @@ function fetchLiveVideoAdjustments() {
         y: Number.parseFloat(roi_y.value),
         width: Number.parseFloat(roi_width.value),
         height: Number.parseFloat(roi_height.value),
+        rtn: Number.parseFloat(rtn.value),
       })
     })
       .then(response => response.json())

@@ -3,8 +3,9 @@ import numpy as np
 from processing.processing import Processing
 
 class HoughLinesFeatureDetector(Processing):
-    def __init__(self, id: str, type: str, name: str, kernelSize: int=15):
+    def __init__(self, id: int, short_name: str, type: str, name: str, kernelSize: int=15):
         self.id = id
+        self.short_name = short_name
         self.type = type
         self.name = name
         self.kernelSize = kernelSize

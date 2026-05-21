@@ -63,12 +63,15 @@
     </div>
 
     <div class="data-container">
-      <h2>Live Video Adjustments</h2>
+      <h2>Camera Adjustments</h2>
+
+      <h3>Size, Position, Rotation</h3>
 
       <input type="number" id="roi_x" placeholder="x" required>
       <input type="number" id="roi_y" placeholder="y" required>
       <input type="number" id="roi_width" placeholder="width" required>
       <input type="number" id="roi_height" placeholder="height" required>
+      <input type="number" id="rtn" placeholder="rtn" required>
       <button type="submit" id="apply_roi">Apply</button>
 
       {% if submitted_text %}
