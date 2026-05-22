@@ -3,18 +3,18 @@ import numpy as np
 from hough_lines import LineIntersection
 from threading import Thread
 import time
-from image_capture.image_capture import ImageCapture
+from task.processing_task import ProcessingTask
 from stream import Stream
 
-class CameraCapture(ImageCapture):
+class CameraCapture(ProcessingTask):
     def __init__(self, output_stream: Stream, camera_index=0, capture_interval=1.0):
-        self.output_stream=output_stream
-        self.camera_index=camera_index
-        self.capture_interval=capture_interval
-        self.cap=None
+        self.output_stream = output_stream
+        self.camera_index = camera_index
+        self.capture_interval = capture_interval
+        self.cap = None
         self.current_intersections = [{"x": float(3), "y": float(4)}]
-        self.running=False
-        self.line_processor=None
+        self.running = False
+        self.line_processor = None
 
     def start(self):
         """Start capturing frames in a separate thread."""

@@ -6,7 +6,6 @@ class Processing(ABC):
         self.short_name = short_name
         self.type = type
         self.name = name
-        self.enabled = True
 
     @abstractmethod
     def run(self, frame):

@@ -2,15 +2,15 @@ import cv2
 from threading import Thread
 import time
 from stream import Stream
-from image_capture.image_capture import ImageCapture
+from task.processing_task import ProcessingTask
 
 
-class FakeCapture(ImageCapture):
+class FakeCapture(ProcessingTask):
     def __init__(self, output_stream: Stream, capture_interval=1.0):
-        self.output_stream=output_stream
-        self.capture_interval=capture_interval
-        self.current_frame_seq_no: int=0
-        self.running=False
+        self.output_stream = output_stream
+        self.capture_interval = capture_interval
+        self.current_frame_seq_no: int = 0
+        self.running = False
 
     def start(self):
         self.running = True

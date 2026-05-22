@@ -57,25 +57,24 @@ class SizePositionRotateSkewFilter(Processing):
 
 class EdgeFilter(Processing):
     def __init__(self, id: int, short_name: str, type: str, name: str,
-                 blurEnabled: bool=False, gaussianBlurKernelSize: int=15,
-                 cannyLowerThreshold: int=50, cannyUpperThreshold: int=150):
+                 blur_enabled: bool=False, gaussian_blur_kernel_size: int=15,
+                 canny_lower_threshold: int=50, canny_upper_threshold: int=150):
         self.id = id
         self.short_name = short_name
         self.type = type
         self.name = name
-        self.blurEnabled = blurEnabled
-        self.kernelSize = gaussianBlurKernelSize
-        self.lowerThreshold = cannyLowerThreshold
-        self.upperThreshold = cannyUpperThreshold
-        self.enabled = False
+        self.blur_enabled = blur_enabled
+        self.kernel_size = gaussian_blur_kernel_size
+        self.lower_threshold = canny_lower_threshold
+        self.upper_threshold = canny_upper_threshold
 
 
     def run(self, frame):
         if frame is None:
             return None
         
-        if (self.blurEnabled):
-            frame = cv2.blur(frame, (self.kernelSize, self.kernelSize))
+        if (self.blur_enabled):
+            frame = cv2.blur(frame, (self.kernel_size, self.kernel_size))
 
-        frame = cv2.Canny(frame, self.lowerThreshold, self.upperThreshold)
+        frame = cv2.Canny(frame, self.lower_threshold, self.upper_threshold)
         return frame

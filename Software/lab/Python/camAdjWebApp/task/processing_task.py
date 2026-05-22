@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
-# TODO: This can become ProcessingTask
-class ImageCapture(ABC):
+class ProcessingTask(ABC):
 
     @abstractmethod
     def start(self):

@@ -49,7 +49,7 @@
   </style>
 </head>
 <body>
-  <h1>Camera Adjustment</h1>
+  <h1>Image-based SCC Calibration</h1>
 
   <div class="container">
     <div class="video-container">
@@ -67,13 +67,22 @@
 
       <h3>Size, Position, Rotation</h3>
 
-      <input type="number" id="roi_x" placeholder="x" required>
-      <input type="number" id="roi_y" placeholder="y" required>
-      <input type="number" id="roi_width" placeholder="width" required>
-      <input type="number" id="roi_height" placeholder="height" required>
-      <input type="number" id="rtn" placeholder="rtn" required>
-      <button type="submit" id="apply_roi">Apply</button>
+      <input type="number" id="roi_x" placeholder="x" required><br/>
+      <input type="number" id="roi_y" placeholder="y" required><br/>
+      <input type="number" id="roi_width" placeholder="width" required><br/>
+      <input type="number" id="roi_height" placeholder="height" required><br/>
+      <input type="number" id="rtn" placeholder="rtn" required><br/>
 
+      <h3>Edge Filter</h3>
+
+      <input type="checkbox" id="blur_enabled">blur enabled</input><br/>
+      <input type="number" id="blur_kernel_size" placeholder="blur kernel size" required><br/>
+      <input type="number" id="canny_lower_threshold" placeholder="canny lower threshold" required><br/>
+      <input type="number" id="canny_upper_threshold" placeholder="canny upper threshold" required><br/>
+
+      <hr>
+      <button type="submit" id="apply_roi">Apply</button>
+      
       {% if submitted_text %}
       <h2>You entered:</h2>
       <p>{{ submitted_text }}</p>

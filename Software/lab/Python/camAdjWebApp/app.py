@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
-from image_capture import *
+from task import *
 from stream import Stream
 from processing import *
 
@@ -53,9 +53,9 @@ stream_store = [
 ]
 
 # Tasks
-#camera = CameraCapture(output_stream=stream_store[0], camera_index=0, capture_interval=0.5)
-camera = FakeCapture(output_stream=stream_store[0])
-liveImgOverlayTask = CamaraAdjustmentOverlay(input_stream=stream_store[1], output_stream=stream_store[3], processing_store=processing_store)
+#camera = CameraCapture(output_stream=from_camara_stream, camera_index=0, capture_interval=0.5)
+camera = FakeCapture(output_stream=from_camara_stream)
+liveImgOverlayTask = CamaraAdjustmentOverlay(input_stream=adjusted_image_stream, output_stream=live_video_stream, processing_store=processing_store)
 
 @app.route("/")
 def index():
@@ -65,23 +65,18 @@ def index():
 
 @app.route("/camera_adjustments", methods=["GET", "POST"])
 def camera_adjustments():
-    global camera_roi_x
-    global camera_roi_y
-    global camera_roi_w
-    global camera_roi_h
-
-    normalizer = processing_store[0]
-
     if request.method == "GET":
-        # Return current values
         return jsonify(
             {
-                "x": normalizer.x,
-                "y": normalizer.y,
-                "width": normalizer.width,
-                "height": normalizer.height,
-                "canny_upper_threshold": 50,
-                "canny_lower_threshold": 100,
+                "x": sizePositionRotateSkewFilter.x,
+                "y": sizePositionRotateSkewFilter.y,
+                "width": sizePositionRotateSkewFilter.width,
+                "height": sizePositionRotateSkewFilter.height,
+                "rtn": sizePositionRotateSkewFilter.rtn,
+                "blur_enabled": edgeFilter.blur_enabled,
+                "blur_kernel_size": edgeFilter.kernel_size,
+                "canny_lower_threshold": edgeFilter.upper_threshold,
+                "canny_upper_threshold": edgeFilter.lower_threshold,
             }
         )
 
@@ -89,38 +84,41 @@ def camera_adjustments():
         data = request.json
 
         # roi_x_str = data.get('x')
-        camera_roi_x = data.get(
+        sizePositionRotateSkewFilter.x = data.get(
             "x"
         )  # int(roi_x_str) if roi_x_str is not None else None
 
         # roi_y_str = data.get('y')
-        camera_roi_y = data.get(
+        sizePositionRotateSkewFilter.y = data.get(
             "y"
         )  # int(roi_y_str) if roi_y_str is not None else None
 
         # roi_w_str = data.get('width')
-        camera_roi_w = data.get(
+        sizePositionRotateSkewFilter.width = data.get(
             "width"
         )  # int(roi_w_str) if roi_w_str is not None else None
 
         # roi_h_str = data.get('height')
-        camera_roi_h = data.get(
+        sizePositionRotateSkewFilter.height = data.get(
             "height"
         )  # int(roi_h_str) if roi_h_str is not None else None
 
-        normalizer.x = camera_roi_x
-        normalizer.y = camera_roi_y
-        normalizer.width = camera_roi_w
-        normalizer.height = camera_roi_h
+        sizePositionRotateSkewFilter.rtn = data.get("rtn")
+
+        edgeFilter.blur_enabled = data.get("blur_enabled")
+
 
         return jsonify(
             {
-                "x": normalizer.x,
-                "y": normalizer.y,
-                "width": normalizer.width,
-                "height": normalizer.height,
-                "canny_upper_threshold": 50,
-                "canny_lower_threshold": 100,
+                "x": sizePositionRotateSkewFilter.x,
+                "y": sizePositionRotateSkewFilter.y,
+                "width": sizePositionRotateSkewFilter.width,
+                "height": sizePositionRotateSkewFilter.height,
+                "rtn": sizePositionRotateSkewFilter.rtn,
+                "blur_enabled": edgeFilter.blur_enabled,
+                "blur_kernel_size": edgeFilter.kernel_size,
+                "canny_lower_threshold": edgeFilter.upper_threshold,
+                "canny_upper_threshold": edgeFilter.lower_threshold,
             }
         )
 
@@ -164,15 +162,14 @@ def video_feed():
 
     def generate():
         while True:
-            frame = stream_store[0].get_first_frame() # camera.get_frame()
-
-            sizePosRtnFilter = next((p for p in processing_store if p.short_name == "SPR"), None)
-            frame = sizePosRtnFilter.run(frame) if sizePosRtnFilter else frame
+            frame = from_camara_stream.get_first_frame() # camera.get_frame()
+            
+            frame = sizePositionRotateSkewFilter.run(frame) if sizePositionRotateSkewFilter else frame
   
-            stream_store[1].append(0, frame=frame)
-            stream_store[2].append(0, frame=frame)
+            adjusted_image_stream.append(0, frame=frame)
+            unused_scanline_processing_stream.append(0, frame=frame)
 
-            video_feed_frame = stream_store[3].get_first_frame()
+            video_feed_frame = live_video_stream.get_first_frame()
 
             if video_feed_frame:
                 yield (

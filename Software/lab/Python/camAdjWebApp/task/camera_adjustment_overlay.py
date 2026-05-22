@@ -1,18 +1,18 @@
-from image_capture.image_capture import ImageCapture
+from task.processing_task import ProcessingTask
 from threading import Thread
 from stream import Stream
 from processing import *
 import time
 import cv2
 
-class CamaraAdjustmentOverlay(ImageCapture):
+class CamaraAdjustmentOverlay(ProcessingTask):
 
     def __init__(self, input_stream: Stream, output_stream: Stream, processing_store: Processing, paint_interval=1.0):
-        self.input_stream=input_stream
-        self.output_stream=output_stream
-        self.processing_store=processing_store
-        self.capture_interval=paint_interval
-        self.video_show_line_profile=False
+        self.input_stream = input_stream
+        self.output_stream = output_stream
+        self.processing_store = processing_store
+        self.capture_interval = paint_interval
+        self.video_show_line_profile = False
 
     def start(self):
         self.running = True

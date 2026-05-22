@@ -40,13 +40,25 @@ function fetchLiveVideoAdjustments() {
       let roi_y = document.getElementById("roi_y") as HTMLInputElement;
       let roi_width = document.getElementById("roi_width") as HTMLInputElement;
       let roi_height = document.getElementById("roi_height") as HTMLInputElement;
+      let rtn = document.getElementById("rtn") as HTMLInputElement;
 
-      // console.log('API Response:', data);  // Log the entire response
+      let blur_enabled = document.getElementById("blur_enabled") as HTMLInputElement;
+      let blur_kernel_size = document.getElementById("blur_kernel_size") as HTMLInputElement;
+      let canny_lower_threshold = document.getElementById("canny_lower_threshold") as HTMLInputElement;
+      let canny_upper_threshold = document.getElementById("canny_upper_threshold") as HTMLInputElement;  
+
+      console.log('API Response:', data);  // Log the entire response
       // console.log('roi_x value:', data.x);  // Log just roi_x
       roi_x.value = data.x;
       roi_y.value = data.y;
       roi_width.value = data.width;
       roi_height.value = data.height;
+      rtn.value = data.rtn
+
+      blur_enabled.value = data.blur_enabled
+      blur_kernel_size.value = data.blur_kernel_size
+      canny_lower_threshold.value = data.canny_lower_threshold
+      canny_upper_threshold.value = data.canny_upper_threshold
     })
     .catch(error => console.error('Error fetching camera_adjustments:', error));
 
