@@ -6,12 +6,11 @@ from image_capture.image_capture import ImageCapture
 
 
 class FakeCapture(ImageCapture):
-    def __init__(self, input_stream: Stream=None, output_stream: Stream=None, capture_interval=1.0):
-        self.input_stream = input_stream
-        self.output_stream = output_stream
-        self.capture_interval = capture_interval
-        self.current_frame_seq_no: int = 0
-        self.running = False
+    def __init__(self, output_stream: Stream, capture_interval=1.0):
+        self.output_stream=output_stream
+        self.capture_interval=capture_interval
+        self.current_frame_seq_no: int=0
+        self.running=False
 
     def start(self):
         self.running = True

@@ -7,15 +7,14 @@ from image_capture.image_capture import ImageCapture
 from stream import Stream
 
 class CameraCapture(ImageCapture):
-    def __init__(self, input_stream: Stream=None, output_stream: Stream=None, camera_index=0, capture_interval=1.0):
-        self.input_stream = input_stream
-        self.output_stream = output_stream
-        self.camera_index = camera_index
-        self.capture_interval = capture_interval
-        self.cap = None
+    def __init__(self, output_stream: Stream, camera_index=0, capture_interval=1.0):
+        self.output_stream=output_stream
+        self.camera_index=camera_index
+        self.capture_interval=capture_interval
+        self.cap=None
         self.current_intersections = [{"x": float(3), "y": float(4)}]
-        self.running = False
-        self.line_processor = None
+        self.running=False
+        self.line_processor=None
 
     def start(self):
         """Start capturing frames in a separate thread."""

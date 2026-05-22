@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, send_from_directory
-from image_capture import CameraCapture, FakeCapture
+from image_capture import *
 from stream import Stream
 from processing import *
 
@@ -26,23 +26,36 @@ camera_store = [
     Camera()
 ]
 
+# Processings
+sizePositionRotateSkewFilter = SizePositionRotateSkewFilter(id=1, short_name="SPR", type="Filter", name="Size, Position, Rotate")
+edgeFilter = EdgeFilter(id=2, short_name="EDG", type="Filter", name="Gaussian Blur and Canny Edge Detection")
+convertToJpgProcessing = ConvertToJpgProcessing(id=3, short_name="JPG", type="Converter", name="Convert to JPEG")
+houghLinesFeatureDetector = HoughLinesFeatureDetector(id=4, short_name="HGL", type="Analyzer", name="Hough transform line detection")
+
 processing_store = [
-    SizePositionRotateSkewFilter(id=1, short_name="SPR", type="Filter", name="Size, Position, Rotate"),
-    EdgeFilter(id=2, short_name="EDG", type="Filter", name="Gaussian Blur and Canny Edge Detection"),
-    ConvertToJpgProcessing(id=3, short_name="JPG", type="Converter", name="Convert to JPEG"),
-    HoughLinesFeatureDetector(id=4, short_name="HGL", type="Analyzer", name="Hough transform line detection"),
+    sizePositionRotateSkewFilter,
+    edgeFilter,
+    convertToJpgProcessing,
+    houghLinesFeatureDetector,
 ]
+
+# Streams
+from_camara_stream = Stream(id=1, name="Captured Image from Camera", status="New")
+adjusted_image_stream = Stream(id=2, name="Adjusted Image", status="New")
+unused_scanline_processing_stream = Stream(id=3, name="Line Profile Image", status="New")
+live_video_stream = Stream(id=4, name="Video Stream", status="New")
 
 stream_store = [
-    Stream(id=1, name="Captured Image from Camera", status="New"),
-    Stream(id=2, name="Blured Image", status="New"),
-    Stream(id=3, name="Line Profile Image", status="New"),
+    from_camara_stream,
+    adjusted_image_stream,
+    unused_scanline_processing_stream,
+    live_video_stream,
 ]
 
-#camera = CameraCapture(camera_index=0, capture_interval=0.5)
-camera = FakeCapture(None, output_stream=stream_store[0])
-
-video_show_line_profile = False
+# Tasks
+#camera = CameraCapture(output_stream=stream_store[0], camera_index=0, capture_interval=0.5)
+camera = FakeCapture(output_stream=stream_store[0])
+liveImgOverlayTask = CamaraAdjustmentOverlay(input_stream=stream_store[1], output_stream=stream_store[3], processing_store=processing_store)
 
 @app.route("/")
 def index():
@@ -139,7 +152,6 @@ def update_processing(processing_id):
     return processing.to_dict(), 200
 
 
-
 @app.route("/api/intersections")
 def get_intersections():
     """API endpoint to get current intersections as JSON."""
@@ -156,18 +168,11 @@ def video_feed():
 
             sizePosRtnFilter = next((p for p in processing_store if p.short_name == "SPR"), None)
             frame = sizePosRtnFilter.run(frame) if sizePosRtnFilter else frame
-
-            edgeFilter = next((p for p in processing_store if p.short_name == "EDG"), None)
-
+  
             stream_store[1].append(0, frame=frame)
             stream_store[2].append(0, frame=frame)
 
-            video_feed_frame = video_feed_frame = stream_store[1].get_first_frame()
-            if video_show_line_profile:                
-                video_feed_frame = edgeFilter.run(frame) if edgeFilter else frame
-           
-            jpgConverter = next((p for p in processing_store if p.short_name == "JPG"), None)
-            video_feed_frame = jpgConverter.run(video_feed_frame) if jpgConverter else video_feed_frame
+            video_feed_frame = stream_store[3].get_first_frame()
 
             if video_feed_frame:
                 yield (
@@ -184,26 +189,25 @@ def video_feed():
 
 @app.route("/video_settings", methods=["GET", "POST"])
 def video_settings():
-    global video_show_line_profile
-
     if request.method == "GET":
         # Return current values
         return jsonify(
             {
-                "enabled": video_show_line_profile,
+                "enabled": liveImgOverlayTask.video_show_line_profile,
             }
         )
 
     if request.method == "POST":
         data = request.json
-        video_show_line_profile = data.get("enabled")
+        liveImgOverlayTask.video_show_line_profile = data.get("enabled")
 
-        return jsonify({"status": "ok", "enabled": video_show_line_profile})
+        return jsonify({"status": "ok", "enabled": liveImgOverlayTask.video_show_line_profile})
 
 
 if __name__ == "__main__":
     print("Starting camera...")
     camera.start()
+    liveImgOverlayTask.start()
     time.sleep(2)
     print("Camera started, starting Flask app...")
     try:

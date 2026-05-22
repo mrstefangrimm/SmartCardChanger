@@ -20,5 +20,5 @@ class Stream:
         self.current_frame = StreamItem(frame_seq_no=frame_seq_no, frame=frame)
 
     def get_first_frame(self):
-        return self.current_frame.frame
+        return self.current_frame.frame if self.current_frame else None
     
