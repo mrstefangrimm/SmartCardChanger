@@ -8,11 +8,11 @@ class SizePositionRotateSkewFilter(Processing):
         self.short_name = short_name
         self.name = name
         self.type = type
-        self.x = 0
-        self.y = 0
-        self.width = 1920
-        self.height = 1080
-        self.rtn = 0
+        self.x = 330
+        self.y = 50
+        self.width = 1720 # 1920
+        self.height = 1080 # 1080
+        self.rtn = 5
 
     def run(self, frame):
         if frame is None:

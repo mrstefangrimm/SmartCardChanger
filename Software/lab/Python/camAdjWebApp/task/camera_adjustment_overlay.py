@@ -36,7 +36,10 @@ class CamaraAdjustmentOverlay(ProcessingTask):
                 camera_frame = cv2.cvtColor(camera_frame, cv2.COLOR_GRAY2BGR)
 
             # Apply overlay
-            overlay_frame = cv2.rectangle(camera_frame, (40, 40), (140, 140), (0, 255, 0), 3)
+            overlay_frame = cv2.rectangle(camera_frame, (110, 190), (210, 290), (0, 255, 0), 3)
+            overlay_frame = cv2.rectangle(camera_frame, (110, 750), (210, 850), (0, 255, 0), 3)
+            overlay_frame = cv2.rectangle(camera_frame, (460, 190), (560, 290), (0, 255, 0), 3)
+            overlay_frame = cv2.rectangle(camera_frame, (460, 750), (560, 850), (0, 255, 0), 3)
 
             jpgConverter = next((p for p in self.processing_store if p.short_name == "JPG"), None)
             jpgImage = jpgConverter.run(overlay_frame) if jpgConverter else overlay_frame

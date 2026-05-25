@@ -1,3 +1,4 @@
 from .camera_capture import CameraCapture
 from .fake_capture import FakeCapture
 from .camera_adjustment_overlay import CamaraAdjustmentOverlay
+from .carriage_detection import CarriageDetection

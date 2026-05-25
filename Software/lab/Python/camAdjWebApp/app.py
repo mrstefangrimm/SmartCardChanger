@@ -56,6 +56,7 @@ stream_store = [
 #camera = CameraCapture(output_stream=from_camara_stream, camera_index=0, capture_interval=0.5)
 camera = FakeCapture(output_stream=from_camara_stream)
 liveImgOverlayTask = CamaraAdjustmentOverlay(input_stream=adjusted_image_stream, output_stream=live_video_stream, processing_store=processing_store)
+carriageTask = CarriageDetection(input_stream=unused_scanline_processing_stream, output_stream=None, edgeFilter=edgeFilter)
 
 @app.route("/")
 def index():
@@ -204,9 +205,11 @@ def video_settings():
 if __name__ == "__main__":
     print("Starting camera...")
     camera.start()
-    liveImgOverlayTask.start()
     time.sleep(2)
     print("Camera started, starting Flask app...")
+
+    liveImgOverlayTask.start()
+    carriageTask.start()
     try:
         #app.run(debug=False, host="0.0.0.0", port=5000, threaded=True)
         app.run(debug=True, port=5000, threaded=True)
