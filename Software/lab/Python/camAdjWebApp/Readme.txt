@@ -9,6 +9,10 @@ python -m pip install opencv-python
 python -m pip install flask
 python -m flask --version
 
+pip install pytest
+py -m pytest tests/utils/test_frame_buffer.py
+py -m pytest tests/utils/test_frame_buffer.py::TestFrameBuffer::test_push_single_frame -v
+
 
 my_project/
 ├── app.py
