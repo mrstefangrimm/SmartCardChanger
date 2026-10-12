@@ -36,14 +36,6 @@ jobs:
       #with:
       #  vs-version: 'latest'
 
-    - name: List available toolsets
-      run: |
-          $vstest = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | Select-Object -First 1
-          if ($vstest) {
-            echo "$vstest.FullName"
-          }
-      shell: pwsh
-
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
@@ -53,14 +45,14 @@ jobs:
     - name: Add VSTest to PATH
       uses: Malcolmnixon/Setup-VSTest@v4 # Same darenm/Setup-VSTest@v1
 
+    - name: Find vstest.console.exe without action
+      shell: pwsh
+      run: |
+          $vstest = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | Select-Object -First 1
+          if ($vstest) {
+            echo "$vstest"
+          }
+
     - name: Run VSTest
       working-directory: Software\src\WinSccApp\x64\Release\
       run: vstest.console.exe /Platform:x64 .\UnitTest*.dll
-   
-  #  Same depricated message
-    - name: Run VSTest 2
-      uses: microsoft/vstest-action@v1.0.0
-      with:
-        testAssembly: UnitTest*.dll
-        searchFolder: Software\src\WinSccApp\x64\Release\
-        runInParallel: true
