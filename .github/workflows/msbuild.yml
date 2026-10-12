@@ -61,6 +61,6 @@ jobs:
     - name: Run VSTest 2
       uses: microsoft/vstest-action@v1.0.0
       with:
-        testAssembly: .\UnitTest*.dll
+        testAssembly: UnitTest*.dll
         searchFolder: Software\src\WinSccApp\x64\Release\
         runInParallel: true
