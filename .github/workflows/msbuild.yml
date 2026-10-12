@@ -36,10 +36,13 @@ jobs:
       #with:
       #  vs-version: 'latest'
 
-    #- name: List available toolsets
-    #  run: |
-    #      Get-ChildItem "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
-    #  shell: pwsh
+    - name: List available toolsets
+      run: |
+          $vstest = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio" -Filter "vstest.console.exe" -Recurse | Select-Object -First 1
+          if ($vstest) {
+            echo "$vstest.FullName"
+          }
+      shell: pwsh
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -47,19 +50,17 @@ jobs:
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
 
-    #- name: Add VSTest to PATH
-    #  uses: Malcolmnixon/Setup-VSTest@v4 # Same darenm/Setup-VSTest@v1
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+    - name: Add VSTest to PATH
+      uses: Malcolmnixon/Setup-VSTest@v4 # Same darenm/Setup-VSTest@v1
 
     - name: Run VSTest
       working-directory: Software\src\WinSccApp\x64\Release\
       run: vstest.console.exe /Platform:x64 .\UnitTest*.dll
    
   #  Same depricated message
-  #  - name: Add VSTest to PATH
-  #    uses: microsoft/vstest-action@v1.0.0
-  #    with:
-  #      testAssembly: UnitTests.dll
-  #      searchFolder: vsprojs\x64\Release\
-  #      runInParallel: true
+    - name: Add VSTest to PATH
+      uses: microsoft/vstest-action@v1.0.0
+      with:
+        testAssembly: UnitTests.dll
+        searchFolder: vsprojs\x64\Release\
+        runInParallel: true
