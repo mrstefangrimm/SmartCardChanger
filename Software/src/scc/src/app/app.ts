@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { SccEngine3dService } from './sccengine3d.service'
@@ -12,6 +12,7 @@ import { Vector3 } from 'three'
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy, AfterViewInit {
