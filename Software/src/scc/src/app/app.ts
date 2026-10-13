@@ -1,17 +1,18 @@
-import { signal } from '@angular/core';
+import { signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { SccEngine3dService } from './sccengine3d.service'
 import { SccService } from './scc.service'
 import { Vector3 } from 'three'
-import { CommonModule } from '@angular/common'
+
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy, AfterViewInit {
