@@ -85,6 +85,7 @@ export class LoadedObject implements LoadableObject {
    * @param origin to object axis from rotation axis.
    * @param directionVector to worldSpaceDirectionVector [0, 0, 1] from directionVector.
    * @param position to object axis from model origin.
+   * @param material to be used.
    */
   static create(origin: Vector3, directionVector: Vector3, position: Vector3, material: Material) : LoadableObject {
     var object = new LoadedObject()
