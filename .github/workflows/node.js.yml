@@ -25,6 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: 'Software/src/scc/package-lock.json'
 
     - working-directory: Software/src/scc
       run: npm ci
