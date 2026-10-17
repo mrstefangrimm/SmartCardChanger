@@ -54,8 +54,7 @@ export class SccEngine3dService implements OnDestroy {
   groupRotatorSmartcards: LoadableObject
   
   public constructor(private ngZone: NgZone) {
-    const baseUrl = document.getElementsByTagName('base')[0].href
-    console.info(SccEngine3dService.name, "c'tor", "base url", baseUrl)
+    console.info(SccEngine3dService.name, "c'tor")
   }
 
   ngOnDestroy() {
