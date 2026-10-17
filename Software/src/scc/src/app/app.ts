@@ -42,10 +42,10 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.engine3d.ngOnDestroy()
   }
 
-  onLngChanged(event) {
-    console.debug('onLngChanged', event.value)
+  onLngChanged(event: HTMLInputElement) {
+    console.debug('onLngChanged', event.valueAsNumber)
 
-    const alpha = event.value / 180 * Math.PI
+    const alpha = event.valueAsNumber / 180 * Math.PI
     const rtnServoArm = alpha - Math.PI
 
     const a = 40
@@ -79,10 +79,10 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.engine3d.groupServoArmExtensionWood.rotate(-beta, new Vector3(0, 0, 1))
   }
 
-  onRtnChanged(event) {
-    console.debug(event.value)
+  onRtnChanged(event: HTMLInputElement) {
+    console.debug('onRtnChanged', event.valueAsNumber)
 
-    const rtn = (event.value - 90) / 180 * Math.PI
+    const rtn = (event.valueAsNumber - 90) / 180 * Math.PI
     const axis = new Vector3(0, 0, 1)
 
     this.engine3d.groupRotatorWood.rotate(rtn, axis)
