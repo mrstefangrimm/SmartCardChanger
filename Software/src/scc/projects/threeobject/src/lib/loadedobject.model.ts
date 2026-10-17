@@ -37,7 +37,7 @@ export interface LoadableObject {
 
   setLng(lng: number)
   translate(lng: Vector3)
-  
+
   setRtn(rtn: number)
   rotate(rtn: number, axis: Vector3)
 
@@ -61,25 +61,27 @@ export class LoadedObject implements LoadableObject {
   private objectAsGroup: Group
 
   /** Creates a loadable object form a Sketchup model.
-   * 
+   *
    * @param origin to object axis from rotation axis.
    * @param position to object axis from model origin.
+   * @param material in use.
    */
   static createFromSketchup(origin: Vector3, position: Vector3, material: Material) : LoadableObject {
     return this.create(origin, this.sketchUpDirectionVector, position, material)
   }
 
   /** Creates a loadable object form a SCAD model.
-   * 
+   *
    * @param origin to object axis from rotation axis.
    * @param position to object axis from model origin.
+   * @param material in use.
    */
   static createFromScad(origin: Vector3, position: Vector3, material: Material) : LoadableObject {
     return this.create(origin, this.sketchUpDirectionVector, position, material)
   }
 
   /** Creates a loadable object.
-   * 
+   *
    * @param origin to object axis from rotation axis.
    * @param directionVector to worldSpaceDirectionVector [0, 0, 1] from directionVector.
    * @param position to object axis from model origin.

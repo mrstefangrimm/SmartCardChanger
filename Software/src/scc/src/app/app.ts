@@ -5,8 +5,6 @@ import { SccEngine3dService } from './sccengine3d.service'
 import { SccService } from './scc.service'
 import { Vector3 } from 'three'
 
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -16,15 +14,13 @@ import { Vector3 } from 'three'
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy, AfterViewInit {
-  protected readonly title = signal('scc');
-
   @ViewChild('rendererCanvas', { static: true })
   rendererCanvas: ElementRef<HTMLCanvasElement>
 
   constructor(
     public context: SccService,
     private readonly engine3d: SccEngine3dService) {
-    console.info(App.name, "c'tor")  
+    console.info(App.name, "c'tor")
   }
 
   ngOnInit(): void {
@@ -32,7 +28,7 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
 
     console.debug(App.name, window.innerWidth, window.innerHeight)
 
-    const size = SccEngine3dService.calcContentSize()  
+    const size = SccEngine3dService.calcContentSize()
     this.engine3d.createScene(this.rendererCanvas, size.width, size.height)
     this.engine3d.animate()
   }
@@ -55,11 +51,11 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     const a = 40
     const c = 175
     const c2 = 175 * 175
-    
+
     const y = Math.sin(alpha) * a
     const x = Math.sqrt(c2 - y * y)
     const b = x - Math.cos(alpha) * a
- 
+
     const magicAngFactor = 1.1
     const beta = Math.acos(x / c) * magicAngFactor
 
@@ -88,7 +84,7 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
 
     const rtn = (event.value - 90) / 180 * Math.PI
     const axis = new Vector3(0, 0, 1)
-    
+
     this.engine3d.groupRotatorWood.rotate(rtn, axis)
     this.engine3d.groupRotatorSilver.rotate(rtn, axis)
     this.engine3d.groupRotatorWhite.rotate(rtn, axis)
