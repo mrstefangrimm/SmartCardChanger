@@ -4,11 +4,12 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } fr
 import { SccEngine3dService } from './sccengine3d.service'
 import { SccService } from './scc.service'
 import { Vector3 } from 'three'
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgOptimizedImage],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css'
