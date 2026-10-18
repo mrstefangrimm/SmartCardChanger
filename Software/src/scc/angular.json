@@ -105,9 +105,11 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/threeobject/tsconfig.spec.json"
+            "tsConfig": "projects/threeobject/tsconfig.spec.json",
+            "buildTarget": "threeobject:build:development",
+            "runner": "vitest"
           }
         }
       }

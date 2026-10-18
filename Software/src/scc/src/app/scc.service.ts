@@ -5,7 +5,7 @@ export class SccService {
 
   showAsTransparent = false
   showReaderAndCards = false
-  visiblitiesOpen: boolean = false
+  visibilitiesOpen: boolean = false
 
   constructor() {
     console.info(SccService.name, "c'tor")

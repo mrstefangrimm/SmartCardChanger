@@ -6,12 +6,12 @@ import { LoadableObject, LoadedObject, NotLoadedObject } from 'threeobject'
 import { Observable } from 'rxjs'
 //import { useTexture } from '@react-three/fiber'; // Or use TextureLoader
 import { MeshStandardMaterial } from 'three';
-   
+
 @Injectable({providedIn: 'root'})
 export class SccEngine3dService implements OnDestroy {
 
   private readonly zero: Vector3 = new Vector3(0, 0, 0)
-  
+
   private renderer: THREE.WebGLRenderer
   private camera: THREE.PerspectiveCamera
   private scene: THREE.Scene
@@ -33,8 +33,8 @@ export class SccEngine3dService implements OnDestroy {
   private groupStaticSilver: LoadableObject
   private groupStaticFelt: LoadableObject
   private groupStaticAnthracite: LoadableObject
-  
-  groupCarriageWood: LoadableObject 
+
+  groupCarriageWood: LoadableObject
   groupCarriageSilver: LoadableObject
   groupCarriageAnthracite: LoadableObject
   groupCarriageGray: LoadableObject
@@ -52,10 +52,9 @@ export class SccEngine3dService implements OnDestroy {
   groupRotatorWhite: LoadableObject
   groupRotatorCardboard: LoadableObject
   groupRotatorSmartcards: LoadableObject
-  
+
   public constructor(private ngZone: NgZone) {
-    const baseUrl = document.getElementsByTagName('base')[0].href
-    console.info(SccEngine3dService.name, "c'tor", "base url", baseUrl)
+    console.info(SccEngine3dService.name, "c'tor")
   }
 
   ngOnDestroy() {
@@ -108,13 +107,13 @@ export class SccEngine3dService implements OnDestroy {
       antialias: true, // smooth edges
     });
     this.renderer.setSize(w, h)
- 
+
     // create the scene
-    this.scene = new THREE.Scene() 
+    this.scene = new THREE.Scene()
 
     // var axesHelper = new THREE.AxesHelper(50);
     // this.scene.add( axesHelper );
- 
+
     this.camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 1500)
     this.camera.position.set(-400, 250, 300)
     this.scene.add(this.camera)
@@ -124,23 +123,23 @@ export class SccEngine3dService implements OnDestroy {
     controls.maxDistance = 1000
     controls.target = new Vector3(22.5, 57.5 , -70)
     controls.update()
-    
+
     // const light = new THREE.PointLight(0xffffff, 10, 0, 0)
     // light.position.set(300, -700, 0)
     // this.scene.add(light)
-    
+
     const light2 = new THREE.PointLight(0xffffff, 10, 0, 0)
     light2.position.set(0, 500, 300)
     this.scene.add(light2)
 
-    var hemiLight = new THREE.HemisphereLight()
+    const hemiLight = new THREE.HemisphereLight();
     this.scene.add(hemiLight);
 
     this.materialFelt = new THREE.MeshStandardMaterial({
       color: 0xEDEDED,
       roughness: 0.5,
       metalness: 0,
-    })   
+    })
     this.materialWhite = new THREE.MeshStandardMaterial({
       color: 0xFFFFFF,
       metalness: 0,
@@ -172,7 +171,7 @@ export class SccEngine3dService implements OnDestroy {
     })
     // const map = new THREE.TextureLoader().load('assets/wood.png')
     // const wood = new THREE.SpriteMaterial({ map: map, color: 0xffffff })
-    
+
     // const sprite = new THREE.Sprite(wood)
     // sprite.scale.set(300, 200, 1)
     // this.scene.add(sprite)
@@ -229,7 +228,7 @@ export class SccEngine3dService implements OnDestroy {
     })
     this.loadInvisibleAndAdd(this.zero, this.materialXray, 'assets/SCC-VirmsGroupCarriageTransparent.obj').subscribe({
       next: obj => this.groupCarriageTransparent = obj
-    })      
+    })
     this.loadAndAdd(new Vector3(-69.8, -70, 0), this.materialWood, 'assets/SCC-VirmsGroupServoArmWood.obj').subscribe({
       next: obj => this.groupServoArmWood = obj
     })
@@ -261,7 +260,7 @@ export class SccEngine3dService implements OnDestroy {
 
   private loadInvisibleAndAdd(origin: Vector3, material: THREE.Material, asset: string) : Observable<LoadableObject> {
     return new Observable<LoadableObject>(subscriber => {
-      var model = LoadedObject.createFromSketchup(origin, this.zero, material)
+      const model = LoadedObject.createFromSketchup(origin, this.zero, material);
       model.loadInvisible(asset).subscribe({
         next: object3d => {
           this.scene.add(object3d)
@@ -277,7 +276,7 @@ export class SccEngine3dService implements OnDestroy {
 
   private loadAndAdd(origin: Vector3, material: THREE.Material, asset: string) : Observable<LoadableObject> {
     return new Observable<LoadableObject>(subscriber => {
-      var model = LoadedObject.createFromSketchup(origin, this.zero, material)
+      const model = LoadedObject.createFromSketchup(origin, this.zero, material);
       model.load(asset).subscribe({
         next: object3d => {
           this.scene.add(object3d)
@@ -293,7 +292,7 @@ export class SccEngine3dService implements OnDestroy {
 
   private loadAndAddWithModelOffset(origin: Vector3, position: Vector3, material: THREE.Material, asset: string) : Observable<LoadableObject> {
     return new Observable<LoadableObject>(subscriber => {
-      var model = LoadedObject.createFromSketchup(origin, position, material)
+      const model = LoadedObject.createFromSketchup(origin, position, material);
       model.load(asset).subscribe({
         next: object3d => {
           this.scene.add(object3d)
@@ -335,7 +334,7 @@ export class SccEngine3dService implements OnDestroy {
 
   private resize() {
     const size = SccEngine3dService.calcContentSize()
-   
+
     this.camera.aspect = size.width / size.height
     this.camera.updateProjectionMatrix()
 
@@ -344,12 +343,12 @@ export class SccEngine3dService implements OnDestroy {
 
   static calcContentSize() : {width: number; height: number} {
 
-    const sideNavWidth = window.innerWidth > 620 
+    const sideNavWidth = window.innerWidth > 620
                          ? window.innerWidth * 0.2 + 14
                          : 18
     const contentWidth = window.innerWidth - sideNavWidth
 
-    const footerHeight = window.innerWidth > 620 
+    const footerHeight = window.innerWidth > 620
                          ? window.innerHeight * 0.1
                          :  window.innerHeight * 0.3
     const contentHeight = window.innerHeight - footerHeight
@@ -377,8 +376,8 @@ export class SccEngine3dService implements OnDestroy {
       this.groupRotatorWood.setMaterial(this.materialXray)
       this.groupRotatorSilver.setMaterial(this.materialXray)
       this.groupRotatorWhite.setMaterial(this.materialXray)
-      this.groupRotatorCardboard.setMaterial(this.materialXray)    
-      this.groupRotatorSmartcards.setMaterial(this.materialXray)  
+      this.groupRotatorCardboard.setMaterial(this.materialXray)
+      this.groupRotatorSmartcards.setMaterial(this.materialXray)
     }
     else {
       this.groupStaticWood.setMaterial(this.materialWood)

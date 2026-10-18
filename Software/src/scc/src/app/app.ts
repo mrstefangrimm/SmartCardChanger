@@ -1,30 +1,27 @@
-import { signal, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } from '@angular/core'
 import { SccEngine3dService } from './sccengine3d.service'
 import { SccService } from './scc.service'
 import { Vector3 } from 'three'
-
-
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgOptimizedImage],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css'
 })
 export class App implements OnInit, OnDestroy, AfterViewInit {
-  protected readonly title = signal('scc');
-
   @ViewChild('rendererCanvas', { static: true })
   rendererCanvas: ElementRef<HTMLCanvasElement>
 
   constructor(
     public context: SccService,
     private readonly engine3d: SccEngine3dService) {
-    console.info(App.name, "c'tor")  
+    console.info(App.name, "c'tor")
   }
 
   ngOnInit(): void {
@@ -32,7 +29,7 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
 
     console.debug(App.name, window.innerWidth, window.innerHeight)
 
-    const size = SccEngine3dService.calcContentSize()  
+    const size = SccEngine3dService.calcContentSize()
     this.engine3d.createScene(this.rendererCanvas, size.width, size.height)
     this.engine3d.animate()
   }
@@ -46,20 +43,20 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.engine3d.ngOnDestroy()
   }
 
-  onLngChanged(event) {
-    console.debug('onLngChanged', event.value)
+  onLngChanged(event: HTMLInputElement) {
+    console.debug('onLngChanged', event.valueAsNumber)
 
-    const alpha = event.value / 180 * Math.PI
+    const alpha = event.valueAsNumber / 180 * Math.PI
     const rtnServoArm = alpha - Math.PI
 
     const a = 40
     const c = 175
     const c2 = 175 * 175
-    
+
     const y = Math.sin(alpha) * a
     const x = Math.sqrt(c2 - y * y)
     const b = x - Math.cos(alpha) * a
- 
+
     const magicAngFactor = 1.1
     const beta = Math.acos(x / c) * magicAngFactor
 
@@ -83,12 +80,12 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.engine3d.groupServoArmExtensionWood.rotate(-beta, new Vector3(0, 0, 1))
   }
 
-  onRtnChanged(event) {
-    console.debug(event.value)
+  onRtnChanged(event: HTMLInputElement) {
+    console.debug('onRtnChanged', event.valueAsNumber)
 
-    const rtn = (event.value - 90) / 180 * Math.PI
+    const rtn = (event.valueAsNumber - 90) / 180 * Math.PI
     const axis = new Vector3(0, 0, 1)
-    
+
     this.engine3d.groupRotatorWood.rotate(rtn, axis)
     this.engine3d.groupRotatorSilver.rotate(rtn, axis)
     this.engine3d.groupRotatorWhite.rotate(rtn, axis)

@@ -1,9 +1,14 @@
 name: Compile Sketches
 
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    paths:
+      - 'Software/src/SccApp/**'
+      - 'Software/src/CalibrationApp/**'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   compile-sketches:
