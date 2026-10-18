@@ -7,8 +7,8 @@ on:
     paths:
       - 'Software/src/scc/**'
   pull_request:
-    paths:
-      - 'Software/src/scc/**'
+    branches:
+      - main
 
 jobs:
   build-and-push:
