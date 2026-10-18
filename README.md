@@ -1,5 +1,6 @@
 [![MSBuild and MSTest](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/msbuild.yml)
 [![Compile Sketches](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/compile-sketches.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/compile-sketches.yml)
+[![NPM build and test](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/node.js.yml/badge.svg)](https://github.com/mrstefangrimm/SmartCardChanger/actions/workflows/node.js.yml)
 
 # Smart Card Changer
 
