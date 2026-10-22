@@ -4,12 +4,12 @@ import { Component, ViewChild, ElementRef, OnInit, OnDestroy, AfterViewInit } fr
 import { SccEngine3dService } from './sccengine3d.service'
 import { SccService } from './scc.service'
 import { Vector3 } from 'three'
-import {NgOptimizedImage} from '@angular/common';
+import { Overlaybutton, OverlaybuttonClickArgs } from 'overlaybutton'
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgOptimizedImage],
+  imports: [RouterOutlet, Overlaybutton],
   templateUrl: './app.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.css'
@@ -91,6 +91,12 @@ export class App implements OnInit, OnDestroy, AfterViewInit {
     this.engine3d.groupRotatorWhite.rotate(rtn, axis)
     this.engine3d.groupRotatorCardboard.rotate(rtn, axis)
     this.engine3d.groupRotatorSmartcards.rotate(rtn, axis)
+  }
+
+  onOverlayButtonClick(args: OverlaybuttonClickArgs): void {
+    console.info(App.name, "onOverlayButtonClick", args.open)
+
+    this.context.visibilitiesOpen = args.open
   }
 
   onTransparentChecked() {

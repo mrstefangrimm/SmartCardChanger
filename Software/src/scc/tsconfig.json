@@ -1,5 +1,3 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -19,7 +17,10 @@
     "noImplicitAny": false,
     "paths": {
       "threeobject": [
-        "./dist/threeobject"
+        "./projects/threeobject/src/public-api"
+      ],
+      "overlaybutton": [
+        "./projects/overlaybutton/src/public-api"
       ]
     }
   },
@@ -33,16 +34,10 @@
   "files": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
+      "path": "./projects/overlaybutton/tsconfig.lib.json"
     },
     {
       "path": "./projects/threeobject/tsconfig.lib.json"
-    },
-    {
-      "path": "./projects/threeobject/tsconfig.spec.json"
     }
   ]
 }

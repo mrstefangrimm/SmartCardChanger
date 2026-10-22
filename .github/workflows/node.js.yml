@@ -32,8 +32,8 @@ jobs:
       run: npm ci
 
     - working-directory: Software/src/scc
-      run: npm run build threeobject --if-present && npm run build --if-present
+      run: npm run build --if-present
 
     - working-directory: Software/src/scc
-      run: npm test threeobject && npm test
+      run: npm test
 
