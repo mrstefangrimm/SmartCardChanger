@@ -35,5 +35,5 @@ jobs:
       run: npm run build --if-present
 
     - working-directory: Software/src/scc
-      run: npm test threeobject && npm test overlaybutton && npm test
+      run: npm test
 
